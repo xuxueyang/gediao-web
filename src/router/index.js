@@ -23,21 +23,21 @@ import Layout from '../views/layout/Layout'
 **/
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
+  { path: '/404', component: () => import('@/errorpages//404'), hidden: true },
+  { path: '/401', component: () => import('@/errorpages/401'), hidden: true },
+
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
+  { path: '/', redirect: '/home', component: () => import('@/views/home/index'), hidden: true },
 
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
     hidden: true,
     children: [{
       path: 'dashboard',
       component: () => import('@/views/dashboard/index')
     }]
   },
-
   {
     path: '/example',
     component: Layout,
@@ -71,9 +71,9 @@ export const constantRouterMap = [
         meta: { title: 'Form', icon: 'form' }
       }
     ]
-  },
+  }
 
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
