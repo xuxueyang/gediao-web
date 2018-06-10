@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <el-container>
+      <el-header>青龙gaygay</el-header>
+      <el-main><router-view></router-view></el-main>
+      <el-footer>男同加我ID：夏夜gaygay</el-footer>
+    </el-container>
   </div>
 </template>
 
@@ -9,3 +13,35 @@ export default {
   name: 'App'
 }
 </script>
+<style>
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+  
+
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    min-height:700px;
+    /* line-height: 1600px; */
+    /* height: 80%; */
+  }
+  
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+  
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    /* line-height: 260px; */
+  }
+  
+  .el-container:nth-child(7) .el-aside {
+    /* line-height: 320px; */
+  }
+</style>

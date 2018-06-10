@@ -26,6 +26,7 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/errorpages//404'), hidden: true },
   { path: '/401', component: () => import('@/errorpages/401'), hidden: true },
 
+  { path: '/upload', component: () => import('@/views/upload/index'), hidden: true },
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
   { path: '/', redirect: '/home', component: () => import('@/views/home/index'), hidden: true },
 

@@ -15,6 +15,12 @@ import store from './store'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// import FileApi from '@/api/file.js'
+// Vue.prototype.$FileApi = FileApi
+
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
