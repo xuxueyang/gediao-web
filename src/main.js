@@ -17,6 +17,9 @@ import '@/permission' // permission control
 
 // import FileApi from '@/api/file.js'
 // Vue.prototype.$FileApi = FileApi
+import VueImgInputer from './components/imgupload/imgupload.vue'
+
+Vue.component('VueImgInputer', VueImgInputer)
 
 import VueResource from 'vue-resource'
 Vue.use(VueResource)

@@ -3,7 +3,8 @@ import axios from 'axios'
 const services = {
   // serviceIp =  ,
   getServiceIp() {
-    return 'http://localhost:9999'
+    // return 'http://localhost:9999'
+    return 'http://193.112.17.169:9999'
   },
   getBFileMB(bsize) {
     // 转为int，/1024/1024
@@ -13,7 +14,7 @@ const services = {
   },
   async getAllFiles(pararms) {
     // var res = null
-    const res = axios.get('http://localhost:9999' + '/api/uaafile/list', { pararms })
+    const res = axios.get('' + this.getServiceIp() + '/api/uaafile/list', { pararms })
     return res
   }
 }

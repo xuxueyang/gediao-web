@@ -68,7 +68,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: resolve('favicon.ico'),
-      title: 'vue-element-admin',
+      title: '青龙会唯一认证官方网站',
       minify: {
         removeComments: true,
         collapseWhitespace: true,

@@ -1,43 +1,8 @@
 <template>
-    <!-- <div class="panel admin-panel" style="">
-        <div class="panel-head" id="add"><strong><span class="el-icon-edit"></span><span class="title">上传数据</span></strong></div>
-        <div class="body-content">
-            <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="form uploadform">
-                <el-form-item>
-
-                    <el-upload
-                            class="upload-demo"
-                            ref="upload"
-                            action="httP://localhost:9999/api/uaafile/upload"
-                            :on-preview="handlePreview"
-                            :before-upload="beforeAvatarUpload"
-                            :on-remove="handleRemove"
-                            :file-list="fileList"
-                            :auto-upload = 'false'
-                            :on-success = 'handleSuccess'
-                            :data="form"
-                            name="salaryBill">
-                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-                    </el-upload>
-
-                </el-form-item>
-            </el-form>
-        </div>
-    </div> -->
     <div>
         <el-container>
             <el-aside width="200px">
                 <el-menu :default-openeds="[0]" theme="light">
-                    <!-- <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-                        <el-submenu :index="index" v-if="!item.leaf">
-                            <template slot="title"><i :class="activeIcons" :style="item.iconCls"></i>{{item.name}}</template>
-                            <el-menu-item v-for="(child,index) in item.children" :index="child.path">{{child.name}}</el-menu-item>
-                        </el-submenu>
-                        <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="activeIcons" :style="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
-                    </template>  -->
-                    
-                    <!-- <el-menu-item>文件上传</el-menu-item> -->
                     <el-submenu index = "0">
                         <template slot="title"><i class="el-icon-document"></i>文件上传</template>
                         <el-menu-item index="0-1" class="menu-item" @click="searchFile" >显示全部文件</el-menu-item>
@@ -45,16 +10,11 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <!-- 这里应该有一个搜索框和表格 -->
-                <!-- <div style="margin-top: 20px">
-                    <el-button @click="setCurrent(tableData[1])">选中第二行</el-button>
-                    <el-button @click="setCurrent()">取消选择</el-button>
-                </div> -->
                 <div style="margin-bottom:20px;">
-                    <el-upload
+                    <!-- <el-upload
                             class="upload-demo"
                             ref="upload"
-                            action="httP://localhost:9999/api/uaafile/upload"
+                            action="httP://193.112.169.:9999/api/uaafile/upload"
                             :on-preview="handlePreview"
                             :before-upload="beforeAvatarUpload"
                             :on-remove="handleRemove"
@@ -68,6 +28,22 @@
                         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         <div slot="tip" class="el-upload__tip">大小不能超过200mb</div>
+                    </el-upload> -->
+                    <el-upload
+                        :disabled="disabled"
+                        :headers="uploadHeaders"
+                        :data = "uploadBody"
+                         v-loading="uploadLoading"
+                        :before-upload="beforeAvatarUpload"
+                        :on-progress = "handleUploadProess"
+                        :on-success="handleSuccess"
+                        :action="uploadUrl">
+                        <div class="file-uploader-inner">
+                            <div class="inner-desc">
+                            <i class="fa fa-folder-open"></i>
+                            <div>上传附件</div>
+                            </div>
+                        </div>
                     </el-upload>
                 </div>
                 <div>
@@ -109,8 +85,13 @@
                         width="90">
                     </el-table-column>
                     <el-table-column
+                        label="下载数目"
+                        width="150"
+                        prop="downNum">
+                    </el-table-column>
+                    <el-table-column
                         label="文件校验码"
-                        width="400"
+                        width="350"
                         prop="md5">
                     </el-table-column>
                     <!-- <el-table-column
@@ -143,15 +124,58 @@
 <script>
     import services from '@/api/file.services';
     export default {  
+        props: {
+            config: {
+                type: Object,
+                default: () => {
+                }
+            },
+            disabled: {
+                type: Boolean,
+                default: false
+            }
+        },
+        computed: {
+            // 支持的文件类型描述
+            supportType(){
+                let str = '支持';
+                let supportArray = [];
+                for (let i = 0; i < this.config.file_type.length; i++) {
+                const type = this.config.file_type[i];
+                if (this.types[type]) {
+                    supportArray.push(this.types[type]);
+                }
+                }
+                if (supportArray.length > 0) {
+                str = str + ' ' + supportArray.join(',');
+                }
+                if (this.config.file_type.indexOf('custom') !== -1 && this.config.custom_file_type) {
+                const customArray = this.config.custom_file_type.split(',');
+                for (let j = 0; j < customArray.length; j++) {
+                    customArray[j] = `.${customArray[j]}`;
+                }
+                str = str + (supportArray.length > 0 ? ',' : ' ') + customArray.join(',');
+                }
+                return str;
+            },
+            // 是否显示文件支持类型描述
+            showSupportType(){
+                return true;
+            }
+        },
         data() {
             return {
-                // options: [{
-                //     value: '1',
-                //     label: '帅哥部'
-                // }, {
-                //     value: '2',
-                //     label: '美女部'
-                // }],
+                uploadUrl: '' + services.getServiceIp() + '/api/uaafile/upload',
+                uploadHeaders: {
+
+                },
+                types: {
+                'document': '文档类型',
+                'picture': '图片类型',
+                'audio': '音频类型',
+                'video': '视频类型',
+                'zip_file': '压缩包类型'
+                },
                 uploadLoading : false,
                 searchFileName:'',
                 fileName:'',
@@ -213,12 +237,14 @@
                 const property = column['property'];
                 return row[property] === value;
             },
-            submitUpload() {
-                this.$refs.upload.submit();
+            submitUpload(file) {
+                // console.log(this.$refs.upload)
+                // this.$refs.upload.submit();
             },
 
             beforeAvatarUpload(file) {
-
+                // this.uploadLoading = true
+                // console.log(file)
                 // let Xls = file.name.split('.');
 
                 // if(Xls[1] === 'xls'||Xls[1] === 'xlsx'){
@@ -239,7 +265,7 @@
                     this.getAllFiles();
                 }
                 let url = '' + services.getServiceIp() +  '/api/uaafile/down/'+row.id;
-                // window.open(url)
+                window.open(url)
                 // this.$http.get(url ,{
                 //             // headers: { "Accept-Language" :"zh-cn,zh", "Content-type": "application/octet-stream" }
                 //         }).then(function(res){  
@@ -274,6 +300,7 @@
             handleRemove(file, fileList) {
             },
             handlePreview(file) {
+                // console.log(file)
             },
             handleSuccess(res,file,fileList){
                 //而且不能所有ID均为空
@@ -309,10 +336,10 @@
         display: none;
     }
     .el-upload-list{
-        width: 200px;
+        width: 150px;
     }
     .el-select {
-        width: 135px;
+        width: 100px;
     }
     .el-aside {
         background-color: #B3C0D1;
@@ -325,4 +352,7 @@
         font-size: 5px;
         margin-left: 5px;
     } */
+</style>
+<style scoped lang="scss">
+  @import "./dynamic-upload.scss";
 </style>

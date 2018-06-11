@@ -1,0 +1,20 @@
+.file-uploader-inner {
+  width: 200px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 3px;
+  border: 1px solid #ebebf0;
+  cursor: pointer;
+  color: #6b737b;
+  display: table;
+  .inner-desc {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.support-type {
+  color: #c1c1cd;
+  font-size: 13px;
+  margin: 0 0 10px 0;
+}

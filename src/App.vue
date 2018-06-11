@@ -3,7 +3,7 @@
     <el-container>
       <el-header>青龙gaygay</el-header>
       <el-main><router-view></router-view></el-main>
-      <el-footer>男同加我ID：夏夜gaygay</el-footer>
+      <el-footer>男同加我ID：夏夜gaygay;群号：122548924</el-footer>
     </el-container>
   </div>
 </template>
