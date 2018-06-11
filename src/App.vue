@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header>青龙gaygay</el-header>
+      <el-header><qlh-header></qlh-header></el-header>
       <el-main><router-view></router-view></el-main>
       <el-footer>男同加我ID：夏夜gaygay;群号：122548924</el-footer>
     </el-container>
@@ -10,7 +10,9 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  componets: {
+  }
 }
 </script>
 <style>
@@ -27,7 +29,7 @@ export default {
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    min-height:700px;
+    min-height:800px;
     /* line-height: 1600px; */
     /* height: 80%; */
   }

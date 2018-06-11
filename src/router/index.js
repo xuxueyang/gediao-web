@@ -29,6 +29,7 @@ export const constantRouterMap = [
   { path: '/upload', component: () => import('@/views/upload/index'), hidden: true },
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
   { path: '/', redirect: '/home', component: () => import('@/views/home/index'), hidden: true },
+  { path: '/home', component: () => import('@/views/home/index'), hidden: true },
 
   {
     path: '/dashboard',

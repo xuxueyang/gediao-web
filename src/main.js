@@ -21,6 +21,9 @@ import VueImgInputer from './components/imgupload/imgupload.vue'
 
 Vue.component('VueImgInputer', VueImgInputer)
 
+import qlhHeader from './layout/header/index.vue'
+Vue.component('qlh-header', qlhHeader)
+
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 

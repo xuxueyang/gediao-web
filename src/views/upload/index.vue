@@ -54,8 +54,8 @@
                         <el-option label="订单号" value="2"></el-option>
                         <el-option label="用户电话" value="3"></el-option>
                         </el-select> -->
-                        <el-button slot="append" icon="el-icon-search" @click="searchFile"></el-button>
                     </el-input>
+                    <el-button slot="append" icon="el-icon-search" @click="searchFile" circle></el-button>
                 </div>
                 <el-table
                     :data="tableData"
@@ -207,7 +207,11 @@
                                 if(needShowMessage!=null&&needShowMessage==false){
 
                                 }else{
-                                    this.$message("文件列表读取成功~")
+                                    this.$message({
+                                        message: "文件列表读取成功~",
+                                        showClose: true,
+                                        type: "success"
+                                    })
                                 }
                                 
                                 this.tableData = [];
@@ -215,6 +219,11 @@
                                     for(let i = 0;i<res.data.data.length;i++) {
                                         //对于文件大小做处理
                                         res.data.data[i].size = services.getBFileMB(res.data.data[i].size)
+                                        if(res.data.data[i].downNum){
+                                            res.data.data[i].downNum = res.data.data[i].downNum + "次"
+                                        }else{
+                                            res.data.data[i].downNum = "0次"
+                                        }
                                         this.tableData.push(res.data.data[i])
                                     }
                                 }
@@ -257,45 +266,67 @@
             },
             handleClickDown(row) {
                 //调用api请求下载
-                if(row.id==null||""==row.id) {
+                this.$confirm('此操作将下载该文件,是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'info '
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '因为服务器比较渣~请耐心等待'
+                        });
+                        if(row.id==null||""==row.id) {
+                            this.$message({
+                                message: '文件损坏',
+                                type: 'error'
+                            });
+                            this.getAllFiles();
+                        }
+                        let url = '' + services.getServiceIp() +  '/api/uaafile/down/'+row.id;
+                        window.open(url)
+                        // this.$http.get(url,{}).then(function() {
+                        //     window.open(url)
+                        // });
+                    }).catch(() => {
                     this.$message({
-                        message: '文件损坏',
-                        type: 'error'
-                    });
-                    this.getAllFiles();
-                }
-                let url = '' + services.getServiceIp() +  '/api/uaafile/down/'+row.id;
-                window.open(url)
-                // this.$http.get(url ,{
-                //             // headers: { "Accept-Language" :"zh-cn,zh", "Content-type": "application/octet-stream" }
-                //         }).then(function(res){  
-                //             if(res.data.returnCode.startsWith('200')) {
-                //                 this.$message("下载~")
-                //             }else {
-                //                 this.$message("下载失败")
-                //             }
-                //         });  
+                        type: 'info',
+                        message: '已取消下载'
+                    });          
+                });
             },
             handleClickDelete(row) {
                 //删除文件，逻辑删除
-                if(row.id==null||""==row.id) {
-                    this.$message({
-                        message: '删除成功',
-                        type: 'success'
-                    });
-                    this.getAllFiles();
-                }
-                let url = '' + services.getServiceIp() +  '/api/uaafile/'+row.id;
-                this.$http.delete(url ,{
-                //             // headers: { "Accept-Language" :"zh-cn,zh", "Content-type": "application/octet-stream" }
-                        }).then(function(res){  
-                            if(res.data.returnCode.startsWith('200')) {
-                                this.$message("删除成功")
-                                this.getAllFiles(false);
-                            }else {
-                                this.$message("删除成功")
-                            }
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        if(row.id==null||""==row.id) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.getAllFiles();
+                        }else{
+                            let url = '' + services.getServiceIp() +  '/api/uaafile/'+row.id;
+                            this.$http.delete(url ,{
+                            //             // headers: { "Accept-Language" :"zh-cn,zh", "Content-type": "application/octet-stream" }
+                                    }).then(function(res){  
+                                        if(res.data.returnCode.startsWith('200')) {
+                                            this.$message("删除成功")
+                                            this.getAllFiles(false);
+                                        }else {
+                                            this.$message("删除成功")
+                                        }
                         }); 
+                }
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });          
+                });
+
             },
             handleRemove(file, fileList) {
             },
@@ -336,10 +367,10 @@
         display: none;
     }
     .el-upload-list{
-        width: 150px;
+        width: 130px;
     }
     .el-select {
-        width: 100px;
+        width: 90px;
     }
     .el-aside {
         background-color: #B3C0D1;
