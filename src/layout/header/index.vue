@@ -4,7 +4,7 @@
             <!-- 130 103 198 -->
             <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay</span>
             <a style="float:center;color:#624D96;margin:0px 0px 0px -100px;" @click="referToHome">主页</a>
-            <a style="color:#624D96;margin:0px 0px 0px 200px;" @click="referToUpload">文件上传</a>
+            <a style="color:#624D96;margin:0px 0px 0px 200px;" @click="referToUpload">管理</a>
             <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage" style="float:right;margin:12px 20px 0px 0">查看介绍~</el-button>
         </el-row>
         <!-- 浮动显示提示按钮 -->
@@ -79,7 +79,7 @@ export default {
         },
         referToUpload() {
             console.log('跳转到文件上传页面')
-            this.$router.history.push('/upload')
+            this.$router.history.push('/manager')
         }
     }
 };

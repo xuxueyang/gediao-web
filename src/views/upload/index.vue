@@ -1,34 +1,6 @@
 <template>
-    <div>
-        <el-container>
-            <el-aside width="200px">
-                <el-menu :default-openeds="[0]" theme="light">
-                    <el-submenu index = "0">
-                        <template slot="title"><i class="el-icon-document"></i>文件上传</template>
-                        <el-menu-item index="0-1" class="menu-item" @click="searchFile" >显示全部文件</el-menu-item>
-                    </el-submenu>
-                </el-menu>
-            </el-aside>
-            <el-main>
-                <div style="margin-bottom:20px;">
-                    <!-- <el-upload
-                            class="upload-demo"
-                            ref="upload"
-                            action="httP://193.112.169.:9999/api/uaafile/upload"
-                            :on-preview="handlePreview"
-                            :before-upload="beforeAvatarUpload"
-                            :on-remove="handleRemove"
-                            :file-list="fileList"
-                            v-loading="uploadLoading"
-                            :auto-upload = 'false'
-                            :on-progress = "handleUploadProess"
-                            :on-success = 'handleSuccess'
-                            :data="uploadBody"
-                            name="salaryBill">
-                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-                        <div slot="tip" class="el-upload__tip">大小不能超过200mb</div>
-                    </el-upload> -->
+<div>
+<div style="margin-bottom:20px;">
                     <el-upload
                         :disabled="disabled"
                         :headers="uploadHeaders"
@@ -116,14 +88,13 @@
                             <el-button type="text" size="small" @click="handleClickDelete(scope.row)">删除</el-button>
                         </template>
                     </el-table-column>
-                </el-table>
-            </el-main>
-        </el-container>
-    </div>
+    </el-table>
+</div>
 </template>
 <script>
     import services from '@/api/file.services';
     export default {  
+        name: 'qlh-file-manager',
         props: {
             config: {
                 type: Object,
