@@ -2,23 +2,24 @@
 <div>
 <div style="margin-bottom:20px;">
                     <el-upload
+                        style="float:right;margin-bottom:20px;backgroun:#333"
                         :disabled="disabled"
                         :headers="uploadHeaders"
                         :data = "uploadBody"
                          v-loading="uploadLoading"
                         :before-upload="beforeAvatarUpload"
                         :on-progress = "handleUploadProess"
-                        :on-success="handleSuccess"
+                        :on-success="handleSuccess"                
                         :action="uploadUrl">
-                        <div class="file-uploader-inner">
-                            <div class="inner-desc">
-                            <i class="fa fa-folder-open"></i>
-                            <div>上传附件</div>
+                        <div class="file-uploader-inner" style="backgroun:#333">
+                            <div class="inner-desc" style="backgroun:#333">
+                                <i class="fa fa-folder-open" style="backgroun:#333"></i>
+                                <div  style="backgroun:#333">上传附件</div>
                             </div>
                         </div>
                     </el-upload>
                 </div>
-                <div>
+                <div style="float:left;margin-top:20px">
                     <!-- 搜索框，搜索全部文件的 -->
                     <el-input placeholder="请输入内容" v-model="searchFileName" class="input-with-select" style="width:200px;margin-left:0px;margin-bottom:20px;">
                         <!-- <el-select v-model="select" slot="prepend" placeholder="请选择">

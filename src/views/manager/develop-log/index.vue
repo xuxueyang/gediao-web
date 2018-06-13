@@ -4,6 +4,7 @@
     <el-tabs v-model="type" @tab-click="handleClick" style="width:95%">
         <el-tab-pane label="已完成" name="DONE"><h3 style="color:#33A1C9">已完成</h3>
             <show-log
+                v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
                 v-bind:type="type" 
@@ -12,22 +13,25 @@
         </el-tab-pane>
         <el-tab-pane label="缺陷" name="BUG"><h3 style="color:#C80000">缺陷</h3>
             <show-log
+                v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
                 v-bind:type="type" 
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
-        <el-tab-pane label="未来计划" name="TODO"><h3 style="color:#FF8000 ">未来计划</h3>
+        <el-tab-pane label="待完善" name="TODO"><h3 style="color:#FF8000 ">未来计划</h3>
             <show-log
+                v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
                 v-bind:type="type" 
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
-        <el-tab-pane label="作者吐槽" name="QLH_AUTHOR_SAY"><h3 style="color:#215E21 ">作者吐槽</h3>
+        <el-tab-pane label="作者吐槽" name="QLH_MEMBER_SAY"><h3 style="color:#215E21 ">作者吐槽</h3>
             <show-log
+                v-bind:canTranfer="false"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
                 v-bind:type="type" 
@@ -57,8 +61,11 @@
                         <el-option label="已完成" value="DONE"></el-option>
                         <el-option label="缺陷" value="BUG"></el-option>
                         <el-option label="待完成" value="TODO"></el-option>
-                        <el-option label="作者吐槽" value="QLH_AUTHOR_SAY"></el-option>
+                        <el-option label="成员" value="QLH_MEMBER_SAY"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="备注" prop="ps">
+                    <el-input  v-model="form.ps"></el-input>
                 </el-form-item>
                 <el-form-item label="消息内容" prop="logValue">
                     <el-input type="textarea" v-model="form.logValue"></el-input>
@@ -90,7 +97,8 @@ export default {
                 title: '',
                 selectType: '',
                 logValue: '',
-                loginName: ''
+                loginName: '',
+                ps:''
             },
             rules: {
                 loginName: [
