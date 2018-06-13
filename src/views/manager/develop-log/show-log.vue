@@ -27,7 +27,7 @@
                  <el-button type="text" circle size="small" :disabled="!tableDate.ps">备注</el-button>
             </el-tooltip>
         </template>
-    </el-table-column>   
+    </el-table-column>
     <el-table-column
       prop="value"
       label="消息">
@@ -44,13 +44,13 @@
                 type="text"
                 size="small">
                 转变
-            </el-button>    
+            </el-button>
              <el-button
                 @click.native.prevent="showUpdateDialog(scope.row)"
                 type="text"
                 size="small">
                 更新
-            </el-button>                      
+            </el-button>
             <el-button
                 @click.native.prevent="deleteRow(scope.row)"
                 type="text"
@@ -101,7 +101,7 @@
                         <el-option label="已完成" value="DONE"></el-option>
                         <el-option label="缺陷" value="BUG"></el-option>
                         <el-option label="待完成" value="TODO"></el-option>
-                        <el-option label="作者吐槽" value="QLH_MEMBER_SAY"></el-option>
+                        <el-option label="吐槽" value="QLH_MEMBER_SAY"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注" prop="ps">
@@ -138,7 +138,7 @@ export default {
                 title: '',
                 logValue: '',
                 loginName: '',
-                ps: ''             
+                ps: ''
             },
             rules: {
                 loginName: [
@@ -231,7 +231,7 @@ export default {
                     type:"error",
                     showClose:true,
                     message:"数据不存在"
-                    })     
+                    })
                 this.$emit('refreshbizlines',false);
 
             }
@@ -274,11 +274,11 @@ export default {
                     type:"error",
                     showClose:true,
                     message:"数据不存在"
-                    })     
-                
+                    })
+
                 this.$emit('refreshbizlines',false);
-            }     
-            this.transferVisible=false          
+            }
+            this.transferVisible=false
         },
         deleteRow(row) {
             // rows.splice(index, 1);
@@ -298,7 +298,7 @@ export default {
                     //     message: '你的邮箱是: ' + value
                     // });
                     if(row.id){
-                        
+
                         const url = '' + service.getServiceIp() + "/api/message/" + row.id
                         this.$http.delete(url,{
                             body:{
@@ -330,8 +330,8 @@ export default {
                     this.$message({
                         type: 'info',
                         message: '取消输入'
-                    });    
-                    this.verifyCode = ''  
+                    });
+                    this.verifyCode = ''
             });
         },
         showInputPs() {

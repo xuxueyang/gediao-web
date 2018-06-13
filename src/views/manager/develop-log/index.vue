@@ -7,7 +7,7 @@
                 v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
-                v-bind:type="type" 
+                v-bind:type="type"
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
@@ -16,7 +16,7 @@
                 v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
-                v-bind:type="type" 
+                v-bind:type="type"
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
@@ -25,16 +25,16 @@
                 v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
-                v-bind:type="type" 
+                v-bind:type="type"
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
-        <el-tab-pane label="作者吐槽" name="QLH_MEMBER_SAY"><h3 style="color:#215E21 ">作者吐槽</h3>
+        <el-tab-pane label="吐槽" name="QLH_MEMBER_SAY"><h3 style="color:#215E21 ">成员吐槽</h3>
             <show-log
                 v-bind:canTranfer="false"
                 v-bind:projectType="projectType"
                 v-on:refreshbizlines="getTableDate" keep-alive
-                v-bind:type="type" 
+                v-bind:type="type"
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
@@ -61,7 +61,7 @@
                         <el-option label="已完成" value="DONE"></el-option>
                         <el-option label="缺陷" value="BUG"></el-option>
                         <el-option label="待完成" value="TODO"></el-option>
-                        <el-option label="成员" value="QLH_MEMBER_SAY"></el-option>
+                        <el-option label="吐槽" value="QLH_MEMBER_SAY"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注" prop="ps">
@@ -138,7 +138,7 @@ export default {
                     }
                   }
                   if(needShow==false){
-                    
+
                   }else{
                       this.$message({
                           type:"success",
@@ -147,13 +147,13 @@ export default {
                   }
               }else{
                   if(needShow==false){
-                    
+
                   }else{
                       this.$message({
                           type:"error",
                           message:"加载数据失败"
                       })
-                  }                
+                  }
               }
           })
       },
@@ -169,7 +169,7 @@ export default {
                     this.tableDate.push(this._tableDate[i])
                 }
             }
-        }       
+        }
       },
       showAddMessageDialog() {
           //调用API添加，然后刷新数据
@@ -204,14 +204,14 @@ export default {
                         showClose: true,
                         type:"success",
                         message:"添加成功"
-                    })   
+                    })
                     this.getTableDate(false);
                 }else{
                   this.$message({
                       type:"error",
                       showClose: true,
                       message:"创建失败"
-                  })   
+                  })
                 }
             })
 
