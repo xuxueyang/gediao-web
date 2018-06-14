@@ -1,0 +1,15 @@
+.application-wrapper {
+  background-color: #fafafb;
+  width: 100%;
+  min-height: 700px;
+  overflow: auto;
+  .application-home {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px 10px 120px;
+    .applist-container {
+      width: 100%;
+    }
+  }
+}

@@ -124,7 +124,7 @@ export default {
     },
     methods: {
       getTableDate(needShow) {
-          const url = '' + services.getServiceIp()+"/api/message/develop"+"?projectType="+this.projectType
+          const url = '' + services.getServiceIp()+"/api/message"+"?projectType="+this.projectType
           this.$http.get(url,{}).then(function(res){
               if(res.data.returnCode.startsWith("200")){
                   this._tableDate = res.data.data;
@@ -188,7 +188,7 @@ export default {
             // this.verifyCode =  '',
             // this.loginName = '',
             //传输数据
-            const url = '' + services.getServiceIp()+"/api/message/develop"
+            const url = '' + services.getServiceIp()+"/api/message"
             this.$http.post(url,{
                 projectType:this.projectType,
                 type:this.form.selectType,

@@ -199,7 +199,7 @@ export default {
             //发送数据请求
             // console.log(row)
             if(row.id){
-                const url = '' + service.getServiceIp() + "/api/message/develop/tranfer"
+                const url = '' + service.getServiceIp() + "/api/message/tranfer"
                 this.$http.put(url,{
                         loginName: row.loginName,
                         verifyCode: row.verifyCode,
@@ -241,7 +241,7 @@ export default {
         updateMessage(row) {
             //发送数据请求
             if(row.id) {
-                 const url = '' + service.getServiceIp() + "/api/message/develop/update"
+                 const url = '' + service.getServiceIp() + "/api/message/update"
                 this.$http.put(url,{
                         projectType: row.projectType,
                         loginName: row.loginName,

@@ -14,7 +14,7 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-
+import 'font-awesome/scss/font-awesome.scss'
 // import FileApi from '@/api/file.js'
 // Vue.prototype.$FileApi = FileApi
 import VueImgInputer from './components/imgupload/imgupload.vue'
