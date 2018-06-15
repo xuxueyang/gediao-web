@@ -18,13 +18,12 @@
       width="180">
     </el-table-column>
      <el-table-column
-        prop="ps"
         label="点击查看备注"
         width="120">
         <!-- 点击查看备注 -->
         <template slot-scope="showPsScope">
-            <el-tooltip class="item" effect="light" :content="tableDate.ps" placement="top-end" :disabled="tableDate.ps!=''">
-                 <el-button type="text" circle size="small" :disabled="!tableDate.ps">备注</el-button>
+            <el-tooltip class="item" effect="light" :content="showPsScope.row.ps" placement="top-end"  >
+                 <el-button type="text" circle size="small" :disabled="!showPsScope.row.ps" >备注</el-button>
             </el-tooltip>
         </template>
     </el-table-column>
@@ -260,6 +259,7 @@ export default {
                                 showClose:true,
                                 message:'更新日志成功'
                             })
+                            this.transferVisible=false
                             this.$emit('refreshbizlines',false);
                         }else{
                             this.$message({
