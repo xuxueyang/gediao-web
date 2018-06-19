@@ -100,7 +100,7 @@
                         <el-option label="已完成" value="DONE"></el-option>
                         <el-option label="缺陷" value="BUG"></el-option>
                         <el-option label="待完成" value="TODO"></el-option>
-                        <el-option label="吐槽" value="QLH_MEMBER_SAY"></el-option>
+                        <el-option label="吐槽" value="MEMBER_SAY"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注" prop="ps">

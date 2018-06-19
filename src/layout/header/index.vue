@@ -2,7 +2,7 @@
     <div class="footer">
         <el-row :gutter="20">
             <!-- 130 103 198 -->
-            <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay</span>
+            <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             <a style="float:center;color:#624D96;margin:0px 0px 0px -100px;" @click="referToHome">主页</a>
             <a style="color:#624D96;margin:0px 0px 0px 200px;" @click="referToUpload">管理</a>
             <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage" style="float:right;margin:12px 20px 0px 0">查看介绍~</el-button>
@@ -40,10 +40,12 @@
     </div>
 </template>
 <script>
+import services from '@/api/file.services'
 export default {
     name: 'qlh-header',
     data() {
         return {
+            visiterCount : '0',
             qlhInfo: '这里是对于夏夜为首的基佬们的介绍~点击跳转~',
             qlhMember: [
                 { id: '1', name: '蚂蚱',member: 'mazha'},
@@ -52,11 +54,22 @@ export default {
                 { id: '4', name: '安然',member: 'anran'}
             ],
             webInfo: '这里是对于网站的介绍',
-            webAuthorInfo: "地址：http://193.112.161.157:8080/qinglonghui           然后，用法和看到的一样，上传下载列表带名字的查询。                            =。=因为后端2个服务器，文件服务器是前端部署的服务器，不是后端部署的，导致【下载耗时比较（hen）长】（木有办法诶，毕竟没钱，服务器都是1G内存1G带宽，耗不起呀~~~）                           这里完全我自己搭的，所以~~咳咳·~一些资源~~~咳咳·~~~（开玩笑，别上传大的，我怕服务器支持不了挂了2333所以最多能上传200MB的）                           因为总容量不过50GB，再减去乱七八糟的，所以也就20GB能用哈~这里暂时不需要登录啥的，可以传小文件文件备份下载哈，丢失是肯定不会的。",
+            webAuthorInfo: "地址：193.112.161.157           然后，用法和看到的一样，上传下载列表带名字的查询。                            =。=因为后端2个服务器，文件服务器是前端部署的服务器，不是后端部署的，导致【下载耗时比较（hen）长】（木有办法诶，毕竟没钱，服务器都是1G内存1G带宽，耗不起呀~~~）                           这里完全我自己搭的，所以~~咳咳·~一些资源~~~咳咳·~~~（开玩笑，别上传大的，我怕服务器支持不了挂了2333所以最多能上传200MB的）                           因为总容量不过50GB，再减去乱七八糟的，所以也就20GB能用哈~这里暂时不需要登录啥的，可以传小文件文件备份下载哈，丢失是肯定不会的。",
             tabPosition: 'left',
             dialogTabVisible : false,
             activeName: 'qlh-info',
         }
+    },
+    mounted(){
+        //计数
+        const url = ''+services.getServiceIp()+'/api/login/visit-count'
+        this.$http.post(url,{
+
+        }).then(function(res){
+            if(res.data.returnCode.startsWith('200')){
+                this.visiterCount = res.data.data;
+            }
+        })
     },
     methods: {
         showInfoMessage() {

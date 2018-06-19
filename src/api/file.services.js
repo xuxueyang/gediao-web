@@ -3,8 +3,8 @@ import axios from 'axios'
 const services = {
   // serviceIp =  ,
   getServiceIp() {
-    return 'http://localhost:9999'
-    // return 'http://193.112.17.169:9999'
+    // return 'http://localhost:9999'
+    return 'http://193.112.17.169:9999'
   },
   getBFileMB(bsize) {
     // 转为int，/1024/1024

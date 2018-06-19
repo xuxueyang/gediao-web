@@ -1,6 +1,6 @@
 <template>
   <div class="Member-item-container" @click.stop="onToDo">
-    <div class="item-name">{{data.name}}</div>
+    <div class="item-name">{{data.nickName}}</div>
     <div class="item-footer">
       <div class="app-status" v-if="appStatus">{{appStatus}}</div>
       <div class="action-container">

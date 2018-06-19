@@ -1,7 +1,7 @@
 <template>
 <div>
     <el-button type="primary " icon="el-icon-edit" @click="showAddMessageDialog" style="float:right"></el-button>
-    <el-tabs v-model="type" @tab-click="handleClick" style="width:95%">
+    <el-tabs v-model="type" @tab-click="handleClick" style="width:95%" >
         <el-tab-pane label="已完成" name="DONE"><h3 style="color:#33A1C9">已完成</h3>
             <show-log
                 v-bind:canTranfer="true"
@@ -29,7 +29,7 @@
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
-        <el-tab-pane label="吐槽" name="QLH_MEMBER_SAY"><h3 style="color:#215E21 ">成员吐槽</h3>
+        <el-tab-pane label="吐槽" name="MEMBER_SAY"><h3 style="color:#215E21 ">成员吐槽</h3>
             <show-log
                 v-bind:canTranfer="false"
                 v-bind:projectType="projectType"
@@ -61,7 +61,7 @@
                         <el-option label="已完成" value="DONE"></el-option>
                         <el-option label="缺陷" value="BUG"></el-option>
                         <el-option label="待完成" value="TODO"></el-option>
-                        <el-option label="吐槽" value="QLH_MEMBER_SAY"></el-option>
+                        <el-option label="吐槽" value="MEMBER_SAY"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注" prop="ps">
@@ -83,10 +83,11 @@ import showLog from './show-log.vue'
 import services from '@/api/file.services'
 export default {
     name: 'qlh-develop-log',
+    props:["projectType"],
     data() {
         return {
             dialogAddLog: false,
-            projectType: 'QLH',
+            // projectType: '',
             type: 'DONE',
             _tableDate: [],
             tableDate: [],
@@ -124,6 +125,7 @@ export default {
     },
     methods: {
       getTableDate(needShow) {
+          console.log(this.projectType)
           const url = '' + services.getServiceIp()+"/api/message"+"?projectType="+this.projectType
           this.$http.get(url,{}).then(function(res){
               if(res.data.returnCode.startsWith("200")){
@@ -196,6 +198,7 @@ export default {
                 verifyCode:this.form.verifyCode,
                 loginName:this.form.loginName,
                 title: this.form.title,
+                ps: this.ps,
                 token:''
             }).then(function(res) {
                 if(res.data.returnCode.startsWith('200')) {
