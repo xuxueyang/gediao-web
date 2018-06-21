@@ -8,12 +8,10 @@
                         <el-menu-item index="0-1" class="menu-item" @click="setIndex('0_1') " >显示全部文件</el-menu-item>
                     </el-submenu>
                     <el-submenu index = "1" >
-                        <template slot="title"><i class="el-icon-document" ></i>青龙会开发</template>
-                        <el-menu-item index="1-1" class="menu-item" @click="setIndex('1_1')" >开发日志</el-menu-item>
-                    </el-submenu>
-                    <el-submenu index = "3">
-                        <template slot="title"><i class="el-icon-document"></i>UE4开发</template>
-                        <el-menu-item index="3-1" class="menu-item" @click="setIndex('3_1')" >开发日志</el-menu-item>
+                        <template slot="title"><i class="el-icon-document" ></i>开发日志</template>
+                        <el-menu-item index="1-1" class="menu-item" @click="setIndex('1_1')" >青龙会网站</el-menu-item>
+                        <el-menu-item index="1-2" class="menu-item" @click="setIndex('1_2')" >UE4</el-menu-item>
+                        <el-menu-item index="1-3" class="menu-item" @click="setIndex('1_3')" >公司</el-menu-item>
                     </el-submenu>
                     <el-submenu index = "2">
                         <template slot="title"><i class="el-icon-document"></i>青龙会管理</template>
@@ -32,10 +30,14 @@
                     <!-- 显示青龙会开发日志 -->
                     <qlh-develop-log projectType="QLH" :key='Math.random()'></qlh-develop-log>
                 </div>      
-                <div v-if="index=='3_1'">
+                <div v-if="index=='1_2'">
                     <!-- 显示UE4开发日志 -->
                     <qlh-develop-log projectType="UE4_XY" :key='Math.random()'></qlh-develop-log>
-                </div>       
+                </div> 
+                <div v-if="index=='1_3'">
+                    <!-- 显示UE4开发日志 -->
+                    <qlh-develop-log projectType="FYKJ" :key='Math.random()'></qlh-develop-log>
+                </div>                       
                 <div v-if="index=='2_1'">
                     <!-- 显示开发日志 -->
                     <qlh-member-show></qlh-member-show>
