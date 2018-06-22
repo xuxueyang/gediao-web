@@ -1,11 +1,33 @@
 <template>
     <div class="footer">
-        <el-row :gutter="20">
-            <!-- 130 103 198 -->
+        <!-- <el-row :gutter="20">
             <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             <a style="float:center;color:#624D96;margin:0px 0px 0px -100px;" @click="referToHome">主页</a>
             <a style="color:#624D96;margin:0px 0px 0px 200px;" @click="referToUpload">管理</a>
             <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage" style="float:right;margin:12px 20px 0px 0">查看介绍~</el-button>
+        </el-row> -->
+        <el-row>
+            <el-col :span="4"><div>
+                <span style="color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
+            </div></el-col>
+            <el-col :span="4"><div>
+                 &nbsp;
+            </div></el-col>
+            <el-col :span="2"><div>
+                <a style="color:#624D96;" @click="referToHome">主页</a>
+            </div></el-col>
+            <el-col :span="2"><div>
+                <a style="color:#624D96;" @click="referToUpload">管理</a>
+            </div></el-col>
+            <el-col :span="2"><div>
+                <a style="color:#624D96;" @click="referToTD">天刀</a>
+            </div></el-col>
+            <el-col :span="2"><div>
+                <a style="color:#624D96;" @click="referToNSH">逆水寒</a>
+            </div></el-col>
+            <el-col :span="8"><div>
+                <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage">查看介绍~</el-button>
+            </div></el-col>
         </el-row>
         <!-- 浮动显示提示按钮 -->
         <el-dialog  :visible.sync="dialogTabVisible">
@@ -93,6 +115,14 @@ export default {
         referToUpload() {
             console.log('跳转到文件上传页面')
             this.$router.history.push('/manager')
+        },
+        referToTD() {
+            console.log('跳转到文件上传页面')
+            this.$router.history.push('/tiandao')
+        },
+        referToNSH() {
+            console.log('跳转到文件上传页面')
+            this.$router.history.push('/nishuihan')
         }
     }
 };
@@ -101,9 +131,6 @@ export default {
 .footer {
     height: 152px;
     width: 100%;
-    .info-button{
-        margin-left: 200px;
-    }
 }
 </style>
 <style>

@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css'// Progress 进度条样式
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
-const whiteList = ['/login', '/regestry', '/home', '/404', '/401', '/', '/manager'] // 不重定向白名单
+const whiteList = ['/login', '/regestry', '/home', '/404', '/401', '/', '/manager', '/tiandao', '/nishuihan'] // 不重定向白名单
 
 const needRedirectList = ['/dashboard', '/example', '/form'] // 需要重定向的名单
 

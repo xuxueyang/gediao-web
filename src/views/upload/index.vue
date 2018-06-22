@@ -245,11 +245,13 @@
                     }).then(() => {
                         this.$message({
                             type: 'success',
+                            showClose: true,
                             message: '因为服务器比较渣~请耐心等待'
                         });
                         if(row.id==null||""==row.id) {
                             this.$message({
                                 message: '文件损坏',
+                                showClose: true,
                                 type: 'error'
                             });
                             this.getAllFiles();
@@ -275,6 +277,7 @@
                     }).then(() => {
                         if(row.id==null||""==row.id) {
                             this.$message({
+                                showClose: true,
                                 message: '删除成功',
                                 type: 'success'
                             });
@@ -295,6 +298,7 @@
                     }).catch(() => {
                         this.$message({
                             type: 'info',
+                            showClose: true,
                             message: '已取消删除'
                         });          
                 });
@@ -309,16 +313,19 @@
                 //而且不能所有ID均为空
                 if(res.data[0].id==""){
                     this.$message({
+                        showClose: true,
                         message: '上传失败,请重试~',
                         type: 'error'
                     });
                 }else if(res.returnCode.startsWith('200')){
                     this.$message({
+                        showClose: true,
                         message: '上传成功！',
                         type: 'success'
                     });
                 }else {
                     this.$message({
+                        showClose: true,
                         message: '上传失败,请重试~',
                         type: 'error'
                     });
