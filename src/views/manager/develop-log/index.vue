@@ -129,9 +129,15 @@ export default {
           const url = '' + services.getServiceIp()+"/api/message"+"?projectType="+this.projectType
           this.$http.get(url,{}).then(function(res){
               if(res.data.returnCode.startsWith("200")){
+                    // while(this._tableDate.>0){
+                    //     this._tableDate.pop()
+                    // }                   
                   this._tableDate = res.data.data;
                   //根据activeName删选_tableDate
                   this.tableDate = []
+                    // while(this.tableData.length>0){
+                    //     this.tableData.pop()
+                    // }                
                   if(this._tableDate){
                     for(let i=0;i<this._tableDate.length;i++){
                         if(this._tableDate[i].type==this.type){
@@ -139,6 +145,7 @@ export default {
                         }
                     }
                   }
+                //   console.log(this._tableDate)
                   if(needShow==false){
 
                   }else{

@@ -1,18 +1,22 @@
 <template>
   <div>
     <div class="block">
-      <el-carousel trigger="click" height="150px">
-        <el-carousel-item class="c1" @click="tranferTo(items[0].url)">
+      <el-carousel trigger="click" height="280px">
+        <el-carousel-item class="c1" >
             <h3>{{ items[0].description }}</h3>
+            <el-button @click="tranferTo(items[0].url)" type="primary" plain class="button">点击前往</el-button>
         </el-carousel-item>
-        <el-carousel-item class="c2" @click="tranferTo(items[1].url)">
+        <el-carousel-item class="c2" >
             <h3>{{ items[1].description }}</h3>
+            <el-button @click="tranferTo(items[1].url)" type="primary" plain class="button">点击前往</el-button>            
         </el-carousel-item>
-        <el-carousel-item class="c3" @click="tranferTo(items[2].url)">
+        <el-carousel-item class="c3">
             <h3>{{ items[2].description }}</h3>
+            <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button">点击前往</el-button>            
         </el-carousel-item>
-        <el-carousel-item class="c4" @click="tranferTo(items[3].url)">
+        <el-carousel-item class="c4">
             <h3>{{ items[3].description }}</h3>
+            <el-button @click="tranferTo(items[3].url)" type="primary" plain class="button">点击前往</el-button>            
         </el-carousel-item>                        
       </el-carousel>
     </div>
@@ -58,7 +62,7 @@ export default {
   },
   methods: {
     tranferTo(url){
-      console.log(url)
+      // console.log(url)
       window.open(url)
     },
     getImageUrl(name){
@@ -80,45 +84,61 @@ export default {
 </script>
 
 <style>
+  .button{
+    float: right;
+    margin-top:60px;
+    margin-right: 20px;
+  }
   .el-carousel__item h3 {
-    color: #475669;
+    color: #b515ca;
     font-size: 14px;
-    opacity: 0.75;
+    opacity: 1;
     line-height: 150px;
     margin: 0;
   }
   .c1{
     cursor:pointer;
-    /* width:100%; */
-    /* height: 100%; */
+    /* width:400px;
+    height: 150px; */
     background-image: url('./../../assets/images/home-page/d1765adb60e7c5811f64528c04dd50c8.jpg'); 
+    /* background-size: auto; */
     /* background-size:cover; */
+    background-repeat:no-repeat;
     /* background-size:300px 100%;  */
   }
   .c2{
     cursor:pointer;
-    /* width:100%; */
-    /* height: 100%; */
+    /* width:400px;
+    height: 150px; */
     background-image: url('./../../assets/images/home-page/de2d80c55b810fad8a0c63d2788779e3.jpg'); 
     /* background-size:cover; */
+    background-repeat:no-repeat;
   }
   .c3{
     cursor:pointer;
-    /* width:100%; */
-    /* height: 100%; */
+    /* width:400px;
+    height: 150px; */
     background-image: url('./../../assets/images/home-page/799f9e1a06fa01217be715ea8690ce14.jpg'); 
     /* background-size:cover; */
+    background-repeat:no-repeat;
   }
   .c4{
     cursor:pointer;
-    /* width:100%; */
-    /* height: 100%; */
+    /* width:400px;
+    height: 150px; */
     background-image: url('./../../assets/images/home-page/3f72e4260d273f7a0fec70efc8ffed84.jpg'); 
     /* background-size:cover; */
+    background-repeat:no-repeat;
   }
   
+    .el-carousel__item:nth-child(2n) {
+     background-color: #bdccdf;
+     /* background-image: url('@/assets/images/home-page/'+{{item.imageName}}); */
+     /* background-image:url('./../../assets/images/home-page/d1765adb60e7c5811f64528c04dd50c8.jpg'); */
+     cursor:pointer
+  }
   .el-carousel__item:nth-child(2n+1) {
-     /* background-color: #d3dce6; */
+     background-color: #95a2af;
      /* background-image: url('@/assets/images/home-page/'+{{item.imageName}}); */
      /* background-image:url('./../../assets/images/home-page/d1765adb60e7c5811f64528c04dd50c8.jpg'); */
      cursor:pointer

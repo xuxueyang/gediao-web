@@ -2,7 +2,7 @@
     <div>
         <el-container>
             <el-aside width="200px">
-                <el-menu :default-openeds="[0]" theme="light">
+                <el-menu :default-openeds="[1]" theme="light">
                     <el-submenu index = "0">
                         <template slot="title"><i class="el-icon-document"></i>文件上传</template>
                         <el-menu-item index="0-1" class="menu-item" @click="setIndex('0_1') " >显示全部文件</el-menu-item>
@@ -59,7 +59,7 @@ import qlhMemberShow from './member-manager/member-show.vue'
 import qlhDevelopLog from './develop-log/index.vue'
 import qlhAnnouncement from './qlh-announcement/qlh-announcement.vue'
 import qlhResourceApply from './qlh-resource-apply/qlh-resource-apply.vue'
-
+import merge from 'webpack-merge';
 export default {
     data() {
         return {
@@ -77,14 +77,39 @@ export default {
         
         setIndex(index) {
             //TODO 添加到路由上
-            this.index = index;
-            console.log(this.index)
+            // this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
+            // this.$route.params.index = index;
+            // this.index = this.$router.params.index;
+            if(this.$route.params.index==undefined){
+                this.$router.push({  
+                    query:merge(this.$route.query,{'index':index})  
+                }) 
+            }else {
+                this.$router.push({  
+                    query:merge(this.$route.query,{'index':index})  
+                })  
+            }
+            this.index = index
+            // console.log(this.index)
         }
     },
     mounted() {
         //读取赋值路由属性
         // console.log(this.$router)
         // this.$router.push(this.$router.currentRoute.path,{params:{ index=this.index}})
+        //取参数，如果非空设置为默认的，如果不为空则设置为
+        // console.log('index:'+ this.$route.params.index)
+        // if(this.$router.params.index) {
+        //     this.index = this.$router.params.index
+        // }
+        // https://blog.csdn.net/sllailcp/article/details/80312848
+        if(this.$route.query.index==undefined){
+            this.$router.push({  
+                query:merge(this.$route.query,{'index':this.index})  
+            }) 
+        }else{
+            this.index = this.$route.query.index
+        }
     },
 }
 </script>

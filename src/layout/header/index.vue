@@ -25,8 +25,14 @@
             <el-col :span="2"><div>
                 <a style="color:#624D96;" @click="referToNSH">逆水寒</a>
             </div></el-col>
-            <el-col :span="8"><div>
-                <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage">查看介绍~</el-button>
+            <el-col :span="4"><div>
+               &nbsp;
+            </div></el-col>
+            <el-col :span="2"><div>
+                <el-button size="small" type="info" round class=".info-button" @click="shareToQQ">分享到qq空间</el-button >
+            </div></el-col>
+            <el-col :span="1"><div>
+                <el-button size="small" type="info" round class=".info-button" @click="showInfoMessage">查看介绍~</el-button>
             </div></el-col>
         </el-row>
         <!-- 浮动显示提示按钮 -->
@@ -61,12 +67,25 @@
         </el-dialog>
     </div>
 </template>
+<script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
 <script>
 import services from '@/api/file.services'
 export default {
     name: 'qlh-header',
     data() {
         return {
+            p : {
+                url:'193.112.161.157',
+                showcount:'1',/*是否显示分享总数,显示：'1'，不显示：'0' */
+                desc:'因为我是gay',/*默认分享理由(可选)*/
+                summary:'么么哒',/*分享摘要(可选)*/
+                title:'天刀蔷薇青龙会',/*分享标题(可选)*/
+                site:'',/*分享来源 如：腾讯网(可选)*/
+                pics:'', /*分享图片的路径(可选)*/
+                style:'101',
+                width:199,
+                height:30
+            },
             visiterCount : '0',
             qlhInfo: '这里是对于夏夜为首的基佬们的介绍~点击跳转~',
             qlhMember: [
@@ -90,10 +109,24 @@ export default {
         }).then(function(res){
             if(res.data.returnCode.startsWith('200')){
                 this.visiterCount = res.data.data;
+            }else{
+                this.$message({
+                    message: '服务器在傲娇QAQ',
+                    showClose: true,
+                    type: 'error'
+                });
             }
         })
     },
     methods: {
+        shareToQQ() {
+            var s = [];
+            for(var i in this.p){
+                s.push(i + '=' + encodeURIComponent(this.p[i]||''));
+            }
+            var a = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?"+s.join('&')
+            window.open(a)
+        },
         showInfoMessage() {
             //调出框显示青龙会的消息介绍
             //TODO 以后增加后台管理网站的接口
@@ -113,15 +146,12 @@ export default {
             this.$router.history.push('/home')
         },
         referToUpload() {
-            console.log('跳转到文件上传页面')
             this.$router.history.push('/manager')
         },
         referToTD() {
-            console.log('跳转到文件上传页面')
             this.$router.history.push('/tiandao')
         },
         referToNSH() {
-            console.log('跳转到文件上传页面')
             this.$router.history.push('/nishuihan')
         }
     }

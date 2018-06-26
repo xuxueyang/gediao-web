@@ -49,6 +49,7 @@ router.beforeEach((to, from, next) => {
       next('/404')
       NProgress.done()
     }
+    // next()
   }
 })
 

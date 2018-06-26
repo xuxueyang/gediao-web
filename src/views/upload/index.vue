@@ -185,7 +185,9 @@
                                         type: "success"
                                     })
                                 }
-                                
+                                // while(this.tableData.length>0){
+                                //     this.tableData.pop()
+                                // }
                                 this.tableData = [];
                                 if(res.data.data&&res.data.data.length > 0) {
                                     for(let i = 0;i<res.data.data.length;i++) {

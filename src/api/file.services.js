@@ -6,17 +6,70 @@ const services = {
     // return 'http://localhost:9999'
     return 'http://193.112.17.169:9999'
   },
+  getImageServiceUrl(imageName) {
+    return 'http://193.112.161.157:8080/resource/images/' + imageName
+  },
   getBFileMB(bsize) {
     // 转为int，/1024/1024
     const size = parseFloat(bsize)
     var num = size / 1024 / 1024
     return num.toFixed(2) + 'MB'
   },
+  changeToBJTime(time) {
+    return (new Date(time)).toLocaleString()
+    // 把标准时间添加时区的8小时
+    // var date = new Date(time)
+    // // console.log(date)
+    // var hour = date.getHours()
+    // var month = date.getMonth()
+    // var day = date.getDate()
+    // var year = date.getFullYear()
+    // // console.log(day)
+    // console.log(time)
+    // console.log(date)
+    // if((hour+8)>24) {
+    //   hour = hour -16;
+    //   day = day +1;
+    //   //得到月份
+    //   const bigM = [1,3,5,7,8,10,12]
+    //   var belong = false
+    //   for(var i =0;i<bigM;i++){
+    //     if(bigM[i]==month&&day>31) {
+    //         month = month +1;
+    //         day = day - 31;
+    //         belong = true
+    //         break
+    //     }
+    //   }
+    //   if(!belong) {
+    //     if(month==2){
+    //       if(day==29&&Math.ceil(year,4)!=Math.floor(year,4)){
+    //         month = month+1
+    //         day = day -1 
+    //         belong = true;
+    //       }
+    //     } 
+    //   }
+    //   if(!belong) {
+    //     if(day>30) {
+    //         month = month +1
+    //         day = day-30
+    //     }
+    //   }
+    //   if(month>12){
+    //     month  = month -12
+    //     year = year +1
+    //   }
+    // }
+    // return ''+year+'-'+month+'-'+day +'—'+hour+''//年月日
+    
+  },
   async getAllFiles(pararms) {
     // var res = null
     const res = axios.get('' + this.getServiceIp() + '/api/uaafile/list', { pararms })
     return res
-  }
+  },
+
 }
 export default services
   // getUsers: async (params) => {

@@ -192,7 +192,9 @@ export default {
             // 加载数据
         },
         formatter(row, column) {
-            return row.createdDate.substring(0,10);
+            // new Date('' + row.updatedDate)
+            return (row.updatedDate + '').substring(0,10)
+            // return service.changeToBJTime(row.updatedDate);//.substring(0,10);
         },
         tranferMessage(row) {
             //发送数据请求
@@ -253,13 +255,12 @@ export default {
                     }).then(function(res){
                         //判断数据
                         if(res.data.returnCode.startsWith("200")){
-                            //删除成功
+                            //更新成功
                             this.$message({
                                 type:'success',
                                 showClose:true,
                                 message:'更新日志成功'
                             })
-                            this.transferVisible=false
                             this.$emit('refreshbizlines',false);
                         }else{
                             this.$message({
