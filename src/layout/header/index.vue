@@ -1,5 +1,5 @@
 <template>
-    <div class="footer">
+    <div class="header">
         <!-- <el-row :gutter="20">
             <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             <a style="float:center;color:#624D96;margin:0px 0px 0px -100px;" @click="referToHome">主页</a>
@@ -29,10 +29,12 @@
                &nbsp;
             </div></el-col>
             <el-col :span="2"><div>
-                <el-button size="small" type="info" round class=".info-button" @click="shareToQQ">分享到qq空间</el-button >
+                <el-button size="small" type="info" round class=".info-button" @click="shareToQQ" 
+                :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
+                >分享到qq空间</el-button >
             </div></el-col>
             <el-col :span="1"><div>
-                <el-button size="small" type="info" round class=".info-button" @click="showInfoMessage">查看介绍~</el-button>
+                <el-button size="small" type="info" round class=".info-button" @click="showInfoMessage" :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}">查看介绍~</el-button>
             </div></el-col>
         </el-row>
         <!-- 浮动显示提示按钮 -->
@@ -158,7 +160,9 @@ export default {
 };
 </script>
 <style lang="scss">
-.footer {
+.header {
+    font-size: 20px;
+    font-family:'STXingkai';
     height: 152px;
     width: 100%;
 }

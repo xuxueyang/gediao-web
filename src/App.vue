@@ -2,7 +2,9 @@
   <div id="app">
     <el-container>
       <el-header><qlh-header></qlh-header></el-header>
-      <el-main><router-view></router-view></el-main>
+      <el-main>
+        <router-view class="font-class"></router-view>
+      </el-main>
       <el-footer>男同加我ID：夏夜gaygay;群号：122548924</el-footer>
     </el-container>
   </div>
@@ -16,6 +18,8 @@ export default {
 }
 </script>
 <style>
+  .font-class{
+  }
   .el-header, .el-footer {
     background-color: #B3C0D1;
     color: #333;

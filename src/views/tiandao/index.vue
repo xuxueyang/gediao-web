@@ -5,15 +5,26 @@
           <el-row :gutter="40" :style="{'height':'300px'}">
             <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div>&nbsp;</div></el-col>
             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">
-              <div class="xsrm" @click="transferToXSRM()">
-                  <div class="title-span">新手入门</div>
+              <div class="xsrm" @click="transferToXSRM()" @mouseenter="showXSRM=true" @mouseleave="showXSRM=false">
+                  <div class="title-span">新手入门
+                  </div>
+                  <div class="introduce-div">
+                      <transition name="donghua">
+                         <p v-show="showXSRM">这是一段简单的介绍</p>
+                     </transition>
+                  </div>
               </div>
             </div></el-col>
             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">
-              <div class="xbb" @click="transferToXBB()">
+              <div class="xbb" @click="transferToXBB()" @mouseenter="showXBB=true" @mouseleave="showXBB=false">
                   <div class="title-span">
                     最新版本
                   </div>
+                  <div class="introduce-div">
+                      <transition name="donghua">
+                         <p v-show="showXBB">这是一段简单的介绍</p>
+                     </transition>
+                  </div>                  
               </div>              
             </div></el-col>
             <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div>&nbsp;</div></el-col>
@@ -22,15 +33,25 @@
           <el-row :gutter="40" :style="{'height':'300px','margin-top':'50px'}">
             <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div>&nbsp;</div></el-col>
             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">
-              <div class="xsrm" @click="transferToFBGL()">
+              <div class="xsrm" @click="transferToFBGL()" @mouseenter="showFBGL=true" @mouseleave="showFBGL=false">
                   <div class="title-span">副本攻略</div>
+                  <div class="introduce-div">
+                      <transition name="donghua">
+                         <p v-show="showFBGL">这是一段简单的介绍</p>
+                     </transition>
+                  </div>                     
               </div>
             </div></el-col>
             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">
-              <div class="xbb" @click="transferToHDRC()">
+              <div class="xbb" @click="transferToHDRC()"  @mouseenter="showHDRC=true" @mouseleave="showHDRC=false">
                   <div class="title-span">
                     活动日常
                   </div>
+                  <div class="introduce-div">
+                      <transition name="donghua">
+                         <p v-show="showHDRC">这是一段简单的介绍</p>
+                     </transition>
+                  </div>                     
               </div>              
             </div></el-col>
             <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div>&nbsp;</div></el-col>
@@ -40,8 +61,13 @@
           <el-row :gutter="40" :style="{'height':'300px','margin-top':'50px'}">
             <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div>&nbsp;</div></el-col>
             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">
-              <div class="xsrm" @click="transferToZYJT()">
+              <div class="xsrm" @click="transferToZYJT()" @mouseenter="showZYJT=true" @mouseleave="showZYJT=false">
                   <div class="title-span">职业精通</div>
+                  <div class="introduce-div">
+                      <transition name="donghua">
+                         <p v-show="showZYJT">这是一段简单的介绍</p>
+                     </transition>
+                  </div>                     
               </div>
             </div></el-col>
             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">
@@ -63,18 +89,11 @@ export default {
     name:'tian-dao',
     data() {
       return {
-         p : {
-            url:location.href,
-            showcount:'1',/*是否显示分享总数,显示：'1'，不显示：'0' */
-            desc:'因为我是gay',/*默认分享理由(可选)*/
-            summary:'么么哒',/*分享摘要(可选)*/
-            title:'天刀蔷薇青龙会',/*分享标题(可选)*/
-            site:'',/*分享来源 如：腾讯网(可选)*/
-            pics:'', /*分享图片的路径(可选)*/
-            style:'101',
-            width:199,
-            height:30
-        }
+        showXSRM:false,
+        showXBB:false,
+        showFBGL:false,
+        showZYJT:false,
+        showHDRC:false,
       }
     },
     components:{
@@ -102,6 +121,33 @@ export default {
 }
 </script>
 
+  <style>
+            p{
+                margin: auto;
+                width: 90%;
+                height: 60px;
+                text-align: center;
+                background-color: rgba(131, 202, 137, 0.39);
+            } 
+            .donghua-enter-active,.donghua-leave-active{
+                transition: 2s all ease;
+            }
+            .donghua-enter-active{
+                opacity: 1;
+                width: 90%;
+                height: 60px;
+            }
+            .donghua-leave-active{
+                opacity: 0;
+                widows: 90%;
+                height: 60px;
+            }
+            .donghua-enter,.donghua-leave{
+                opacity: 0;
+                width: 90%;
+                height: 60px;
+            }
+</style>
 <style>
   .xsrm{
     background-image: url('./../../assets/images/tiandao/xinshourumen.jpg');
@@ -117,9 +163,18 @@ export default {
     background-size:cover;   
     cursor:pointer
   }
+  .introduce-div{
+    padding-top: 180px;
+    font-size: 26px;
+    font-family:'STXingkai';
+    text-align: center;
+    widows: 100%;
+    height: 100px;
+  }
   .title-span{
     padding-top: 18px;
-    font-size: 40px;
+    font-size: 33px;
+    font-family:'STXingkai';
     text-align: center;
     color: #ad29eb;
   }

@@ -3,20 +3,28 @@
     <div class="block">
       <el-carousel trigger="click" height="280px">
         <el-carousel-item class="c1" >
-            <h3>{{ items[0].description }}</h3>
-            <el-button @click="tranferTo(items[0].url)" type="primary" plain class="button">点击前往</el-button>
+            <h2>{{ items[0].description }}</h2>
+            <el-button @click="tranferTo(items[0].url)" type="primary" plain class="button"
+              :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
+            >点击前往</el-button>
         </el-carousel-item>
         <el-carousel-item class="c2" >
-            <h3>{{ items[1].description }}</h3>
-            <el-button @click="tranferTo(items[1].url)" type="primary" plain class="button">点击前往</el-button>            
+            <h2>{{ items[1].description }}</h2>
+            <el-button @click="tranferTo(items[1].url)" type="primary" plain class="button"
+              :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
+            >点击前往</el-button>        
         </el-carousel-item>
         <el-carousel-item class="c3">
-            <h3>{{ items[2].description }}</h3>
-            <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button">点击前往</el-button>            
+            <h2>{{ items[2].description }}</h2>
+            <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button"
+              :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
+            >点击前往</el-button>          
         </el-carousel-item>
         <el-carousel-item class="c4">
-            <h3>{{ items[3].description }}</h3>
-            <el-button @click="tranferTo(items[3].url)" type="primary" plain class="button">点击前往</el-button>            
+            <h2>{{ items[3].description }}</h2>
+            <el-button @click="tranferTo(items[3].url)" type="primary" plain class="button"
+              :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
+            >点击前往</el-button>           
         </el-carousel-item>                        
       </el-carousel>
     </div>
@@ -84,9 +92,13 @@ export default {
 </script>
 
 <style>
+  .block{
+    font-family:'STXingkai'
+  }
   .button{
+    /* font-family:'STXingkai'; */
     float: right;
-    margin-top:60px;
+    margin-top:130px;
     margin-right: 20px;
   }
   .el-carousel__item h3 {

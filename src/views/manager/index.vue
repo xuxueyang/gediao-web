@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-container>
-            <el-aside width="200px">
+            <el-aside width="200px" class="font-aside">
                 <el-menu :default-openeds="[1]" theme="light">
                     <el-submenu index = "0">
                         <template slot="title"><i class="el-icon-document"></i>文件上传</template>
@@ -22,7 +22,7 @@
                     </el-submenu>
                 </el-menu>
             </el-aside>
-            <el-main>
+            <el-main class="font-main">
                 <div v-if="index=='0_1'">
                     <qlh-file-manager></qlh-file-manager>
                 </div>   
@@ -116,6 +116,13 @@ export default {
 
 
 <style scope>
+    .font-aside{
+         font-family:'STXingkai'
+        /* font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif' */
+    }
+    .font-main{
+        font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'
+    }
     input[type="file"] {
         display: none;
     }
