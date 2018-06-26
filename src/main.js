@@ -4,6 +4,11 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 import Immutable from 'immutable'
 Vue.use(Immutable)
 
+// https://blog.csdn.net/qq_25804071/article/details/70911421
+// https://blog.csdn.net/liang377122210/article/details/77864378
+require('vue2-animate/dist/vue2-animate.min.css')
+require('animate.css/animate.min.css')
+
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n

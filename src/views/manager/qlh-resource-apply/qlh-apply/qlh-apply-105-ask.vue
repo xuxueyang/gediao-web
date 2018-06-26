@@ -51,6 +51,14 @@ export default {
             // console.log(this.form)
             // console.log(JSON.stringify(this.form))
             //验证字段
+            if(this.form.name==''||this.form.timePs==''||this.form.battlePs==''){
+                this.$message({
+                        type:'error',
+                        showClose:true,
+                        message:'字段为空'
+                })
+                return
+            }
             const url = ''+services.getServiceIp()+'/api/form/data'
             this.$http.post(url,{
                 projectType: this.projectType,
