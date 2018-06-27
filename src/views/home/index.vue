@@ -52,8 +52,8 @@ export default {
         },
         {
           id:'3',
-          description: '5月26到5月28整点在线',
-          url:'http://wuxia.qq.com/cp/a20180524zdzx/index.htm?e_code=414604&idataid=214224',
+          description: '东海新版本签到',
+          url:'http://wuxia.qq.com/cp/a20180611million/index.htm?e_code=421525&idataid=218424',
           imageName:'799f9e1a06fa01217be715ea8690ce14.jpg'
         },
         {
