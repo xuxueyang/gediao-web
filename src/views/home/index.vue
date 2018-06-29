@@ -3,8 +3,8 @@
     <div class="block">
       <el-carousel trigger="click" height="280px">
         <el-carousel-item class="c1" >
-            <h2>{{ items[0].description }}</h2>
-            <el-button @click="tranferTo(items[0].url)" type="primary" plain class="button"
+            <h2>{{ items[2].description }}</h2>
+            <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button"
               :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
             >点击前往</el-button>
         </el-carousel-item>
@@ -15,8 +15,8 @@
             >点击前往</el-button>        
         </el-carousel-item>
         <el-carousel-item class="c3">
-            <h2>{{ items[2].description }}</h2>
-            <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button"
+            <h2>{{ items[0].description }}</h2>
+            <el-button @click="tranferTo(items[0].url)" type="primary" plain class="button"
               :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
             >点击前往</el-button>          
         </el-carousel-item>

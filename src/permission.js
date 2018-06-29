@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css'// Progress 进度条样式
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
-const whiteList = ['/login', '/regestry', '/home', '/404', '/401', '/', '/manager', '/tiandao', '/nishuihan'] // 不重定向白名单
+const whiteList = ['/login', '/regestry', '/home', '/404', '/401', '/', '/manager', '/tiandao', '/nishuihan', '/gediao'] // 不重定向白名单
 
 const needRedirectList = ['/dashboard', '/example', '/form'] // 需要重定向的名单
 
@@ -38,17 +38,24 @@ router.beforeEach((to, from, next) => {
     //     }
     // })、
     // 需要重定向的重定向，不然判断路由是否含有，还有的走进去，不然，就
-    console.log('to.path:' + to.path)
+    // console.log('to.path:' + to.path)
     // console.log(router)
-    if (needRedirectList.indexOf(to.path) !== -1) {
-      next('/401')
-      NProgress.done()
-    } else if (whiteList.indexOf(to.path) !== -1) {
-      next()
+    // 判断当前的是不是和前往的一样
+    // console.log('from.path:' + from.path)
+    if (to.path === from.path) {
+      // location.reload()
     } else {
-      next('/404')
-      NProgress.done()
+      if (needRedirectList.indexOf(to.path) !== -1) {
+        next('/401')
+        NProgress.done()
+      } else if (whiteList.indexOf(to.path) !== -1) {
+        next()
+      } else {
+        next('/404')
+        NProgress.done()
+      }
     }
+
     // next()
   }
 })

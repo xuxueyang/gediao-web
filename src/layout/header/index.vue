@@ -1,16 +1,16 @@
 <template>
-    <div class="header">
+    <div>
         <!-- <el-row :gutter="20">
             <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             <a style="float:center;color:#624D96;margin:0px 0px 0px -100px;" @click="referToHome">主页</a>
             <a style="color:#624D96;margin:0px 0px 0px 200px;" @click="referToUpload">管理</a>
             <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage" style="float:right;margin:12px 20px 0px 0">查看介绍~</el-button>
         </el-row> -->
-        <el-row>
+        <el-row class="header"> 
             <el-col :span="4"><div>
                 <span style="color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             </div></el-col>
-            <el-col :span="4"><div>
+            <el-col :span="2"><div>
                  &nbsp;
             </div></el-col>
             <el-col :span="2"><div>
@@ -25,7 +25,10 @@
             <el-col :span="2"><div>
                 <a style="color:#624D96;" @click="referToNSH">逆水寒</a>
             </div></el-col>
-            <el-col :span="4"><div>
+            <el-col :span="2"><div>
+                <a style="color:#624D96;" @click="referToGD">格调</a>
+            </div></el-col>
+            <el-col :span="2"><div>
                &nbsp;
             </div></el-col>
             <el-col :span="2"><div>
@@ -33,12 +36,16 @@
                 :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
                 >分享到qq空间</el-button >
             </div></el-col>
-            <el-col :span="1"><div>
+            <el-col :span="2"><div>
                 <el-button size="small" type="info" round class=".info-button" @click="showInfoMessage" :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}">查看介绍~</el-button>
             </div></el-col>
+            <el-col :span="2"><div @click="linkToMe" style="cursor:pointer">
+                <img border="0" SRC="http://wpa.qq.com/pa?p=1:1059738716:4" alt=" 么么哒的色调" />
+                <span class="linkMe">联系我~</span >
+            </div></el-col>         
         </el-row>
         <!-- 浮动显示提示按钮 -->
-        <el-dialog  :visible.sync="dialogTabVisible">
+        <el-dialog  :visible.sync="dialogTabVisible" class="show-info">
             <el-tabs :tab-position="tabPosition" style="height: 300px;" v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="青龙会简介" name="qlh-info">
                     <h3>青龙会简介</h3>
@@ -118,9 +125,20 @@ export default {
                     type: 'error'
                 });
             }
+        }).catch(function(e){
+            this.$message({
+                message: '服务器在傲娇QAQ',
+                showClose: true,
+                type: 'error'
+            });            
         })
     },
     methods: {
+        linkToMe() {
+            //联系我，打开qq
+            var a = "tencent://message/?uin=1059738716&Site=qq&Menu=yes"
+            window.open(a)
+        },
         shareToQQ() {
             var s = [];
             for(var i in this.p){
@@ -144,7 +162,6 @@ export default {
         },
         referToHome() {
             //跳转到主页
-            console.log('跳转到主页')
             this.$router.history.push('/home')
         },
         referToUpload() {
@@ -155,6 +172,9 @@ export default {
         },
         referToNSH() {
             this.$router.history.push('/nishuihan')
+        },
+        referToGD() {
+            this.$router.history.push('/gediao')
         }
     }
 };
@@ -163,8 +183,12 @@ export default {
 .header {
     font-size: 20px;
     font-family:'STXingkai';
-    height: 152px;
+    height: 60px;
     width: 100%;
+    background-color: #3f3c47ab
+}
+.show-info{
+    font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'
 }
 </style>
 <style>
@@ -189,5 +213,10 @@ export default {
   }
   .row-bg {
     padding: 10px 0;
+  }
+  .linkMe{
+    font-size: 18px;
+    font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif',
+    
   }
 </style>

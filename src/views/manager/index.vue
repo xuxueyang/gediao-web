@@ -2,23 +2,27 @@
     <div>
         <el-container>
             <el-aside width="200px" class="font-aside">
-                <el-menu :default-openeds="[1]" theme="light">
+                <el-menu  
+                    default-active="2" 
+                    theme="light" 
+                    active-text-color="#ffd04b"
+                    background-color="#545c64" text-color="#eee">
                     <el-submenu index = "0">
                         <template slot="title"><i class="el-icon-document"></i>文件上传</template>
-                        <el-menu-item index="0-1" class="menu-item" @click="setIndex('0_1') " >显示全部文件</el-menu-item>
+                        <el-menu-item index="0_1" class="menu-item" @click="setIndex('0_1') " >显示全部文件</el-menu-item>
                     </el-submenu>
                     <el-submenu index = "1" >
                         <template slot="title"><i class="el-icon-document" ></i>开发日志</template>
-                        <el-menu-item index="1-1" class="menu-item" @click="setIndex('1_1')" >青龙会网站</el-menu-item>
-                        <el-menu-item index="1-2" class="menu-item" @click="setIndex('1_2')" >UE4</el-menu-item>
-                        <el-menu-item index="1-3" class="menu-item" @click="setIndex('1_3')" >公司</el-menu-item>
+                        <el-menu-item index="1_1" class="menu-item" @click="setIndex('1_1')" >青龙会网站</el-menu-item>
+                        <el-menu-item index="1_2" class="menu-item" @click="setIndex('1_2')" >UE4</el-menu-item>
+                        <el-menu-item index="1_3" class="menu-item" @click="setIndex('1_3')" >公司</el-menu-item>
                     </el-submenu>
                     <el-submenu index = "2">
                         <template slot="title"><i class="el-icon-document"></i>青龙会管理</template>
-                        <el-menu-item index="2-1" class="menu-item" @click="setIndex('2_1')" >会员添加</el-menu-item>
-                        <el-menu-item index="2-2" class="menu-item" @click="setIndex('2_2')" >青龙会公告</el-menu-item>
+                        <el-menu-item index="2_1" class="menu-item" @click="setIndex('2_1')" >会员添加</el-menu-item>
+                        <el-menu-item index="2_2" class="menu-item" @click="setIndex('2_2')" >青龙会公告</el-menu-item>
                         <!-- 这里可以申请比如打105之类的 -->
-                        <el-menu-item index="2-3" class="menu-item" @click="setIndex('2_3')" >资源申请</el-menu-item>
+                        <el-menu-item index="2_3" class="menu-item" @click="setIndex('2_3')" >资源申请</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-aside>
@@ -117,8 +121,8 @@ export default {
 
 <style scope>
     .font-aside{
-         font-family:'STXingkai'
-        /* font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif' */
+         /* font-family:'STXingkai' */
+        font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'
     }
     .font-main{
         font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'
@@ -133,7 +137,7 @@ export default {
         width: 90px;
     }
     .el-aside {
-        background-color: #B3C0D1;
+        background-color: #313b46;
         color: #333;
         text-align: center;
         line-height: 200px;

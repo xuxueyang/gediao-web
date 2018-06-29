@@ -28,10 +28,11 @@ export const constantRouterMap = [
 
   { path: '/tiandao', component: () => import('@/views/tiandao/index'), hidden: true },
   { path: '/nishuihan', component: () => import('@/views/nishuihan/index'), hidden: true },
+  { path: '/gediao', component: () => import('@/views/gediao/index'), hidden: true },
 
   { path: '/manager', component: () => import('@/views/manager/index'), hidden: true },
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
-  { path: '/', redirect: '/home', component: () => import('@/views/home/index'), hidden: true },
+  { path: '/', redirect: '/gediao', component: () => import('@/views/gediao/index'), hidden: true },
   { path: '/home', component: () => import('@/views/home/index'), hidden: true },
 
   {

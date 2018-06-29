@@ -37,34 +37,66 @@ export default {
             // console.log(this.form)
             // console.log(JSON.stringify(this.form))
             //验证字段
-            if(this.form.name==''||this.form.ps==''){
-                this.$message({
-                        type:'error',
-                        showClose:true,
-                        message:'字段为空'
-                })
-                return
-            }
-            const url = ''+services.getServiceIp()+'/api/form/data'
-            this.$http.post(url,{
-                projectType: this.projectType,
-                formType:'qlh-apply-105-gu',
-                data: JSON.stringify(this.form)
-            }).then(function(res){
-                if(res.data.returnCode.startsWith('200')){
-                    this.$emit('Next',false);
+            this.$refs.form.validate(valid => {
+                if(valid){
+                     const url = ''+services.getServiceIp()+'/api/form/data'
+                    this.$http.post(url,{
+                        projectType: this.projectType,
+                        formType:'qlh-apply-105-gu',
+                        data: JSON.stringify(this.form)
+                    }).then(function(res){
+                        if(res.data.returnCode.startsWith('200')){
+                            this.$emit('Next',false);
+                        }else{
+                            this.$message({
+                                type:'error',
+                                message:'申请失败'
+                            })
+                        }
+                    }).catch(function(res){
+                            this.$message({
+                                type:'error',
+                                message:'服务器GG了'
+                            })                
+                    })
+                    return true      
                 }else{
                     this.$message({
-                        type:'error',
-                        message:'申请失败'
+                            type:'error',
+                            showClose:true,
+                            message:'字段为空'
                     })
+                    return  false                       
                 }
-            }).catch(function(res){
-                    this.$message({
-                        type:'error',
-                        message:'服务器GG了'
-                    })                
             })
+            // if(this.form.name==''||this.form.ps==''){
+            //     this.$message({
+            //             type:'error',
+            //             showClose:true,
+            //             message:'字段为空'
+            //     })
+            //     return
+            // }
+            // const url = ''+services.getServiceIp()+'/api/form/data'
+            // this.$http.post(url,{
+            //     projectType: this.projectType,
+            //     formType:'qlh-apply-105-gu',
+            //     data: JSON.stringify(this.form)
+            // }).then(function(res){
+            //     if(res.data.returnCode.startsWith('200')){
+            //         this.$emit('Next',false);
+            //     }else{
+            //         this.$message({
+            //             type:'error',
+            //             message:'申请失败'
+            //         })
+            //     }
+            // }).catch(function(res){
+            //         this.$message({
+            //             type:'error',
+            //             message:'服务器GG了'
+            //         })                
+            // })
         }
     }
 }

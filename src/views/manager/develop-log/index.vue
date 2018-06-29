@@ -2,7 +2,7 @@
 <div>
     <el-button type="primary " icon="el-icon-edit" @click="showAddMessageDialog" style="float:right"></el-button>
     <el-tabs v-model="type" @tab-click="handleClick" style="width:95%" >
-        <el-tab-pane label="已完成" name="DONE"><h3 style="color:#33A1C9">已完成</h3>
+        <el-tab-pane label="已完成" name="DONE" :key='Math.random()' ><h3 style="color:#33A1C9">已完成</h3>
             <show-log
                 v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
@@ -11,7 +11,7 @@
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
-        <el-tab-pane label="缺陷" name="BUG"><h3 style="color:#C80000">缺陷</h3>
+        <el-tab-pane label="缺陷" name="BUG" :key='Math.random()' ><h3 style="color:#C80000">缺陷</h3>
             <show-log
                 v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
@@ -20,7 +20,7 @@
                 v-bind:tableDate="tableDate">
             </show-log>
         </el-tab-pane>
-        <el-tab-pane label="待完善" name="TODO"><h3 style="color:#FF8000 ">未来计划</h3>
+        <el-tab-pane label="待完善" name="TODO" :key='Math.random()' ><h3 style="color:#FF8000 ">未来计划</h3>
             <show-log
                 v-bind:canTranfer="true"
                 v-bind:projectType="projectType"
