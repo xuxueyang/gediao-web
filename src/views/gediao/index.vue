@@ -21,7 +21,7 @@
     <div v-if="hasLogin">
         <el-container>
             <el-aside width="200px" class="font-aside">
-                <el-menu default-active="0"
+                <el-menu default-active="1"
                     class="el-menu-vertical-demo"
                     background-color="#545c64"
                     text-color="#fff"
@@ -100,16 +100,18 @@ export default {
             // this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
             // this.$route.params.index = index;
             // this.index = this.$router.params.index;
-            if(this.$route.params.index==undefined){
-                this.$router.push({  
-                    query:merge(this.$route.query,{'index':index})  
-                }) 
-            }else if(index!=this.index){
-                this.$router.push({  
-                    query:merge(this.$route.query,{'index':index})  
-                })  
-                this.index = index
-            }
+            // if(this.$route.params.index==undefined){
+            //     this.$router.push({  
+            //         query:merge(this.$route.query,{'index':index})  
+            //     }) 
+            // }else if(index!=this.index){
+            //     console.log("index:"+index)
+            //     this.$router.push({  
+            //         query:merge(this.$route.query,{'index':index})  
+            //     })  
+            //     this.index = index
+            // }
+            this.index = index
         },
         regSuccessCallback() {
             //注册成功，转到登陆界面
@@ -126,7 +128,17 @@ export default {
         loginSuccessCallback(){
             //登陆成功
             //刷新即可
-             this.setIndex('1')
+            //  this.setIndex('1')
+            if(this.$route.params.index==undefined){
+                this.$router.push({  
+                    query:merge(this.$route.query,{'index':'1'})  
+                }) 
+            }else{
+                this.$router.push({  
+                    query:merge(this.$route.query,{'index':'1'})  
+                })  
+            }
+            this.setIndex('1')
              this.hasLogin = true
             // location.reload()
         },
@@ -166,6 +178,15 @@ export default {
                 try{
                     var tmp = JSON.parse(userInfo)
                     this.hasLogin = true
+                        // if(this.$route.params.index==undefined){
+                        //     this.$router.push({  
+                        //         query:merge(this.$route.query,{'index':'1'})  
+                        //     }) 
+                        // }else{
+                        //     this.$router.push({  
+                        //         query:merge(this.$route.query,{'index':'1'})  
+                        //     })  
+                        // }
                     this.setIndex('1')
                 }catch(exp) {
                     this.hasLogin = false

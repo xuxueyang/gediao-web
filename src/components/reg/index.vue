@@ -29,7 +29,7 @@
           </el-form-item>
         </div>
         <div class="graphImgDiv_right" @click="refreshGraph()">
-            <img   :src="meta+captchaGraph_v">
+            <img   :src="captchaGraph_image">
         </div>
       </div>
 
@@ -71,14 +71,16 @@ export default {
       if (value.length < 5) {
         callback(new Error('密码不能小于5位'))
       } else {
-        callback()
+        // callback()
+        return true
       }
     }
     const validateCaptchaGraph = (rule,value,callback) => {
       if(value!=null&&value!=''){
         //向服务器发送数字判断是否成功
         //TODO 发送请求
-        callback();
+        // callback();
+        return true
       }else{
         callback(new Error('二维码输入错误'))
         this.refreshGraph()
@@ -103,7 +105,8 @@ export default {
       //TODO到时候加上时间，不能获取太快
       meta: 'data:image/jpeg;base64,',
       captchaGraph_v: '',
-      captchaGraph_v_id: ''
+      captchaGraph_v_id: '',
+      captchaGraph_image:''
     }
   },
   mounted:function(){
@@ -141,9 +144,11 @@ export default {
         // console.log('刷新了图像验证码')
         const url = service.getServiceIp() + '/api/login/graph'
         this.$http.get(url).then(function(res){
-            if(res.returnCode.startsWith('200')){
-                this.captchaGraph_v = res.data.graph
-                this.captchaGraph_v_id = res.data.id
+            if(res.data.returnCode.startsWith('200')){
+                this.captchaGraph_v = res.data.data.graph
+                this.captchaGraph_v_id = res.data.data.id
+                // console.log(this.captchaGraph_v)
+                this.captchaGraph_image = this.meta + this.captchaGraph_v
             }else{
                 //获取图像验证码失败
                 this.$message({
@@ -173,23 +178,26 @@ export default {
     },
     
     handleRegestry(){
+      //验证字段1097539652@qq.com
         this.$refs.loginForm.validate(valid => {
         if (valid) {
+
+        } else {
+        //   console.log('error submit!!')
+          return false
+        }
+      })
+      //自己单独验证
+      if(this.loginForm.password!=null&&this.loginForm.password.length>5
+          &&this.loginForm.username!=null&&this.loginForm.captchaGraph!=null)
+      {
             this.loading = true
-        //   this.$store.dispatch('Regestry', this.loginForm).then(() => {
-        //     this.loading = false
-        //     this.$router.push({ path: '/' })
-        //   }).catch(() => {
-        //     this.loading = false
-        //   })
             const url = service.getServiceIp() + '/api/user/reg'
             this.$http.post(url,{
-                loginName : this.loginForm.loginname,
+                loginName : this.loginForm.username,
                 password: this.loginForm.password,
                 tel: '',
                 nickName: '',
-                nickName:'',
-                nickName:'',
                 projectType: this.projectType,
                 graphCaptchaCode: this.loginForm.captchaGraph,
                 graphCaptchaCodeId: this.captchaGraph_v_id
@@ -212,11 +220,7 @@ export default {
                     type: 'error'
                 });            
             })
-        } else {
-        //   console.log('error submit!!')
-          return false
-        }
-      })
+      }
     }
   }
 }

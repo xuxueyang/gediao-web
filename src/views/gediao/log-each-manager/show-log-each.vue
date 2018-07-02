@@ -6,6 +6,44 @@
     <!-- 按钮：显示细节（笔记之类的） 删除 -->
     <!-- 标签 -->
     <div>
+                <div style="margin-top:15px;margin-right:35px;float:right">
+                    <el-button>添加便签</el-button>
+                </div>
+                <div style="float:left;margin-top:20px">
+                    <div>
+                        <!-- 搜索框，搜索全部文件的 -->
+                        <el-input placeholder="请输入内容" v-model="searchName" class="input-with-select" style="width:200px;margin-left:0px;margin-bottom:20px;">
+                        </el-input>
+                        <el-button slot="append" icon="el-icon-search" @click="searchLog" circle></el-button>
+                        <!-- 日期选择 -->
+                        <!-- 标签选择 -->
+                        <!-- 状态选择 -->
+                        <span style="margin-left:30px">请选择便签状态:</span>
+                        <el-select v-model="select" slot="prepend" placeholder="请选择">
+                            <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div style="margin-bottom:18px;margin-top:5px">
+                        <div style="text-align:left">
+                            <span class="demonstration">请选择便签日期范围（默认今日）:</span>
+                            <el-date-picker
+                                v-model="rangeDate"
+                                type="daterange"
+                                align="right"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions2">
+                            </el-date-picker>
+                        </div>
+                    </div>
+                </div>
         <div>
             <el-table
                 :data="tableDate"
@@ -71,7 +109,8 @@
 
                 </el-dialog>
             </div>
-    </div>
+        </div>
+        <!-- 添加便签：所属日期（日期选择，不选则默认今天），标题，状态（可选，默认为未完成），类型 -->
 </template>
 <script>
 import services from '@/api/file.services'
@@ -80,10 +119,17 @@ export default {
     props:["projectType"],
     data() {
         return{
+            searchName:'',
+            rangeDate:'',
             dialogDetail: false,
             messageDetail:false,
             tableDate:[],
+            select:'ALL',
             options: [
+                {
+                    label: '全部',
+                    value: 'ALL'
+                },
                 {
                     label: '已完成',
                     value: 'DONE'
@@ -92,7 +138,34 @@ export default {
                     label: '待完成',
                     value: 'TODO'
                 }
-            ]
+            ],
+            pickerOptions2: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
+                },
         }
     },
     mounted(){
@@ -101,6 +174,9 @@ export default {
         this.getLogEachs()
     },
     methods:{
+        searchLog() {
+
+        },
         getLogEachs() {
             const token='a'
             const userId='a'
@@ -174,6 +250,5 @@ export default {
 }
 </script>
 <style>
-
 </style>
 

@@ -3,8 +3,8 @@ import axios from 'axios'
 const services = {
   // serviceIp =  ,
   getServiceIp() {
-    // return 'http://localhost:9999'
-    return 'http://193.112.17.169:9999'
+    return 'http://localhost:9999'
+    // return 'http://193.112.17.169:9999'
   },
   getImageServiceUrl(imageName) {
     return 'http://193.112.161.157:8080/resource/images/' + imageName
