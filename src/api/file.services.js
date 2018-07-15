@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import returnCode from './services.returnCode'
 const services = {
   // serviceIp =  ,
   getServiceIp() {
@@ -9,11 +9,59 @@ const services = {
   getImageServiceUrl(imageName) {
     return 'http://193.112.161.157:8080/resource/images/' + imageName
   },
+  getGediaoMessageStatusUrl() {
+    // type: APP_GEDIAO_LOG_MESSAGE_STATUS
+    const url = '' + this.getServiceIp() + '/api/dist/codes/' + 'APP_GEDIAO_LOG_MESSAGE_STATUS'
+    return url
+  },
+  getTodayDate() {
+    // 得到今天的日期
+    const seperator1 = '-'
+    const date = new Date()
+    const year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var strDate = date.getDate()
+    if (month >= 1 && month <= 9) {
+      month = '0' + month
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = '0' + strDate
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate
+    return currentdate
+  },
   getBFileMB(bsize) {
     // 转为int，/1024/1024
     const size = parseFloat(bsize)
     var num = size / 1024 / 1024
     return num.toFixed(2) + 'MB'
+  },
+  getMessageByCode(code) {
+    if (returnCode[code] === undefined) {
+      return '未知错误'
+    } else {
+      return returnCode[code]
+    }
+  },
+  getUserId() {
+    const info = window.localStorage.getItem('userinfo')
+    var userId =undefined
+    JSON.parse(info, function(k, v) {
+      if (k === 'id') {
+        userId = v;
+      }
+    })
+    // console.log(userId)
+    return userId
+  },
+  saveUserinfo(userinfo) {
+    window.localStorage["userinfo"] = JSON.stringify(userinfo)
+  },
+  getToken() {
+    return window.localStorage.getItem('token')
+  },
+  saveToken(data) {
+    window.localStorage["token"] = data
   },
   changeToBJTime(time) {
     return (new Date(time)).toLocaleString()
@@ -45,10 +93,10 @@ const services = {
     //     if(month==2){
     //       if(day==29&&Math.ceil(year,4)!=Math.floor(year,4)){
     //         month = month+1
-    //         day = day -1 
+    //         day = day -1
     //         belong = true;
     //       }
-    //     } 
+    //     }
     //   }
     //   if(!belong) {
     //     if(day>30) {
@@ -62,7 +110,7 @@ const services = {
     //   }
     // }
     // return ''+year+'-'+month+'-'+day +'—'+hour+''//年月日
-    
+
   },
   async getAllFiles(pararms) {
     // var res = null

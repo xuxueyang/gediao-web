@@ -104,8 +104,10 @@ export default {
               if(res.data.returnCode.startsWith('200')){
                     this.loading = false
                     
-                    window.localStorage.setItem('token',JSON.stringify(res.data.data.access_token))
-                    window.localStorage.setItem('userinfo',JSON.stringify(res.data.data.userinfo))
+                    // window.localStorage.setItem('token',JSON.stringify(res.data.data.access_token))
+                    // window.localStorage.setItem('userinfo',JSON.stringify(res.data.data.userinfo))
+                    service.saveToken(res.data.data.access_token) 
+                    service.saveUserinfo(res.data.data.userinfo) 
                     this.$emit('loginSuccessCallback',false)
               } else {
                 this.loading = false
@@ -116,7 +118,8 @@ export default {
                 })
               }
           })
-          .catch(() => {
+          .catch((e) => {
+            console.log(e)
             this.loading = false
             this.$message({
                 message:'登陆失败QAQ服务器正在抢修11',

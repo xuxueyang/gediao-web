@@ -124,6 +124,7 @@ export default {
                     showClose: true,
                     type: 'error'
                 });
+                this.$router.push('/400')
             }
         }).catch(function(e){
             this.$message({
@@ -131,6 +132,7 @@ export default {
                 showClose: true,
                 type: 'error'
             });            
+            this.$router.push('/400')
         })
     },
     methods: {

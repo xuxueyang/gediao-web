@@ -42,6 +42,10 @@
                         <i class="el-icon-document"></i>
                         <span slot="title">资源积累</span>
                     </el-menu-item>  
+                    <el-menu-item index="6"  @click="setIndex('6')">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">全局配置</span>
+                    </el-menu-item>   
                     <el-menu-item index="4"  @click="setIndex('4')">
                         <i class="el-icon-document"></i>
                         <span slot="title">垃圾箱</span>
@@ -67,7 +71,12 @@
                 </div>     
                 <div v-if="index=='4'">
                     
-                </div>                                                                 
+                </div>
+                <div v-if="index=='6'">
+                    <!-- 全局配置，设置tag什么的 -->
+                    <!-- 因为是全局配置，所以是选项卡的形式 -->
+                    <manager-setting v-bind:projectType="projectType"></manager-setting>
+                </div>                                                                       
             </el-main>
         </el-container>
     </div>
@@ -79,13 +88,15 @@ import merge from 'webpack-merge';
 import showLogEach from './log-each-manager/show-log-each.vue'
 import regestry from '@/components/reg/index.vue'
 import login from '@/components/login/index.vue'
+import managerSetting from './global-setting/manager-setting.vue'
 
 export default {
     name: 'gediao',
     components:{
         showLogEach,
         regestry,
-        login
+        login,
+        managerSetting
     },
     data() {
         return {
@@ -100,6 +111,7 @@ export default {
             // this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
             // this.$route.params.index = index;
             // this.index = this.$router.params.index;
+            // console.log(index+"  " + this.index)
             // if(this.$route.params.index==undefined){
             //     this.$router.push({  
             //         query:merge(this.$route.query,{'index':index})  
@@ -109,8 +121,10 @@ export default {
             //     this.$router.push({  
             //         query:merge(this.$route.query,{'index':index})  
             //     })  
-            //     this.index = index
             // }
+            this.$router.push({  
+                    query:merge(this.$route.query,{'index':index})  
+            })  
             this.index = index
         },
         regSuccessCallback() {
@@ -129,16 +143,11 @@ export default {
             //登陆成功
             //刷新即可
             //  this.setIndex('1')
-            if(this.$route.params.index==undefined){
-                this.$router.push({  
-                    query:merge(this.$route.query,{'index':'1'})  
-                }) 
-            }else{
-                this.$router.push({  
-                    query:merge(this.$route.query,{'index':'1'})  
-                })  
-            }
-            this.setIndex('1')
+            // this.$router.push({  
+            //     query:merge(this.$route.query,{'index':'1'})  
+            // })  
+            // this.setIndex('1')
+            this.index = '1'
              this.hasLogin = true
             // location.reload()
         },
@@ -187,7 +196,7 @@ export default {
                         //         query:merge(this.$route.query,{'index':'1'})  
                         //     })  
                         // }
-                    this.setIndex('1')
+                    this.index = '1'
                 }catch(exp) {
                     this.hasLogin = false
                     console.log(exp)

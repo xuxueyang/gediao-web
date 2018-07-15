@@ -1,4 +1,5 @@
 <template>
+<div  style="margin-top:-20px;line-height:5px">
     <!-- 日期控件（默认今天，不选则显示全局）  添加 -->
     <!-- 搜索功能 ：按文字，按照标签 -->
     <!-- 表格： 下拉选择状态（根据状态不同，文字颜色会改变，同时已经完成的会沉底， -->
@@ -7,7 +8,7 @@
     <!-- 标签 -->
     <div>
                 <div style="margin-top:15px;margin-right:35px;float:right">
-                    <el-button>添加便签</el-button>
+                    <el-button @click="addEachShow()">添加便签</el-button>
                 </div>
                 <div style="float:left;margin-top:20px">
                     <div>
@@ -27,6 +28,15 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
+                         <span style="margin-left:30px">请选择标签:</span>
+                        <el-select v-model="selectTag" slot="prepend" placeholder="请选择">
+                            <el-option
+                                v-for="item in tagOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>                       
                     </div>
                     <div style="margin-bottom:18px;margin-top:5px">
                         <div style="text-align:left">
@@ -46,14 +56,17 @@
                 </div>
         <div>
             <el-table
+                border
                 :data="tableDate"
                 style="width: 98%"
+                :row-class-name="tableRowClassName"
                 >
                 <el-table-column
                     label="状态"
                     width="180">
                     <template slot-scope="scope">
-                          <el-select v-model="scope.row.status" placeholder="请选择便签状态">
+                         <!-- :change="changeStatus(scope.row)" -->
+                          <el-select v-model="scope.row.status" placeholder="请选择便签状态" @change="changeStatus($event,scope.row)" >
                                 <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -62,12 +75,19 @@
                                 </el-option>
                           </el-select>
                     </template>
-                </el-table-column>                
+                </el-table-column>
                 <el-table-column
                     prop="updatedDate"
                     sortable
-                    label="日期"
+                    label="更新日期"
                     :formatter="formatter"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="title"
+                    sortable
+                    label="标题"
+                    
                     width="180">
                 </el-table-column>
 
@@ -90,7 +110,7 @@
                         <el-button
                             @click.native.prevent="showMessageDialog(scope.row)"
                             type="text"
-                            size="small">
+                            size="small" disabled>
                             更新消息
                         </el-button>
                         <el-button
@@ -106,11 +126,64 @@
                 <!-- 浮动显示更新 -->
                 <el-dialog  :visible.sync="dialogDetail">
                     <h2 style="margin-bottom:40px">详情</h2>
-
+                    <!-- 集成富文本编辑器 -->
                 </el-dialog>
             </div>
         </div>
+    <div>
+        <!-- 更新便签的：添加标签的基本操作啥的 -->
         <!-- 添加便签：所属日期（日期选择，不选则默认今天），标题，状态（可选，默认为未完成），类型 -->
+        <el-dialog  :visible.sync="addEach">
+            <h2 style="margin-bottom:40px">创建消息日志</h2>
+            <el-form :rules="eachRules" ref="form" :model="form" label-width="120px">
+                <el-form-item label="消息标题:" prop="title">
+                    <el-input v-model="form.title" :maxlength="50" style="width:200px;float:left" :placeholder="'最多50个字符'"></el-input>
+                </el-form-item>
+                <el-form-item label="消息类型:" style="width:100px;" prop="status">
+                    <el-select v-model="form.status" style="width:150px" placeholder="请选择消息类别">
+                            <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="消息内容" prop="message" >
+                    <el-input type="textarea" 
+                        
+                        v-model="form.message" 
+                        :autosize="true" 
+                        style="width:500px;float:left" 
+                        :placeholder="'最多不能输入200字符'"></el-input>
+                </el-form-item>
+                <el-form-item label="标签:" style="width:80%;height:80px" >
+                    <template>
+                    <el-select
+                        style="width:100%;height:80px"
+                        v-model="form.tags"
+                        multiple
+                        filterable
+                        allow-create
+                        default-first-option
+                        placeholder="请选择标签">
+                        <el-option
+                            v-for="item in tagOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item style="margin-top:20px">
+                    <el-button type="primary" @click="onCreateEach('form')">立即创建</el-button>
+                    <el-button @click="cancelAddEach">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+    </div>
+</div>
 </template>
 <script>
 import services from '@/api/file.services'
@@ -119,25 +192,44 @@ export default {
     props:["projectType"],
     data() {
         return{
+            // 添加便签
+            focus: false,
+            addEach: false,
+            selectTag: '',
+            form: {
+                title: '',
+                status: '',
+                message: '',
+                tags:[]
+            },
+            eachRules: {
+                title: [
+                    { required: true, message: '请输入消息标题', trigger: 'blur' },
+                ],
+                status: [
+                    { required: true, message: '请选择消息类型', trigger: 'change' }
+                ],
+                message: [
+                    { required: false, message: '请填写消息内容', trigger: 'blur' }
+                ]
+            },
             searchName:'',
             rangeDate:'',
             dialogDetail: false,
             messageDetail:false,
             tableDate:[],
-            select:'ALL',
+            select:'',
             options: [
-                {
-                    label: '全部',
-                    value: 'ALL'
-                },
-                {
-                    label: '已完成',
-                    value: 'DONE'
-                },
-                {
-                    label: '待完成',
-                    value: 'TODO'
-                }
+            ],
+            tagOptions:[
+                // {
+                //     label: '网站搭建',
+                //     value: 'wzdj' 
+                // },
+                // {
+                //     label: '日志记录',
+                //     value: 'rzjl' 
+                // },
             ],
             pickerOptions2: {
                 shortcuts: [{
@@ -149,6 +241,13 @@ export default {
                         picker.$emit('pick', [start, end]);
                     }
                 }, {
+                    text: '今天的',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
                     text: '最近一个月',
                     onClick(picker) {
                         const end = new Date();
@@ -156,7 +255,7 @@ export default {
                         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
                         picker.$emit('pick', [start, end]);
                     }
-                }, {
+                },{
                     text: '最近三个月',
                     onClick(picker) {
                         const end = new Date();
@@ -172,32 +271,265 @@ export default {
         //获取token和用户信息（放在缓存中）
         //判断有没有登陆，判断有没有缓存的用户信息
         this.getLogEachs()
+        this.getStatus()
+        this.getTags()
     },
     methods:{
-        searchLog() {
-
+        tableRowClassName({row, rowIndex}) {
+            // console.log(rowIndex)
+            //TODO 通过数据字典获取描述
+            if (row.status === '1') {
+                return 'wwc-row';
+            } else if (row.status === '2') {
+                return 'wc-row';
+            }
+            return '';
         },
-        getLogEachs() {
-            const token='a'
-            const userId='a'
-            const url = '' + services.getServiceIp()+"/api/app/log/eachs"+"?token="+token+"&userId="+userId
-            this.$http.get(url,{}).then(function(res){
-                if(res.data.returnCode.startsWith("200")){
+        getTags() {
+            // 得到全部的标签
+            const token  = services.getToken()
+            const userId = services.getUserId()
+            if(token&&userId) {
+                const url = '' + services.getServiceIp()+"/api/app/log/tags"+"?token="+token+"&userId="+userId
+                this.$http.get(url,{}).then(function(res){
+                    if(res.data.returnCode.startsWith("200")){
+                        this.$message({
+                            type:"success",
+                            showClose:true,
+                            message: services.getMessageByCode(res.data.returnCode)
+                        })
+                        // 赋值
+                        this.tagOptions.pop()
+                        this.tagOptions = []
+                        for(var i = 0;i<res.data.data.length;i++) {
+                            this.tagOptions.push({
+                                label: res.data.data[i].name,
+                                value: res.data.data[i].name
+                            })
+                            
+                        }
+                        
+                    }else{
+                        this.$message({
+                            type:"error",
+                            showClose:true,
+                            message: services.getMessageByCode(res.data.returnCode)
+                        })
+                    }
+                })
+            }else {
+                // 登录失效，转到登录页面
+                this.$router.history.push('/gediao')
+            }
+        },
+        getStatus(){
+            const url = services.getGediaoMessageStatusUrl()
+            this.$http.get(url, {}).then(function(res) {
+                // 处理消息拉,没有就设置为默认
+                if (res.data.returnCode.startsWith('200')) {
+                    // 返回
+                    const status =  res.data.data
+                    for(var i=0;i<status.length;i++){
+                        this.options.push(status[i])
+                    }
+                } else {
+                    const status = [{
+                        value: '0',
+                        label: '默认',
+                        type: '0'
+                    }]
+                    for(var i=0;i<status.length;i++){
+                        this.options.push(status[i])
+                    }
+                }
+            })
+        },
+        addEachShow(){
+            this.addEach = true
+        },
+        cancelAddEach() {
+            this.addEach = false
+        },
+        changeStatus(event,row) {
+            // 改变了each状态时，需要更新
+               //创建each，自动添加一个数据（如果日期什么为空，还有归属日期）
+            // console.log("row"+JSON.stringify(row))
+            // console.log("_rw"+JSON.stringify(this.tableDate))
+            // console.log("event"+event)
+            // console.log("row"+row.status)
 
-                }else{
-                    this.$message({
+            if(row){
+                const token = services.getToken()
+                const userId = services.getUserId()
+                if(token&&userId){
+                    const url = '' + services.getServiceIp()+"/api/app/log/each"
+                    const body = {
+                        id: row.id,
+                        title: row.title,
+                        status: event,
+                        message: row.message,
+                        belongDate: row.belongDate,
+                        tags: row.tags,
+                        token:token,
+                        userId:userId
+                    }
+                    this.$http.post(url,body).then(function(res){
+                        if(res.data.returnCode.startsWith("200")){
+                                this.$message({
+                                type:"success",
+                                showClose:true,
+                                message: services.getMessageByCode(res.data.returnCode)
+                            })
+                            // this.getLogEachs()
+                        }else{
+                        this.$message({
+                            type:"error",
+                            showClose:true,
+                            message: services.getMessageByCode(res.data.returnCode)
+                        })
+                        }
+                    }).catch(function(res){
+                        this.$message({
                         type:"error",
                         showClose:true,
-                        message:"加载数据失败"
+                        message:"服务器正在抢修中~"
+                        })
                     })
-                }
-            }).catch(function(res){
+                    this.addEach = false
+                }else{
                 this.$message({
                     type:"error",
                     showClose:true,
+                    message:"登录失效"
+                })
+                this.$router.history.push('/gediao')
+                }
+            }
+
+        },
+        onCreateEach() {
+            //创建each，自动添加一个数据（如果日期什么为空，还有归属日期）
+            const token = services.getToken()
+            const userId = services.getUserId()
+            const today = services.getTodayDate()
+            // 得到的是value，label没有给
+            // console.log(this.form.tags)
+            var tags = []
+            for(var  i = 0;i<this.form.tags.length;i++){
+                // console.log(i+":"+this.form.tags[i])
+                tags.push(this.form.tags[i])
+            }
+            if(token&&userId){
+                const url = '' + services.getServiceIp()+"/api/app/log/each"
+                const body = {
+                    title: this.form.title,
+                    status: this.form.status,
+                    message: this.form.message,
+                    belongDate: today,
+                    tags: tags,
+                    token:token,
+                    userId:userId
+                }
+                this.$http.put(url,body).then(function(res){
+                    if(res.data.returnCode.startsWith("200")){
+                            this.$message({
+                            type:"success",
+                            showClose:true,
+                            message: services.getMessageByCode(res.data.returnCode)
+                        })
+                        this.form.title=''
+                        this.form.status=''
+                        this.form.message=''
+
+                        this.getLogEachs()
+                    }else{
+                    this.$message({
+                        type:"error",
+                        showClose:true,
+                        message: services.getMessageByCode(res.data.returnCode)
+                    })
+                    }
+                }).catch(function(res){
+                    this.$message({
+                    type:"error",
+                    showClose:true,
                     message:"服务器正在抢修中~"
-                })                    
-            })
+                    })
+                })
+                this.addEach = false
+            }else{
+              this.$message({
+                type:"error",
+                showClose:true,
+                message:"登录失效"
+              })
+              this.$router.history.push('/gediao')
+            }
+
+        },
+        searchLog() {
+            console.log("rangeDate"+this.rangeDate)
+            this.getLogEachs()
+        },
+        getLogEachs() {
+            const token = services.getToken()
+            const userId = services.getUserId()
+            if(token&&userId){
+              const url = '' + services.getServiceIp()+"/api/app/log/eachs"+"?token="+token+"&userId="+userId
+              this.$http.get(url,{}).then(function(res){
+                if(res.data.returnCode.startsWith("200")){
+                    
+                    this.$message({
+                    type:"success",
+                    showClose:true,
+                    message: services.getMessageByCode(res.data.returnCode)
+                  })
+                    this.tableDate = []
+                    // TODO 虽然服务器返回的是按照时间，但是对于已完成的优先级要更低，所以要对数组排序
+                    var arr = [];
+                    for(var i=0;i<res.data.data.length;i++){
+                        arr.push(res.data.data[i])
+                    }
+                    for(var i=0;i<arr.length;i++){
+                        for(var j=i+1;j<arr.length;j++){
+                            // 2是已完成，1是未完成
+                            // console.log("————————")
+                            // console.log("i:"+arr[i].status)
+                            // console.log("j:"+arr[j].status)
+                            if(arr[i].status==='2'&&arr[j].status==='1'){
+                                //交换两个
+                                var tmp = arr[i]
+                                arr[i] = arr[j]
+                                arr[j] = tmp
+                            }
+                        }
+                    }
+                    for(var i=0;i<arr.length;i++){
+                        this.tableDate.push(arr[i])
+                    }
+                }else{
+                  this.$message({
+                    type:"error",
+                    showClose:true,
+                    message: services.getMessageByCode(res.data.returnCode)
+                  })
+                }
+              }).catch(function(res){
+                this.$message({
+                  type:"error",
+                  showClose:true,
+                  message:"服务器正在抢修中~"
+                })
+              })
+            }else{
+              this.$message({
+                type:"error",
+                showClose:true,
+                message:"登录失效"
+              })
+              this.$router.history.push('/gediao')
+            }
+
         },
         showDetailDialog(row) {
             this.dialogDetail = true
@@ -207,7 +539,7 @@ export default {
         },
         deleteRow(row){
               //删除文件，逻辑删除
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                this.$confirm('此操作将删除该便签, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -218,37 +550,53 @@ export default {
                                 message: '删除成功',
                                 type: 'success'
                             });
-                            this.getAllFiles();
+                            this.getLogEachs();
                         }else{
-                            // let url = '' + services.getServiceIp() +  '/api/uaafile/'+row.id;
-                            // this.$http.delete(url ,{
-                            // //             // headers: { "Accept-Language" :"zh-cn,zh", "Content-type": "application/octet-stream" }
-                            //         }).then(function(res){  
-                            //             if(res.data.returnCode.startsWith('200')) {
-                            //                 this.$message("删除成功")
-                            //                 this.getAllFiles(false);
-                            //             }else {
-                            //                 this.$message("删除成功")
-                            //             }
-                            //             }); 
+                          const token = services.getToken()
+                          const userId = services.getUserId()
+                          if(token&&userId){
+                          const url = '' + services.getServiceIp()+"/api/app/log/each/"+ row.id +"?token="+token+"&userId="+userId
+                          this.$http.delete(url ,{}).then(function(res){
+                                if(res.data.returnCode.startsWith('200')) {
+                                    this.$message("删除成功")
+                                    this.getLogEachs(false);
+                                }else {
+                                    this.$message("删除成功")
+                                }
+                            });
+                          }else{
+                            this.$message({
+                                type:"error",
+                                showClose:true,
+                                message:"登录失效"
+                            })
+                            this.$router.history.push('/gediao')
+                          }
                         }
                     }).catch(() => {
                         this.$message({
                             type: 'info',
                             showClose: true,
                             message: '已取消删除'
-                        });          
+                        });
                 });
 
         },
         formatter(row, column) {
             // new Date('' + row.updatedDate)
-            return (row.updatedDate + '').substring(0,10)
+            return (row.updatedDate + '').substring(0,10) + " : " +  (row.updatedDate + '').substring(11,19)
             // return service.changeToBJTime(row.updatedDate);//.substring(0,10);
         },
     }
 }
 </script>
 <style>
+  .el-table .wwc-row {
+    background: rgb(253, 227, 227);
+  }
+
+  .el-table .wc-row {
+    background: #f0f9eb;
+  }
 </style>
 
