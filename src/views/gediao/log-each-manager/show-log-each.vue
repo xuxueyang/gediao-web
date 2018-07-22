@@ -15,7 +15,7 @@
                         <!-- 搜索框，搜索全部文件的 -->
                         <el-input placeholder="请输入内容" v-model="searchName" class="input-with-select" style="width:200px;margin-left:0px;margin-bottom:20px;">
                         </el-input>
-                        <el-button slot="append" icon="el-icon-search" @click="searchLog" circle></el-button>
+                        <el-button slot="append" icon="el-icon-search" @click="searchLog()" circle></el-button>
                         <!-- 日期选择 -->
                         <!-- 标签选择 -->
                         <!-- 状态选择 -->
@@ -273,6 +273,13 @@ export default {
         this.getLogEachs()
         this.getStatus()
         this.getTags()
+        {
+            // 默认带出今天的日志
+            this.rangeDate = []
+            this.rangeDate.put(new Date())
+            this.rangeDate.put(new Date())
+        }
+        
     },
     methods:{
         tableRowClassName({row, rowIndex}) {
@@ -468,17 +475,24 @@ export default {
 
         },
         searchLog() {
-            console.log("rangeDate"+this.rangeDate)
+            console.log(this.select)
             this.getLogEachs()
+        
         },
         getLogEachs() {
             const token = services.getToken()
             const userId = services.getUserId()
             if(token&&userId){
-              const url = '' + services.getServiceIp()+"/api/app/log/eachs"+"?token="+token+"&userId="+userId
+              var url = '' + services.getServiceIp()+"/api/app/log/eachs"+"?token="+token+"&userId="+userId
+            //   if(this.rangeDate!=null&&this.rangeDate!=undefined){
+            //       const startDate = services.transferZonetimedateToBelongDate(this.rangeDate[0])
+            //       const endDate = services.transferZonetimedateToBelongDate(this.rangeDate[1])
+            //       url = url + "&startDate=" + startDate + "&endDate=" + endDate
+            //   }
+              url  = url + "&searchContext="+ this.searchName + "&type=" + this.select
+            
               this.$http.get(url,{}).then(function(res){
                 if(res.data.returnCode.startsWith("200")){
-                    
                     this.$message({
                     type:"success",
                     showClose:true,

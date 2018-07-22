@@ -3,8 +3,8 @@ import returnCode from './services.returnCode'
 const services = {
   // serviceIp =  ,
   getServiceIp() {
-    return 'http://localhost:9999'
-    // return 'http://193.112.17.169:9999'
+    // return 'http://localhost:9999'
+    return 'http://193.112.17.169:9999'
   },
   getImageServiceUrl(imageName) {
     return 'http://193.112.161.157:8080/resource/images/' + imageName
@@ -13,6 +13,16 @@ const services = {
     // type: APP_GEDIAO_LOG_MESSAGE_STATUS
     const url = '' + this.getServiceIp() + '/api/dist/codes/' + 'APP_GEDIAO_LOG_MESSAGE_STATUS'
     return url
+  },
+  transferZonetimedateToBelongDate(date) {
+    // Jul 21 2018 11:36:04 GMT+0800 (ä¸­å½æ åæ¶é´),Sat Jul 21 2018 11:36:04 GMT+0800 (ä¸­å½æ åæ¶é´)
+    var tmp = new Date(date)
+    var month = tmp.getMonth()
+    month = month + 1
+    if (month < 9 ) {
+      month = '0' + month
+    }
+    return '' + tmp.getFullYear() + '-' + month + '-' + tmp.getDate()
   },
   getTodayDate() {
     // 得到今天的日期
