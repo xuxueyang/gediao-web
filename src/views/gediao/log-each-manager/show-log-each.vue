@@ -20,8 +20,9 @@
                         <!-- 标签选择 -->
                         <!-- 状态选择 -->
                         <span style="margin-left:30px">请选择便签状态:</span>
-                        <el-select v-model="select" slot="prepend" placeholder="请选择">
+                        <el-select v-model="select" slot="prepend" placeholder="请选择"  @change="searchLog()">
                             <el-option
+                               
                                 v-for="item in options"
                                 :key="item.value"
                                 :label="item.label"
@@ -29,8 +30,9 @@
                             </el-option>
                         </el-select>
                          <span style="margin-left:30px">请选择标签:</span>
-                        <el-select v-model="selectTag" slot="prepend" placeholder="请选择">
+                        <el-select v-model="selectTag" slot="prepend" placeholder="请选择" @change="searchLog()">
                             <el-option
+                                
                                 v-for="item in tagOptions"
                                 :key="item.value"
                                 :label="item.label"
@@ -42,6 +44,7 @@
                         <div style="text-align:left">
                             <span class="demonstration">请选择便签日期范围（默认今日）:</span>
                             <el-date-picker
+                                @onPick="searchLog()"
                                 v-model="rangeDate"
                                 type="daterange"
                                 align="right"
@@ -276,8 +279,8 @@ export default {
         {
             // 默认带出今天的日志
             this.rangeDate = []
-            this.rangeDate.put(new Date())
-            this.rangeDate.put(new Date())
+            this.rangeDate.push(new Date())
+            this.rangeDate.push(new Date())
         }
         
     },
@@ -484,11 +487,11 @@ export default {
             const userId = services.getUserId()
             if(token&&userId){
               var url = '' + services.getServiceIp()+"/api/app/log/eachs"+"?token="+token+"&userId="+userId
-            //   if(this.rangeDate!=null&&this.rangeDate!=undefined){
-            //       const startDate = services.transferZonetimedateToBelongDate(this.rangeDate[0])
-            //       const endDate = services.transferZonetimedateToBelongDate(this.rangeDate[1])
-            //       url = url + "&startDate=" + startDate + "&endDate=" + endDate
-            //   }
+              if(this.rangeDate!=null&&this.rangeDate!=undefined&&!isNaN(this.rangeDate[0])&&!isNaN(this.rangeDate[1])){
+                  const startDate = services.transferZonetimedateToBelongDate(this.rangeDate[0])
+                  const endDate = services.transferZonetimedateToBelongDate(this.rangeDate[1])
+                  url = url + "&startDate=" + startDate + "&endDate=" + endDate
+              }
               url  = url + "&searchContext="+ this.searchName + "&type=" + this.select
             
               this.$http.get(url,{}).then(function(res){
