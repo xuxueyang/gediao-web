@@ -22,7 +22,11 @@ const services = {
     if (month < 9 ) {
       month = '0' + month
     }
-    return '' + tmp.getFullYear() + '-' + month + '-' + tmp.getDate()
+    var day = tmp.getDate()
+    if (day < 9) {
+      day = '0' + day
+    }
+    return '' + tmp.getFullYear() + '-' + month + '-' + day
   },
   getTodayDate() {
     // 得到今天的日期
@@ -55,7 +59,7 @@ const services = {
   },
   getUserId() {
     const info = window.localStorage.getItem('userinfo')
-    var userId =undefined
+    var userId = undefined
     JSON.parse(info, function(k, v) {
       if (k === 'id') {
         userId = v;
@@ -65,13 +69,13 @@ const services = {
     return userId
   },
   saveUserinfo(userinfo) {
-    window.localStorage["userinfo"] = JSON.stringify(userinfo)
+    window.localStorage['userinfo'] = JSON.stringify(userinfo)
   },
   getToken() {
     return window.localStorage.getItem('token')
   },
   saveToken(data) {
-    window.localStorage["token"] = data
+    window.localStorage['token'] = data
   },
   changeToBJTime(time) {
     return (new Date(time)).toLocaleString()

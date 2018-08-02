@@ -111,9 +111,9 @@
                             细节
                         </el-button>
                         <el-button
-                            @click.native.prevent="showMessageDialog(scope.row)"
+                            @click.native.prevent="updateEachShow(scope.row)"
                             type="text"
-                            size="small" disabled>
+                            size="small">
                             更新消息
                         </el-button>
                         <el-button
@@ -130,6 +130,7 @@
                 <el-dialog  :visible.sync="dialogDetail">
                     <h2 style="margin-bottom:40px">详情</h2>
                     <!-- 集成富文本编辑器 -->
+                    <full-textarea></full-textarea>
                 </el-dialog>
             </div>
         </div>
@@ -185,21 +186,84 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
+        <!-- 更新each的消息 -->
+            <el-dialog  :visible.sync="updateEach">
+            <h2 style="margin-bottom:40px">更新</h2>
+            <el-form :rules="eachRules" ref="updateform" :model="form" label-width="120px">
+                <el-form-item label="消息标题:" prop="title">
+                    <el-input v-model="updateform.title" :maxlength="50" style="width:200px;float:left" :placeholder="'最多50个字符'"></el-input>
+                </el-form-item>
+                <el-form-item label="消息类型:" style="width:100px;" prop="status">
+                    <el-select v-model="updateform.status" style="width:150px" placeholder="请选择消息类别">
+                            <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="消息内容" prop="message" >
+                    <el-input type="textarea" 
+                        
+                        v-model="updateform.message" 
+                        :autosize="true" 
+                        style="width:500px;float:left" 
+                        :placeholder="'最多不能输入200字符'"></el-input>
+                </el-form-item>
+                <el-form-item label="标签:" style="width:80%;height:80px" >
+                    <template>
+                    <el-select
+                        style="width:100%;height:80px"
+                        v-model="updateform.tags"
+                        multiple
+                        filterable
+                        allow-create
+                        default-first-option
+                        placeholder="请选择标签">
+                        <el-option
+                            v-for="item in tagOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item style="margin-top:20px">
+                    <el-button type="primary" @click="onUpdateEach('updateform')">更新</el-button>
+                    <el-button @click="cancelUpdateEach">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
     </div>
 </div>
 </template>
 <script>
 import services from '@/api/file.services'
+import fullTextarea from '@/components/full-textarea/full-textarea.vue';
 export default {
     name:'showLogEach',
     props:["projectType"],
+    components:{
+        fullTextarea
+    },
     data() {
         return{
             // 添加便签
             focus: false,
             addEach: false,
+            updateEach: false,
             selectTag: '',
             form: {
+                title: '',
+                status: '',
+                message: '',
+                tags:[]
+            },
+            updateform: {
+                id:'',
+                belongDate: '',
                 title: '',
                 status: '',
                 message: '',
@@ -357,8 +421,24 @@ export default {
         addEachShow(){
             this.addEach = true
         },
+        updateEachShow(row){
+            this.updateEach = true
+            // row赋值给updateform
+            this.updateform.title = row.title
+            this.updateform.message = row.message
+            this.updateform.status = row.status
+            this.updateform.id = row.id
+            this.updateform.belongDate = row.belongDate
+            this.updateform.tags = []
+            for(var key in row.tagMap){
+                this.updateform.tags.push(row.tagMap[key])
+            }
+        },
         cancelAddEach() {
             this.addEach = false
+        },
+        cancelUpdateEach() {
+            this.updateEach = false
         },
         changeStatus(event,row) {
             // 改变了each状态时，需要更新
@@ -414,6 +494,69 @@ export default {
                 })
                 this.$router.history.push('/gediao')
                 }
+            }
+
+        },
+        onUpdateEach() {
+            //创建each，自动添加一个数据（如果日期什么为空，还有归属日期）
+            const token = services.getToken()
+            const userId = services.getUserId()
+            const today = services.getTodayDate()
+            // 得到的是value，label没有给
+            // console.log(this.form.tags)
+            var tags = []
+            for(var  i = 0;i<this.updateform.tags.length;i++){
+                // console.log(i+":"+this.form.tags[i])
+                tags.push(this.updateform.tags[i].id)
+            }
+            if(token&&userId){
+                const url = '' + services.getServiceIp()+"/api/app/log/each"
+                const body = {
+                    id: this.updateform.id,
+                    title: this.updateform.title,
+                    status: this.updateform.status,
+                    message: this.updateform.message,
+                    belongDate: this.updateform.belongDate,
+                    tags: tags,
+                    token:token,
+                    userId:userId
+                }
+                this.$http.post(url,body).then(function(res){
+                    if(res.data.returnCode.startsWith("200")){
+                            this.$message({
+                            type:"success",
+                            showClose:true,
+                            message: services.getMessageByCode(res.data.returnCode)
+                        })
+                        this.updateform.id = ''
+                        this.updateform.belongDate = ''
+                        this.updateform.title=''
+                        this.updateform.status=''
+                        this.updateform.message=''
+
+                        this.getLogEachs()
+                    }else{
+                        this.$message({
+                            type:"error",
+                            showClose:true,
+                            message: services.getMessageByCode(res.data.returnCode)
+                        })
+                    }
+                }).catch(function(res){
+                    this.$message({
+                    type:"error",
+                    showClose:true,
+                    message:"服务器正在抢修中~"
+                    })
+                })
+                this.updateEach = false
+            }else{
+              this.$message({
+                type:"error",
+                showClose:true,
+                message:"登录失效"
+              })
+              this.$router.history.push('/gediao')
             }
 
         },
