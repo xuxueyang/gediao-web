@@ -380,10 +380,15 @@ export default {
                         // 赋值
                         this.tagOptions.pop()
                         this.tagOptions = []
+                        // 为了便于查找，添加个默认的
+                        this.tagOptions.push({
+                            label: '显示全部',
+                            value: 0
+                        })
                         for(var i = 0;i<res.data.data.length;i++) {
                             this.tagOptions.push({
                                 label: res.data.data[i].name,
-                                value: res.data.data[i].name
+                                value: res.data.data[i].id
                             })
                             
                         }
@@ -408,6 +413,12 @@ export default {
                 if (res.data.returnCode.startsWith('200')) {
                     // 返回
                     const status =  res.data.data
+                    // //加一个默认
+                    // this.options.push({
+                    //     type: "APP_GEDIAO_LOG_MESSAGE_STATUS",
+                    //     label : "显示全部",
+                    //     value : 0
+                    // })
                     for(var i=0;i<status.length;i++){
                         this.options.push(status[i])
                     }
@@ -647,7 +658,10 @@ export default {
               if(this.selectTag!=null&&this.selectTag!=undefined&&this.selectTag!=0&this.selectTag!='0'){
                   url = url + "&tagId=" +this.selectTag
               }
-              url  = url + "&searchContext="+ this.searchName + "&type=" + this.select
+              if(this.select!=null&&this.select!=undefined&&this.select!=0&this.select!='0'){
+                  url = url + "&type=" +this.select
+              }
+              url  = url + "&searchContext="+ this.searchName
               // 塞入分页信息
               url = url + "&size="+this.pageableSize+"&page="+this.pageablePage
               this.$http.get(url,{
