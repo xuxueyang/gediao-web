@@ -130,7 +130,7 @@
                 <el-dialog  :visible.sync="dialogDetail">
                     <h2 style="margin-bottom:40px">详情</h2>
                     <!-- 集成富文本编辑器 -->
-                    <full-textarea></full-textarea>
+                    <full-textarea v-bind:eachId="eachId" v-bind:detailId="detailId"></full-textarea>
                 </el-dialog>
             </div>
         </div>
@@ -252,8 +252,12 @@ export default {
         return{
             // 添加便签
             focus: false,
+            eachId:'',
+            detailId:'',
             addEach: false,
             updateEach: false,
+            pageableSize:10,
+            pageablePage:0,
             selectTag: '',
             form: {
                 title: '',
@@ -281,7 +285,7 @@ export default {
                 ]
             },
             searchName:'',
-            rangeDate:'',
+            rangeDate: '',
             dialogDetail: false,
             messageDetail:false,
             tableDate:[],
@@ -340,15 +344,16 @@ export default {
         this.getLogEachs()
         this.getStatus()
         this.getTags()
-        {
+        this.setRangeDate()
+        
+    },
+    methods:{
+        setRangeDate() {
             // 默认带出今天的日志
             this.rangeDate = []
             this.rangeDate.push(new Date())
             this.rangeDate.push(new Date())
-        }
-        
-    },
-    methods:{
+        },
         tableRowClassName({row, rowIndex}) {
             // console.log(rowIndex)
             //TODO 通过数据字典获取描述
@@ -630,15 +635,29 @@ export default {
             const userId = services.getUserId()
             if(token&&userId){
               var url = '' + services.getServiceIp()+"/api/app/log/eachs"+"?token="+token+"&userId="+userId
-              if(this.rangeDate!=null&&this.rangeDate!=undefined&&!isNaN(this.rangeDate[0])&&!isNaN(this.rangeDate[1])){
+              console.log(this.rangeDate)
+              if(this.rangeDate==''){
+                  this.setRangeDate()
+              }
+              if(this.rangeDate!=null&&!isNaN(this.rangeDate[0])&&!isNaN(this.rangeDate[1])){
                   const startDate = services.transferZonetimedateToBelongDate(this.rangeDate[0])
                   const endDate = services.transferZonetimedateToBelongDate(this.rangeDate[1])
                   url = url + "&startDate=" + startDate + "&endDate=" + endDate
               }
+              if(this.selectTag!=null&&this.selectTag!=undefined&&this.selectTag!=0&this.selectTag!='0'){
+                  url = url + "&tagId=" +this.selectTag
+              }
               url  = url + "&searchContext="+ this.searchName + "&type=" + this.select
-            
-              this.$http.get(url,{}).then(function(res){
+              // 塞入分页信息
+              url = url + "&size="+this.pageableSize+"&page="+this.pageablePage
+              this.$http.get(url,{
+                  // 分页信息
+                //   page: 0,
+                //   size: 20
+              }).then(function(res){
                 if(res.data.returnCode.startsWith("200")){
+                    var map = res.data.data
+                    
                     this.$message({
                     type:"success",
                     showClose:true,
@@ -647,8 +666,8 @@ export default {
                     this.tableDate = []
                     // TODO 虽然服务器返回的是按照时间，但是对于已完成的优先级要更低，所以要对数组排序
                     var arr = [];
-                    for(var i=0;i<res.data.data.length;i++){
-                        arr.push(res.data.data[i])
+                    for(var i=0;i<map.data.length;i++){
+                        arr.push(map.data[i])
                     }
                     for(var i=0;i<arr.length;i++){
                         for(var j=i+1;j<arr.length;j++){
@@ -678,7 +697,7 @@ export default {
                 this.$message({
                   type:"error",
                   showClose:true,
-                  message:"服务器正在抢修中~"
+                  message:"服务器正在抢修中~688"
                 })
               })
             }else{
@@ -692,6 +711,8 @@ export default {
 
         },
         showDetailDialog(row) {
+            this.eachId = row.id
+            this.detailId = row.appLogDetailDTOList[0]
             this.dialogDetail = true
         },
         showMessageDialog(row) {
