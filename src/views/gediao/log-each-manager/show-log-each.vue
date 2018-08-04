@@ -125,13 +125,22 @@
                     </template>
                 </el-table-column>
             </el-table>
-
+            <!-- 分页的控件 -->
+            <el-pagination
+                :style="'margin-top:10px'"
+                background
+                :current-page="pageablePage"
+                @current-change="currentChange"
+                layout="prev, pager, next"
+                :total="total">
+            </el-pagination>
                 <!-- 浮动显示更新 -->
-                <el-dialog  :visible.sync="dialogDetail">
+                <!-- <el-dialog  :visible.sync="dialogDetail">
                     <h2 style="margin-bottom:40px">详情</h2>
-                    <!-- 集成富文本编辑器 -->
-                    <full-textarea v-bind:eachId="eachId" v-bind:detailId="detailId"></full-textarea>
-                </el-dialog>
+                    集成富文本编辑器
+                                        <full-textarea v-bind:eachId="eachId" v-bind:detailId="detailId" :key='eachId+detailId'></full-textarea>
+
+                </el-dialog> -->
             </div>
         </div>
     <div>
@@ -241,23 +250,23 @@
 </template>
 <script>
 import services from '@/api/file.services'
-import fullTextarea from '@/components/full-textarea/full-textarea.vue';
 export default {
     name:'showLogEach',
     props:["projectType"],
     components:{
-        fullTextarea
+        // fullTextarea
     },
     data() {
         return{
             // 添加便签
             focus: false,
-            eachId:'',
-            detailId:'',
+            // eachId:'',
+            // detailId:'',
             addEach: false,
             updateEach: false,
             pageableSize:10,
             pageablePage:0,
+            total:100,
             selectTag: '',
             form: {
                 title: '',
@@ -286,7 +295,7 @@ export default {
             },
             searchName:'',
             rangeDate: '',
-            dialogDetail: false,
+            // dialogDetail: false,
             messageDetail:false,
             tableDate:[],
             select:'',
@@ -348,6 +357,10 @@ export default {
         
     },
     methods:{
+        currentChange(){
+            console.log('分页改变:'+this.pageablePage)
+            this.getLogEachs()
+        },
         setRangeDate() {
             // 默认带出今天的日志
             this.rangeDate = []
@@ -677,6 +690,9 @@ export default {
                     showClose:true,
                     message: services.getMessageByCode(res.data.returnCode)
                   })
+                    this.total = map.totalPages
+                    // console.log(this.total)
+                    this.pageableSize = map.numberOfElements
                     this.tableDate = []
                     // TODO 虽然服务器返回的是按照时间，但是对于已完成的优先级要更低，所以要对数组排序
                     var arr = [];
@@ -708,6 +724,7 @@ export default {
                   })
                 }
               }).catch(function(res){
+                  console.log(res)
                 this.$message({
                   type:"error",
                   showClose:true,
@@ -725,9 +742,38 @@ export default {
 
         },
         showDetailDialog(row) {
-            this.eachId = row.id
-            this.detailId = row.appLogDetailDTOList[0]
-            this.dialogDetail = true
+            const eachId = row.id
+            const object = row.appLogDetailDTOList[0]
+            if(object==null||object==undefined){
+                this.$router.push({
+                    path : '/gediao/detail',
+                    query: {
+                        'eachId': eachId,
+                    }
+                })
+            }else{
+                this.$router.push({
+                    path : '/gediao/detail',
+                    query: {
+                        'eachId': eachId,
+                        'detailId':object.id
+                    }
+                })                
+            }
+            // this.$router.push({  
+            //     path: ,
+            //     query:merge(this.$route.query,{'eachId':eachId,'detailId':detailId})  
+            // })  
+            // this.$router.push({
+            //     path : '/gediao/detail',
+            //     query: {
+            //         'eachId': eachId,
+            //         'detailId':detailId
+            //     }
+            // })
+            // this.dialogDetail = true
+            // 这里有个bug因为，创建的时候会each没有刷新，就算有，也不会显示..而是创建新的detail...所以应该在这边刷新（不过因为做页面切换了，所以不需要了）
+            // this.getLogEachs()
         },
         showMessageDialog(row) {
             this.messageDetail = true

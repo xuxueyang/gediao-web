@@ -30,6 +30,7 @@ export const constantRouterMap = [
   { path: '/tiandao', component: () => import('@/views/tiandao/index'), hidden: true },
   { path: '/nishuihan', component: () => import('@/views/nishuihan/index'), hidden: true },
   { path: '/gediao', component: () => import('@/views/gediao/index'), hidden: true },
+  { path: '/gediao/detail', component: () => import('@/views/gediao/log-each-manager/show-detail'), hidden: true },
 
   { path: '/manager', component: () => import('@/views/manager/index'), hidden: true },
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },

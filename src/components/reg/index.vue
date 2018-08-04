@@ -188,6 +188,7 @@ export default {
         }
       })
       //自己单独验证
+      
       if(this.loginForm.password!=null&&this.loginForm.password.length>5
           &&this.loginForm.username!=null&&this.loginForm.captchaGraph!=null)
       {
@@ -203,19 +204,28 @@ export default {
                 graphCaptchaCodeId: this.captchaGraph_v_id
             }).then(function(res){
                 this.loading = false
-                if(res.returnCode.startsWith){
+                if(res.data.returnCode.startsWith("200")){
                     //注册成功，跳到调到登陆模块
                     this.$message({
                         type:'success',
                         message:'注册成功~',
                         showClose:true
                     })
-                    this.$emit('regSuccessCallBack',false);
+                    // this.$emit('regSuccessCallBack',false);
+                    this.canelReg()
+                }else{
+                  this.$message({
+                      type:"error",
+                      showClose:true,
+                      message: service.getMessageByCode(res.data.returnCode)
+                  })
+                  this.refreshGraph()
                 }
             }).catch(function(e){
+                console.log(e)
                 this.loading = false
                 this.$message({
-                    message: '注册失败QAQ服务器在傲娇QAQ',
+                    message: '注册失败QAQ请联系右上角的开发者哈',
                     showClose: true,
                     type: 'error'
                 });            
