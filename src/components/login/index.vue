@@ -112,7 +112,7 @@ export default {
               } else {
                 this.loading = false
                 this.$message({
-                    message:'登陆失败QAQ服务器正在抢修',
+                    message: service.getMessageByCode(res.data.returnCode),
                     type: 'error',
                     showClose:true
                 })
