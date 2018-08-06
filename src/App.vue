@@ -5,7 +5,7 @@
       <el-main>
         <router-view class="font-class"></router-view>
       </el-main>
-      <el-footer>男同加我ID：夏夜gaygay;群号：122548924</el-footer>
+      <el-footer>有什么问题请点击右上角联系我色调~~;格调群号：772502467</el-footer>
     </el-container>
   </div>
 </template>

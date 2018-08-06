@@ -18,10 +18,10 @@
             </login>
         </div>
     </div>
-    <div v-if="hasLogin">
+    <div v-else>
         <el-container>
             <el-aside width="200px" class="font-aside">
-                <el-menu default-active="1"
+                <el-menu default-active="0"
                     class="el-menu-vertical-demo"
                     background-color="#545c64"
                     text-color="#fff"
@@ -58,7 +58,7 @@
             </el-aside>
             <el-main class="font-main">
                 <div v-if="index=='0'">
-                   
+                   <echarts-data></echarts-data>
                 </div>   
                 <div v-if="index=='1'">
                      <show-log-each v-bind:projectType="projectType"></show-log-each>
@@ -89,14 +89,15 @@ import showLogEach from './log-each-manager/show-log-each.vue'
 import regestry from '@/components/reg/index.vue'
 import login from '@/components/login/index.vue'
 import managerSetting from './global-setting/manager-setting.vue'
-
+import echartsData from './static-data/echarts-data.vue'
 export default {
     name: 'gediao',
     components:{
         showLogEach,
         regestry,
         login,
-        managerSetting
+        managerSetting,
+        echartsData
     },
     data() {
         return {

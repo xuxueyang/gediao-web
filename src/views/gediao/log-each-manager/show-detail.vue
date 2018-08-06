@@ -31,8 +31,15 @@ export default {
         }
     },
     watch: {
+        '$route': {
+            handler: 'init',
+            immediate: true
+        }
+    },    
+    watch: {
         // 如果路由有变化，会再次执行该方法
         '$route': 'init'
+        
     },
     methods : {
         init(){
@@ -49,7 +56,8 @@ export default {
             const url = services.getServiceIp()+"/api/app/log/detail"
             const body = {
                 logEachId: this.eachId,
-                remarks: ''
+                remarks: '',
+                token: services.getToken()
             } 
             this.$http.put(url,body).then(function(res){
                     if(res.data.returnCode.startsWith("200")){

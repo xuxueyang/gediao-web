@@ -60,6 +60,7 @@
         <div>
             <el-table
                 border
+                max-height="600"
                 :data="tableDate"
                 style="width: 98%"
                 :row-class-name="tableRowClassName"
@@ -126,14 +127,14 @@
                 </el-table-column>
             </el-table>
             <!-- 分页的控件 -->
-            <el-pagination
+            <!-- <el-pagination
                 :style="'margin-top:10px'"
                 background
                 :current-page="pageablePage"
                 @current-change="currentChange"
                 layout="prev, pager, next"
                 :total="total">
-            </el-pagination>
+            </el-pagination> -->
                 <!-- 浮动显示更新 -->
                 <!-- <el-dialog  :visible.sync="dialogDetail">
                     <h2 style="margin-bottom:40px">详情</h2>
@@ -264,7 +265,8 @@ export default {
             // detailId:'',
             addEach: false,
             updateEach: false,
-            pageableSize:10,
+            //暂时不管分页
+            pageableSize:50,
             pageablePage:0,
             total:100,
             selectTag: '',
@@ -432,9 +434,15 @@ export default {
                     //     label : "显示全部",
                     //     value : 0
                     // })
+                     const statusDefault = [{
+                        value: '0',
+                        label: '显示全部',
+                        type: '0'
+                    }]
                     for(var i=0;i<status.length;i++){
                         this.options.push(status[i])
                     }
+                    this.options.push(statusDefault[0])
                 } else {
                     const status = [{
                         value: '0',
@@ -676,7 +684,13 @@ export default {
               }
               url  = url + "&searchContext="+ this.searchName
               // 塞入分页信息
-              url = url + "&size="+this.pageableSize+"&page="+this.pageablePage
+              if(this.pageableSize&&this.pageableSize!=0)
+              {
+                  url = url + "&size="+this.pageableSize+"&page="+this.pageablePage
+              }else{
+                  url = url + "&size="+100+"&page="+this.pageablePage
+              }
+                //   url = url + "&size="+this.pageableSize+"&page="+this.pageablePage
               this.$http.get(url,{
                   // 分页信息
                 //   page: 0,
@@ -692,7 +706,7 @@ export default {
                   })
                     this.total = map.totalPages
                     // console.log(this.total)
-                    this.pageableSize = map.numberOfElements
+                    // this.pageableSize = map.numberOfElements
                     this.tableDate = []
                     // TODO 虽然服务器返回的是按照时间，但是对于已完成的优先级要更低，所以要对数组排序
                     var arr = [];

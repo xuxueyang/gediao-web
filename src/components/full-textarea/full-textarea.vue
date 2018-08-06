@@ -22,6 +22,7 @@ export default {
     components: {
         VueUeditorWrap
     },
+
     data () {
         return {
             myConfig: {
@@ -95,7 +96,7 @@ export default {
             })
         },
         getMsg(){
-            const url = services.getServiceIp()+"/api/app/log/detail"+"/"+this.detailId
+            const url = services.getServiceIp()+"/api/app/log/detail"+"/"+this.detailId +"?token="+services.getToken()
             this.$http.get(url,{}).then(function(res){
                     if(res.data.returnCode.startsWith("200")){
                             this.$message({
