@@ -23,7 +23,7 @@ const services = {
       month = '0' + month
     }
     var day = tmp.getDate()
-    if (day < 9) {
+    if (day <= 9) {
       day = '0' + day
     }
     return '' + tmp.getFullYear() + '-' + month + '-' + day
@@ -42,6 +42,7 @@ const services = {
       strDate = '0' + strDate
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate
+    
     return currentdate
   },
   getBFileMB(bsize) {
