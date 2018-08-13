@@ -42,8 +42,11 @@ const services = {
       strDate = '0' + strDate
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate
-    
     return currentdate
+  },
+  getOtherDate(date, num) {
+    const y = date.valueOf() + num * 24 * 60 * 60 * 1000;
+    return new Date(y);
   },
   getBFileMB(bsize) {
     // 转为int，/1024/1024

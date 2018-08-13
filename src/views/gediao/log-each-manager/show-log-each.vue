@@ -366,8 +366,11 @@ export default {
         setRangeDate() {
             // 默认带出今天的日志
             this.rangeDate = []
-            this.rangeDate.push(new Date())
-            this.rangeDate.push(new Date())
+            const today = new Date()
+            const num = 1
+            const yDate = services.getOtherDate(today,-1)
+            this.rangeDate.push(yDate)
+            this.rangeDate.push(today)
         },
         tableRowClassName({row, rowIndex}) {
             // console.log(rowIndex)
