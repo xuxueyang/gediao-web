@@ -5,6 +5,7 @@
             <el-date-picker
                 v-model="belongDate"
                 type="date"
+                @change="loadEachDayOperatorData"
                 placeholder="选择日期"
                 format="yyyy 年 MM 月 dd 日"
                 value-format="yyyy-MM-dd">
@@ -31,7 +32,7 @@ export default {
         }
     },
     methods: {
-        loadEachDayOperatorData(id) {
+        loadEachDayOperatorData() {
             if(this.belongDate==undefined||this.belongDate==""){
                 this.belongDate = services.getTodayDate()
             }
