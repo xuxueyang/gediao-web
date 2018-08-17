@@ -3,14 +3,14 @@
         <!-- 左边一个div右边一个div，左边div分两个，上面是折线图，下面饼图，右边显示日志 -->
         <div class="left">
             <div class="top">
-                <top-line-chart :key="Math.random()"></top-line-chart>
+                <top-line-chart></top-line-chart>
             </div>
             <div class="bottom">
-                <bottom-bie :key="Math.random()"></bottom-bie>
+                <bottom-bie ></bottom-bie>
             </div>
         </div>
         <div class="right">
-            <right-log-show :key="Math.random()"></right-log-show>
+            <right-log-show ></right-log-show>
         </div>
     </div>
 </template>

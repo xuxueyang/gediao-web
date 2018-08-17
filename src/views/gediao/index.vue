@@ -1,24 +1,6 @@
 <template>
 <div>
-    <div v-if="!hasLogin">
-        <!-- 转到登陆的组件中 -->
-        <div v-if="index=='reg'">
-            <regestry 
-                v-bind:projectType="projectType"
-                v-on:regSuccessCallback="regSuccessCallback"
-                v-on:canelRegCallback="canelRegCallback"
-            ></regestry>
-        </div>
-        <div v-if="index=='login'">
-            <login
-                project-type="projectType"
-                v-on:loginSuccessCallback="loginSuccessCallback"
-                v-on:toRegCallback="toRegCallback"
-            >
-            </login>
-        </div>
-    </div>
-    <div v-else>
+    <div v-if="hasLogin">
         <el-container>
             <el-aside width="200px" class="font-aside">
                 <el-menu default-active="0"
@@ -80,6 +62,24 @@
             </el-main>
         </el-container>
     </div>
+    <div v-else>
+        <!-- 转到登陆的组件中 -->
+        <div v-if="index=='reg'">
+            <regestry 
+                v-bind:projectType="projectType"
+                v-on:regSuccessCallback="regSuccessCallback"
+                v-on:canelRegCallback="canelRegCallback"
+            ></regestry>
+        </div>
+        <div v-if="index=='login'">
+            <login
+                project-type="projectType"
+                v-on:loginSuccessCallback="loginSuccessCallback"
+                v-on:toRegCallback="toRegCallback"
+            >
+            </login>
+        </div>
+    </div>    
 </div>
 </template>
 
@@ -148,7 +148,7 @@ export default {
             //     query:merge(this.$route.query,{'index':'1'})  
             // })  
             // this.setIndex('1')
-            this.index = '1'
+            this.index = '0'
              this.hasLogin = true
             // location.reload()
         },
@@ -197,7 +197,7 @@ export default {
                         //         query:merge(this.$route.query,{'index':'1'})  
                         //     })  
                         // }
-                    this.index = '1'
+                    this.index = '0'
                 }catch(exp) {
                     this.hasLogin = false
                     console.log(exp)
