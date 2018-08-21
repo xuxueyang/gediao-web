@@ -5,7 +5,7 @@
            <el-button @click="saveMsg()">点击更新</el-button>
        </div>
         <div>
-            <vue-ueditor-wrap  v-model="msg" :config="myConfig" ></vue-ueditor-wrap>
+            <vue-ueditor-wrap  v-model="msg" :config="myConfig" @ready="initMsg"></vue-ueditor-wrap>
         </div>
 
     </div>
@@ -39,7 +39,8 @@ export default {
                 // 关闭自动保存
                 enableAutoSave: false
             },
-            msg: '<p>（请不要刷新这个页面，目前刷新会导致数据加载出现问题)</p><p>我会尽快解决这个bug，谢谢</p><p>如果不慎刷新了，请重新进去哈</p><p>如果不慎更新了文本，请记得点一下保存哟</p>',
+            msg: '欢迎使用格调~正在加载中~请稍后~'
+            // msg: '<p>（请不要刷新这个页面，目前刷新会导致数据加载出现问题)</p><p>我会尽快解决这个bug，谢谢</p><p>如果不慎刷新了，请重新进去哈</p><p>如果不慎更新了文本，请记得点一下保存哟</p>',
             // _index:'0'
         }
     },
@@ -54,10 +55,14 @@ export default {
             })
         }else{
             // 加载的时候加载msg
-            this.getMsg()
+            // this.getMsg()
         }
     },
     methods: {
+        initMsg(){
+            //添加监听器，等初始化完毕后，设置msg
+            this.getMsg()
+        },
         // 写个定时任务，定期保存？
         returnGediao(){
             this.$router.push({
