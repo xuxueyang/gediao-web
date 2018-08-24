@@ -85,6 +85,7 @@
 
 <script>
 import merge from 'webpack-merge';
+import services from "@/api/file.services.js";
 import showLogEach from './log-each-manager/show-log-each.vue'
 import regestry from '@/components/reg/index.vue'
 import login from '@/components/login/index.vue'
@@ -160,8 +161,7 @@ export default {
             // this.index = reg
         },
         logout() {
-            window.localStorage.removeItem("token")
-            window.localStorage.removeItem("userinfo")
+            services.logout()
             // this.setIndex('login')
             this.index = 'login'
             this.hasLogin  = false
@@ -169,7 +169,7 @@ export default {
     },    
     mounted() {
         //鉴别有没有登陆
-        const token = window.localStorage.getItem("token")
+        const token = services.getToken()
         // console.log("token:"+token)
         if(token==undefined||token==''){
             //说明没有登陆
@@ -178,7 +178,7 @@ export default {
             this.index = 'login'
         }else{
             //获取userinfo消息
-            const userInfo = window.localStorage.getItem("userinfo")
+            const userInfo = services.getUserInfo()
             // console.log("usrinfo:"+userInfo)
             if(userInfo==undefined){
                 this.hasLogin = false

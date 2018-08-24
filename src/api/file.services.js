@@ -2,6 +2,7 @@ import axios from 'axios'
 import returnCode from './services.returnCode'
 const services = {
   // serviceIp =  ,
+  storage : window.sessionStorage,
   getServiceIp() {
     // return 'http://localhost:9999'
     return 'http://193.112.17.169:9999'
@@ -61,8 +62,11 @@ const services = {
       return returnCode[code]
     }
   },
+  getUserInfo() {
+    return this.storage.getItem('userinfo')
+  },
   getUserId() {
-    const info = window.localStorage.getItem('userinfo')
+    const info = this.storage.getItem('userinfo')
     var userId = undefined
     JSON.parse(info, function(k, v) {
       if (k === 'id') {
@@ -73,62 +77,20 @@ const services = {
     return userId
   },
   saveUserinfo(userinfo) {
-    window.localStorage['userinfo'] = JSON.stringify(userinfo)
+    this.storage['userinfo'] = JSON.stringify(userinfo)
   },
   getToken() {
-    return window.localStorage.getItem('token')
+    return this.storage.getItem('token')
   },
   saveToken(data) {
-    window.localStorage['token'] = data
+    this.storage['token'] = data
+  },
+  logout() {
+    this.storage.removeItem('token')
+    this.storage.removeItem('userinfo')
   },
   changeToBJTime(time) {
     return (new Date(time)).toLocaleString()
-    // 把标准时间添加时区的8小时
-    // var date = new Date(time)
-    // // console.log(date)
-    // var hour = date.getHours()
-    // var month = date.getMonth()
-    // var day = date.getDate()
-    // var year = date.getFullYear()
-    // // console.log(day)
-    // console.log(time)
-    // console.log(date)
-    // if((hour+8)>24) {
-    //   hour = hour -16;
-    //   day = day +1;
-    //   //得到月份
-    //   const bigM = [1,3,5,7,8,10,12]
-    //   var belong = false
-    //   for(var i =0;i<bigM;i++){
-    //     if(bigM[i]==month&&day>31) {
-    //         month = month +1;
-    //         day = day - 31;
-    //         belong = true
-    //         break
-    //     }
-    //   }
-    //   if(!belong) {
-    //     if(month==2){
-    //       if(day==29&&Math.ceil(year,4)!=Math.floor(year,4)){
-    //         month = month+1
-    //         day = day -1
-    //         belong = true;
-    //       }
-    //     }
-    //   }
-    //   if(!belong) {
-    //     if(day>30) {
-    //         month = month +1
-    //         day = day-30
-    //     }
-    //   }
-    //   if(month>12){
-    //     month  = month -12
-    //     year = year +1
-    //   }
-    // }
-    // return ''+year+'-'+month+'-'+day +'—'+hour+''//年月日
-
   },
   async getAllFiles(pararms) {
     // var res = null
