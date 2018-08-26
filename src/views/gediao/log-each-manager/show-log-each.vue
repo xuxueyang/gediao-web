@@ -471,7 +471,13 @@ export default {
             this.updateform.belongDate = row.belongDate
             this.updateform.tags = []
             for(var key in row.tagMap){
-                this.updateform.tags.push(row.tagMap[key])
+                this.updateform.tags.push(row.tagMap[key].name)
+                // this.updateform.tags.push(
+                //     {
+                //         label:row.tagMap[key].name,
+                //         value:row.tagMap[key].id
+                //     }
+                // )
             }
         },
         cancelAddEach() {
@@ -547,7 +553,7 @@ export default {
             var tags = []
             for(var  i = 0;i<this.updateform.tags.length;i++){
                 // console.log(i+":"+this.form.tags[i])
-                tags.push(this.updateform.tags[i].id)
+                tags.push(this.updateform.tags[i])
             }
             if(token&&userId){
                 const url = '' + services.getServiceIp()+"/api/app/log/each"

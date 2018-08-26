@@ -14,6 +14,15 @@
 export default {
   name: 'App',
   componets: {
+  },
+  mounted(){
+    //  重写一些方法，兼容浏览器
+    if (typeof String.prototype.startsWith != 'function') {
+      String.prototype.startsWith = function (prefix){
+        return this.slice(0, prefix.length) === prefix;
+      };
+    }
+
   }
 }
 </script>
@@ -26,9 +35,9 @@ export default {
     text-align: center;
     line-height: 60px;
   }
-  
 
-  
+
+
   .el-main {
     background-color: #E9EEF3;
     color: #333;
@@ -37,16 +46,16 @@ export default {
     /* line-height: 1600px; */
     /* height: 80%; */
   }
-  
+
   body > .el-container {
     margin-bottom: 40px;
   }
-  
+
   .el-container:nth-child(5) .el-aside,
   .el-container:nth-child(6) .el-aside {
     /* line-height: 260px; */
   }
-  
+
   .el-container:nth-child(7) .el-aside {
     /* line-height: 320px; */
   }
