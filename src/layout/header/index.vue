@@ -267,7 +267,7 @@ export default {
     margin-left:150px
 }
 .ul .rli{
-   font-size: 3px;
+   /* font-size: 3px; */
    margin-top:2px
 }
 
