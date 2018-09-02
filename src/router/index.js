@@ -36,6 +36,7 @@ export const constantRouterMap = [
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
   { path: '/', redirect: '/gediao', component: () => import('@/views/gediao/index'), hidden: true },
   { path: '/home', component: () => import('@/views/home/index'), hidden: true },
+  { path: '/qlh', component: () => import('@/views/qlh/index'), hidden: true },
 
   {
     path: '/dashboard',

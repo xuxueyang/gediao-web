@@ -1,12 +1,22 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-header><qlh-header></qlh-header></el-header>
+    <div>
+      <qlh-header></qlh-header>
+    </div>
+    <!-- <div>
       <el-main>
         <router-view class="font-class"></router-view>
       </el-main>
-      <el-footer>有什么问题请点击右上角联系我色调~~;格调群号：772502467</el-footer>
+    </div>
+    <div> <el-footer>有什么问题请点击右上角联系我色调~~;格调群号：772502467</el-footer></div> -->
+    <div>
+    <el-container>
+      <el-main>
+        <router-view class="font-class"></router-view>
+      </el-main>
+      <!-- <el-footer ><p>有什么问题请点击右上角联系我色调~~;格调群号：772502467</p></el-footer> -->
     </el-container>
+    </div>
   </div>
 </template>
 
@@ -27,19 +37,23 @@ export default {
 }
 </script>
 <style>
+#app{
+  background-color: rgba(233, 238, 243, 0.8);
+}
   .font-class{
   }
   .el-header, .el-footer {
-    background-color: #B3C0D1;
+    background-color: rgba(233, 238, 243, 1);
     color: #333;
     text-align: center;
-    line-height: 60px;
+    font-size: 10px;
+    /* line-height: 60px; */
   }
 
 
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: rgba(233, 238, 243, 0.8);
     color: #333;
     text-align: center;
     min-height:800px;

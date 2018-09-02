@@ -2,8 +2,37 @@
 <div>
     <div v-if="hasLogin">
         <el-container>
-            <el-aside width="200px" class="font-aside">
-                <el-menu default-active="0"
+            <div class="leftDiv">
+                <ul class="GDul">
+                    <li>
+                        <div  @click="setIndex('0')">
+                            <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
+                            <a>今日进展</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div @click="setIndex('1')">
+                            <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i>
+                            <a>便签添加</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div @click="setIndex('6')">
+                            <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
+                            <a>全局配置</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div @click="logout()">
+                            <!-- <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i> -->
+                            <a >退出登陆</a>
+                        </div>
+                    </li>                   
+                </ul>
+            </div>
+            <el-aside  width="200px" class="font-aside"  v-if="false" >
+                <el-menu
+                    default-active="0"
                     class="el-menu-vertical-demo"
                     background-color="#545c64"
                     text-color="#fff"
@@ -78,6 +107,7 @@
                 v-on:toRegCallback="toRegCallback"
             >
             </login>
+            
         </div>
     </div>    
 </div>
@@ -110,7 +140,7 @@ export default {
     methods: {
         setIndex(index) {
             //TODO 添加到路由上
-            // this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
+            this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
             // this.$route.params.index = index;
             // this.index = this.$router.params.index;
             // console.log(index+"  " + this.index)
@@ -123,17 +153,25 @@ export default {
             //     this.$router.push({  
             //         query:merge(this.$route.query,{'index':index})  
             //     })  
-            // }
+            // // }
             this.$router.push({  
-                    query:merge(this.$route.query,{'index':index})  
+                query:merge(this.$route.query,{'index':index})  
             })  
+            // this.$router.push({
+            //     query:merge(this.$route.query,
+            //     {
+            //     params: {
+            //         'index':index   //row.hid为变量
+            //     }
+            //     })}
+            // )
             this.index = index
         },
         regSuccessCallback() {
             //注册成功，转到登陆界面
             // this.setIndex('login')
             this.hasLogin = false
-            this.index = 'login'
+            setIndex('login')
         },
         canelRegCallback() {
             //取消注册的回调
@@ -148,22 +186,22 @@ export default {
             // this.$router.push({  
             //     query:merge(this.$route.query,{'index':'1'})  
             // })  
-            // this.setIndex('1')
-            this.index = '0'
+            
              this.hasLogin = true
+             this.setIndex('0')
             // location.reload()
         },
         toRegCallback(){
             //前往登陆
-            // this.setIndex('reg')
-            this.index = 'reg'
+            this.setIndex('reg')
+            // this.index = 'reg'
             this.hasLogin = false
             // this.index = reg
         },
         logout() {
             services.logout()
-            // this.setIndex('login')
-            this.index = 'login'
+            this.setIndex('login')
+            // this.index = 'login'
             this.hasLogin  = false
         }
     },    
@@ -174,16 +212,16 @@ export default {
         if(token==undefined||token==''){
             //说明没有登陆
             this.hasLogin = false
-            // this.setIndex('login')
-            this.index = 'login'
+            this.setIndex('login')
+            // this.index = 'login'
         }else{
             //获取userinfo消息
             const userInfo = services.getUserInfo()
             // console.log("usrinfo:"+userInfo)
             if(userInfo==undefined){
                 this.hasLogin = false
-                // this.setIndex('login')
-                this.index = 'login'
+                this.setIndex('login')
+                // this.index = 'login'
             }else{
                 try{
                     var tmp = JSON.parse(userInfo)
@@ -201,8 +239,8 @@ export default {
                 }catch(exp) {
                     this.hasLogin = false
                     console.log(exp)
-                    // this.setIndex('login')
-                    this.index = 'login'
+                    this.setIndex('login')
+                    // this.index = 'login'
                 }
             }
         }
@@ -215,6 +253,7 @@ export default {
         //     this.index = this.$router.params.index
         // }
         // https://blog.csdn.net/sllailcp/article/details/80312848
+
         if(this.$route.query.index==undefined){
             this.$router.push({  
                 query:merge(this.$route.query,{'index':this.index})  
@@ -222,7 +261,16 @@ export default {
         }else{
             this.index = this.$route.query.index
         }
+        // console.log('1this.$route.query.index：'+this.$route.query.index)
+        //             this.$router.push({  
+        //         query:merge({},{'index':1})  
+        //     }) 
+        //     console.log('2this.$route.query.index：'+this.$route.query.index)
+        //     this.$route.query.index = 1
+        //     console.log('3this.$route.query.index：'+this.$route)
 
+
+            // this.$router.history.push(this.$route.path+])
     },
 }
 </script>
@@ -255,4 +303,53 @@ export default {
         font-size: 5px;
         margin-left: 5px;
     } */
+</style>
+<style>
+.GDul {
+    list-style-type: none;
+    margin-right: 10px;
+    padding: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #444;
+    font-family:'STXingkai';
+    line-height: 25px;
+    box-shadow: 10px 10px 5px #888888;
+    /* z-index: 10; */
+}
+
+.GDul li{
+    color: #fff;
+}
+.GDul li+li{
+    margin-top: 5px ;
+}
+.GDul li a {
+    display: block;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.GDul li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.GDul li a:hover:not(.active) {
+    background-color: #666;
+    color: white;
+}
+</style>
+<style>
+leftDiv{
+    float: left;
+    width:15%;
+    height: 100%;
+    background-color: #333;
+    line-height: 200px;
+    min-height: 750px;
+    /* color:#fff; */
+    /* active-text-color:#ffd04b; */
+}
 </style>

@@ -1,5 +1,25 @@
 <template>
-    <div>
+<div>
+    <div v-if="true">
+        <ul class="ul">
+            <li><div class="span">青龙gaygay,访问人数：{{visiterCount}}</div></li>
+            <li class="li" style="margin-left:100px"><a @click="referToHome">主页</a></li>
+            <li class="li"><a @click="referToUpload">管理</a></li>
+            <li class="li"><a @click="referToQLH">青龙会</a></li>
+            <li class="li"><a @click="referToGD">格调</a></li>
+            <li class="rli" style="margin-right:10px"><a  @click="showInfoMessage" >关于</a><li>
+            <li class="rli">
+                <a  @click="shareToQQ" >分享到qq空间</a>
+            </li>
+            <li class="rli">
+                <div style="width: 100px;">
+                    <div style="display:block;float:left"><img border="0" SRC="http://wpa.qq.com/pa?p=1:1059738716:4" alt=" 么么哒的色调"  style="    margin-top: 13px;"/></div>
+                    <div><a  @click="linkToMe">联系我~</a ></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div v-if="false">
         <!-- <el-row :gutter="20">
             <span style="float:left;margin:0px 20px 0px 100px;color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             <a style="float:center;color:#624D96;margin:0px 0px 0px -100px;" @click="referToHome">主页</a>
@@ -44,7 +64,8 @@
                 <span class="linkMe">联系我~</span >
             </div></el-col>         
         </el-row>
-        <!-- 浮动显示提示按钮 -->
+    </div>
+    <!-- 浮动显示提示按钮 -->
         <el-dialog  :visible.sync="dialogTabVisible" class="show-info">
             <el-tabs :tab-position="tabPosition" style="height: 300px;" v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="青龙会简介" name="qlh-info">
@@ -74,7 +95,7 @@
                 </el-tab-pane>
             </el-tabs>
         </el-dialog>
-    </div>
+</div>
 </template>
 <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
 <script>
@@ -152,6 +173,7 @@ export default {
         showInfoMessage() {
             //调出框显示青龙会的消息介绍
             //TODO 以后增加后台管理网站的接口
+            console.log('关于')
             this.dialogTabVisible = true
         },
         handleTabClick() {
@@ -177,6 +199,9 @@ export default {
         },
         referToGD() {
             this.$router.history.push('/gediao')
+        },
+        referToQLH(){
+            this.$router.history.push('/qlh')
         }
     }
 };
@@ -221,4 +246,53 @@ export default {
     font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif',
     
   }
+</style>
+<style>
+.ul {
+    /* position: fixed;
+    top: 0;
+    width:100%; */
+    list-style-type: none;
+    margin-top:0px;
+    margin-bottom: 10px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    box-shadow: 5px 5px 2px #666;
+}
+.ul .rli{
+    float: right;
+}
+.ul .li{
+    margin-left:150px
+}
+.ul .rli{
+   font-size: 3px;
+   margin-top:2px
+}
+
+.span{
+    padding: 14px 16px;
+    color: #b7abab;
+}
+.ul li {
+    float: left;
+    color:#fff;
+}
+
+.ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.ul li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.ul .active {
+    background-color: #4CAF50;
+}
 </style>

@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css'// Progress 进度条样式
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
-const whiteList = ['/login', '/regestry', '/home', '/404', '/401', '/400', '/', '/manager', '/tiandao', '/nishuihan', '/gediao', '/gediao/detail'] // 不重定向白名单
+const whiteList = ['/login', '/regestry', '/home', '/404', '/401', '/400', '/', '/manager', '/tiandao', '/nishuihan', '/gediao', '/gediao/detail','/qlh'] // 不重定向白名单
 
 const needRedirectList = ['/dashboard', '/example', '/form'] // 需要重定向的名单
 
@@ -42,6 +42,7 @@ router.beforeEach((to, from, next) => {
     // console.log(router)
     // 判断当前的是不是和前往的一样
     // console.log('from.path:' + from.path)
+    next()
     if (to.path === from.path) {
       // location.reload()
     } else {

@@ -2,10 +2,11 @@ import axios from 'axios'
 import returnCode from './services.returnCode'
 const services = {
   // serviceIp =  ,
-  storage : window.sessionStorage,
+  storage : window.localStorage,
   getServiceIp() {
     // return 'http://localhost:9999'
-    return 'http://193.112.17.169:9999'
+    // return 'http://193.112.17.169:9999'
+    return process.env.BASE_API
   },
   getImageServiceUrl(imageName) {
     return 'http://193.112.161.157:8080/resource/images/' + imageName
@@ -20,7 +21,7 @@ const services = {
     var tmp = new Date(date)
     var month = tmp.getMonth()
     month = month + 1
-    if (month < 9 ) {
+    if (month <= 9 ) {
       month = '0' + month
     }
     var day = tmp.getDate()
@@ -59,6 +60,9 @@ const services = {
     if (returnCode[code] === undefined) {
       return '未知错误'
     } else {
+      if (code === '3008') {
+        this.logout()
+      }
       return returnCode[code]
     }
   },

@@ -36,13 +36,13 @@
                     label="操作"
                     width="180">
                     <template slot-scope="scope">
-                        <el-button
+                        <!-- <el-button
                             disabled="true"
                             @click.native.prevent="showUpdateTagDialog(scope.row)"
                             type="text"
                             size="small">
                             更新消息
-                        </el-button>
+                        </el-button> -->
                         <el-button
                             @click.native.prevent="deleteRow(scope.row)"
                             type="text"

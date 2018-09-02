@@ -19,7 +19,7 @@
                         <!-- 日期选择 -->
                         <!-- 标签选择 -->
                         <!-- 状态选择 -->
-                        <span style="margin-left:30px">请选择便签状态:</span>
+                        <span style="margin-left:20px">便签状态:</span>
                         <el-select v-model="select" slot="prepend" placeholder="请选择"  @change="searchLog()">
                             <el-option
                                
@@ -29,7 +29,7 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                         <span style="margin-left:30px">请选择标签:</span>
+                         <span style="margin-left:20px">标签:</span>
                         <el-select v-model="selectTag" slot="prepend" placeholder="请选择" @change="searchLog()">
                             <el-option
                                 
@@ -42,7 +42,7 @@
                     </div>
                     <div style="margin-bottom:18px;margin-top:5px">
                         <div style="text-align:left">
-                            <span class="demonstration">请选择便签日期范围（默认今日）:</span>
+                            <span class="demonstration">日期范围:</span>
                             <el-date-picker
                                 @onPick="searchLog()"
                                 v-model="rangeDate"
@@ -323,18 +323,17 @@ export default {
                         picker.$emit('pick', [start, end]);
                     }
                 }, {
-                    text: '今天的',
+                    text: '昨天和今天',
                     onClick(picker) {
                         const end = new Date();
                         const start = new Date();
-                        picker.$emit('pick', [start, end]);
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
                     }
-                }, {
-                    text: '最近一个月',
+                },{
+                    text: '今天',
                     onClick(picker) {
                         const end = new Date();
                         const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
                         picker.$emit('pick', [start, end]);
                     }
                 },{
