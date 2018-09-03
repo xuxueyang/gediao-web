@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="block">
-      <el-carousel trigger="click" height="280px">
-        <el-carousel-item class="c1" >
+      <el-carousel trigger="click" height="600px">
+        <el-carousel-item class="c3" >
             <h2>{{ items[2].description }}</h2>
-            <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button"
+            <!-- <el-button @click="tranferTo(items[2].url)" type="primary" plain class="button"
               :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
-            >点击前往</el-button>
+            >点击前往</el-button> -->
         </el-carousel-item>
-        <el-carousel-item class="c2" >
+        <!-- <el-carousel-item class="c2" >
             <h2>{{ items[1].description }}</h2>
             <el-button @click="tranferTo(items[1].url)" type="primary" plain class="button"
               :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
@@ -24,7 +24,7 @@
             <h2>{{ items[3].description }}</h2>
             <el-button @click="tranferTo(items[3].url)" type="primary" plain class="button"
               :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
-            >点击前往</el-button>           
+            >点击前往</el-button>            -->
         </el-carousel-item>                        
       </el-carousel>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-
+import services from '@/api/file.services.js'
 export default {
   name: 'home',
   data() {
@@ -52,9 +52,9 @@ export default {
         },
         {
           id:'3',
-          description: '东海新版本签到',
-          url:'http://wuxia.qq.com/cp/a20180611million/index.htm?e_code=421525&idataid=218424',
-          imageName:'799f9e1a06fa01217be715ea8690ce14.jpg'
+          description: '注意！蔷薇此人是骗子！租的号！',
+          url: services.getImageServiceUrl('20180903_daohao.png'),
+          imageName:'20180903_daohao.png'
         },
         {
           id:'4',
@@ -66,7 +66,7 @@ export default {
     }
   },
   mounted:function(){
-     console.log('在主页面呢')
+    //  console.log('在主页面呢')
   },
   methods: {
     tranferTo(url){
@@ -130,9 +130,10 @@ export default {
     cursor:pointer;
     /* width:400px;
     height: 150px; */
-    background-image: url('./../../assets/images/home-page/799f9e1a06fa01217be715ea8690ce14.jpg'); 
+    background-image: url('http://193.112.161.157:8080/resource/images/20180903_daohao.png'); 
     /* background-size:cover; */
     background-repeat:no-repeat;
+    color: white;
   }
   .c4{
     cursor:pointer;
