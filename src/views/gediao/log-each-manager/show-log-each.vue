@@ -22,7 +22,7 @@
                         <span style="margin-left:20px">便签状态:</span>
                         <el-select v-model="select" slot="prepend" placeholder="请选择"  @change="searchLog()">
                             <el-option
-                               
+
                                 v-for="item in options"
                                 :key="item.value"
                                 :label="item.label"
@@ -32,13 +32,13 @@
                          <span style="margin-left:20px">标签:</span>
                         <el-select v-model="selectTag" slot="prepend" placeholder="请选择" @change="searchLog()">
                             <el-option
-                                
+
                                 v-for="item in tagOptions"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
                             </el-option>
-                        </el-select>                       
+                        </el-select>
                     </div>
                     <div style="margin-bottom:18px;margin-top:5px">
                         <div style="text-align:left">
@@ -91,7 +91,7 @@
                     prop="title"
                     sortable
                     label="标题"
-                    
+
                     width="180">
                 </el-table-column>
 
@@ -164,11 +164,11 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="消息内容" prop="message" >
-                    <el-input type="textarea" 
-                        
-                        v-model="form.message" 
-                        :autosize="true" 
-                        style="width:500px;float:left" 
+                    <el-input type="textarea"
+
+                        v-model="form.message"
+                        :autosize="true"
+                        style="width:500px;float:left"
                         :placeholder="'最多不能输入200字符'"></el-input>
                 </el-form-item>
                 <el-form-item label="标签:" style="width:80%;height:80px" >
@@ -214,11 +214,11 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="消息内容" prop="message" >
-                    <el-input type="textarea" 
-                        
-                        v-model="updateform.message" 
-                        :autosize="true" 
-                        style="width:500px;float:left" 
+                    <el-input type="textarea"
+
+                        v-model="updateform.message"
+                        :autosize="true"
+                        style="width:500px;float:left"
                         :placeholder="'最多不能输入200字符'"></el-input>
                 </el-form-item>
                 <el-form-item label="标签:" style="width:80%;height:80px" >
@@ -306,11 +306,11 @@ export default {
             tagOptions:[
                 // {
                 //     label: '网站搭建',
-                //     value: 'wzdj' 
+                //     value: 'wzdj'
                 // },
                 // {
                 //     label: '日志记录',
-                //     value: 'rzjl' 
+                //     value: 'rzjl'
                 // },
             ],
             pickerOptions2: {
@@ -328,6 +328,7 @@ export default {
                         const end = new Date();
                         const start = new Date();
                         start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+                      picker.$emit('pick', [start, end]);
                     }
                 },{
                     text: '今天',
@@ -355,7 +356,7 @@ export default {
         this.getStatus()
         this.getTags()
         this.setRangeDate()
-        
+
     },
     methods:{
         currentChange(){
@@ -407,9 +408,9 @@ export default {
                                 label: res.data.data[i].name,
                                 value: res.data.data[i].id
                             })
-                            
+
                         }
-                        
+
                     }else{
                         this.$message({
                             type:"error",
@@ -668,7 +669,7 @@ export default {
         searchLog() {
             console.log(this.select)
             this.getLogEachs()
-        
+
         },
         getLogEachs() {
             const token = services.getToken()
@@ -706,7 +707,7 @@ export default {
               }).then(function(res){
                 if(res.data.returnCode.startsWith("200")){
                     var map = res.data.data
-                    
+
                     this.$message({
                     type:"success",
                     showClose:true,
@@ -780,12 +781,12 @@ export default {
                         'eachId': eachId,
                         'detailId':object.id
                     }
-                })                
+                })
             }
-            // this.$router.push({  
+            // this.$router.push({
             //     path: ,
-            //     query:merge(this.$route.query,{'eachId':eachId,'detailId':detailId})  
-            // })  
+            //     query:merge(this.$route.query,{'eachId':eachId,'detailId':detailId})
+            // })
             // this.$router.push({
             //     path : '/gediao/detail',
             //     query: {
