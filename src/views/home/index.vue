@@ -37,36 +37,44 @@ export default {
   name: 'home',
   data() {
     return {
+      
       items: [
         {
           id:'1',
           description: '祈福三周年活动',
           url:'http://act.daoju.qq.com/act/wuxia20180517/index.html?e_code=414983&idataid=214420',
-          imageName:'d1765adb60e7c5811f64528c04dd50c8.jpg'
+          imageName:'d1765adb60e7c5811f64528c04dd50c8.jpg',
+          html: ''
         },
         {
           id:'2',
           description: '天刀三年在线签到',
           url:'http://wuxia.qq.com/cp/a20180515three/index.htm?e_code=415223&idataid=214526',
-          imageName:'de2d80c55b810fad8a0c63d2788779e3.jpg'
+          imageName:'de2d80c55b810fad8a0c63d2788779e3.jpg',
         },
         {
           id:'3',
           description: '注意！蔷薇此人是骗子！租的号！',
           url: services.getImageServiceUrl('20180903_daohao.png'),
-          imageName:'20180903_daohao.png'
+          imageName:'20180903_daohao.png',
+          html: ''
         },
         {
           id:'4',
           description: '手机壳坑钱',
           url:'http://mall.qq.com/wuxia/productlist.shtml?catid=447&e_code=417407&idataid=216053',
-          imageName:'3f72e4260d273f7a0fec70efc8ffed84.jpg'
+          imageName:'3f72e4260d273f7a0fec70efc8ffed84.jpg',
+          html: ''
         }
       ]
     }
   },
   mounted:function(){
     //  console.log('在主页面呢')
+    //初始化数据
+    for(var i=0;i<this.items.length;i++){
+      // this.items[i].html = ""+"<img sr"
+    }
   },
   methods: {
     tranferTo(url){
