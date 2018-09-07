@@ -1,0 +1,19 @@
+<template>
+<div id="type-effects">
+
+</div>
+</template>
+
+<script>
+import type from "@/js/type.js";
+export default {
+    mounted(){
+        var str = "如果，爱一个人，守一份爱情，可以在早春一起去踏青，可以在盛夏一起去赏荷，可以在浅秋一起去观月，可以在深冬一起去寻梅，不厌倦，却欢乐，不平凡，却平淡。那么，此生便无憾了。";
+        type.typeById("type-effects",str);
+    }
+}
+</script>
+
+<style>
+
+</style>

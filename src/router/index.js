@@ -38,9 +38,9 @@ export const constantRouterMap = [
   { path: '/home', component: () => import('@/views/home/index'), hidden: true },
   { path: '/qlh', component: () => import('@/views/qlh/index'), hidden: true },
 
-  // { path: '/effects/type-effects', component: () => import('@/views/effects/type-effects/index'), hidden: true }
-
-
+  { path: '/effects/type-effects', component: () => import('@/views/effects/type-effects/index'), hidden: true },
+  { path: '/effects/express',      component: () => import('@/views/effects/express/index'), hidden: true }
+  
   // { path: '*', redirect: '/404', hidden: true }
 ]
 

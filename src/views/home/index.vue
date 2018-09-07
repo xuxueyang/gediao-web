@@ -75,6 +75,8 @@ export default {
     for(var i=0;i<this.items.length;i++){
       // this.items[i].html = ""+"<img sr"
     }
+    // $('div.block').attr('background-color',"#333");
+    // alert('加载了jQuery')
   },
   methods: {
     tranferTo(url){
