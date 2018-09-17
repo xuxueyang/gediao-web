@@ -23,6 +23,12 @@
                         </div>
                     </li>
                     <li>
+                        <div @click="setIndex('7')">
+                            <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
+                            <a>PDF资源</a>
+                        </div>
+                    </li>
+                    <li>
                         <div @click="logout()">
                             <!-- <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i> -->
                             <a >退出登陆</a>
@@ -87,7 +93,10 @@
                     <!-- 全局配置，设置tag什么的 -->
                     <!-- 因为是全局配置，所以是选项卡的形式 -->
                     <manager-setting v-bind:projectType="projectType"></manager-setting>
-                </div>                                                                       
+                </div>   
+                <div v-if="index=='7'">
+                    <pdf-read></pdf-read>
+                </div>                                                                    
             </el-main>
         </el-container>
     </div>
@@ -121,6 +130,8 @@ import regestry from '@/components/reg/index.vue'
 import login from '@/components/login/index.vue'
 import managerSetting from './global-setting/manager-setting.vue'
 import echartsData from './static-data/echarts-data.vue'
+import pdfRead from './pdf-read/select-pdf-read.vue'
+
 export default {
     name: 'gediao',
     components:{
@@ -128,7 +139,8 @@ export default {
         regestry,
         login,
         managerSetting,
-        echartsData
+        echartsData,
+        pdfRead
     },
     data() {
         return {
