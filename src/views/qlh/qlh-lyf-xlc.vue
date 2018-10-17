@@ -28,7 +28,7 @@
                         <span>已去次数：</span>
                         <el-input-number v-model="scope.row.numLYF_YES" @change="changeValue($event,scope.row)" :min="-100"   :max="100"  label="炼狱房已去次数" ></el-input-number>
                         <span>未去次数：</span>
-                        <el-input-number v-model="scope.row.numLYF_NO" @change="changeValue($event,scope.row)" :min="-100"   :max="100"  label="炼狱房未去次数" ></el-input-number>
+                        <el-input-number v-model="scope.row.numLYF_NO"  :disabled="true"  label="炼狱房未去次数" ></el-input-number>
                     </template>                    
                 </el-table-column>
                 <el-table-column
@@ -126,6 +126,15 @@ export default {
             var url = services.getServiceIp()+'/api/dist/code/' + 'QLH_LYF_XLC_COUNT_SHOW';
                 //构造value:修罗场的总共次数（不允许减少），修罗场有已经去的次数（每次动态变化，会根据规则，动态变化炼狱房次数），炼狱房的次数：总共，已去，未去。
                 const rowT = row
+                if(rowT.numLYF_YES==undefined){
+                    rowT.numLYF_YES = 0
+                }
+                if(rowT.numLYF_NO==undefined){
+                    rowT.numLYF_NO = 0
+                }
+                if(rowT.numXLC==undefined){
+                    rowT.numXLC = 0
+                }
                 // console.log('rowT: '+rowT.memberName)
                 console.log(this.oldTableDate)
                 if(this.num!=undefined&&this.num!=0){
@@ -199,13 +208,19 @@ export default {
             // console.log('object :', row);
             // console.log(event)
             if(row.valueId==undefined||row.valueId==""){
-                // 添加方法
+                // 添加方法(此时所有的参数均为0--要进行计算：炼狱房的次数)
+                row.numLYF_NO = -row.numLYF_YES;
+                if(this.num!=0&&this.num!=undefined){
+                    row.numLYF_NO = row.numLYF_NO + row.numXLC/this.num;
+                }
+                
                 this.add(row)
             }else{
                 // 更新方法
                 this.update(row)
             }
         },
+        //一个bug。直接点添加，会直接+1，然后传输数据，回调
         add(row){
                 var url = services.getServiceIp()+'/api/dist/code/' + 'QLH_LYF_XLC_COUNT_SHOW';
                 //构造value:修罗场的总共次数（不允许减少），修罗场有已经去的次数（每次动态变化，会根据规则，动态变化炼狱房次数），炼狱房的次数：总共，已去，未去。
@@ -294,10 +309,21 @@ export default {
                                 memberId: this.members[i].id,
                                 valueId: ''
                             }
+                            var hasData = false;
                             for(var j=0;j<data.length;j++){
                                 var tmp = JSON.parse(data[j].value)
                                 // 将data转为object
                                 if(tmp.memberId==putData.memberId){
+                                    hasData = true;
+                                    if(tmp.numLYF_YES==undefined){
+                                        tmp.numLYF_YES = 0;
+                                    }
+                                    if(tmp.numLYF_NO==undefined){
+                                        tmp.numLYF_NO = 0;
+                                    }
+                                    if(tmp.numXLC==undefined){
+                                        tmp.numXLC = 0;
+                                    }
                                     putData.numXLC = putData.numXLC + tmp.numXLC;
                                     putData.numLYF_YES = putData.numLYF_YES + tmp.numLYF_YES;
                                     putData.numLYF_NO = putData.numLYF_NO + tmp.numLYF_NO;
@@ -308,6 +334,11 @@ export default {
                                     putData2.numLYF_NO = putData2.numLYF_NO + tmp.numLYF_NO;
                                     putData2.valueId = data[j].id;                                   
                                 }
+                            }
+                            if(!hasData){
+                                //如果没有数据，自动添加数据，（更新就不需要了，对于数据为0的）
+
+
                             }
                             this.tableDate.push(putData)
                             this.oldTableDate.push(putData2)
