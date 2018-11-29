@@ -31,6 +31,7 @@ export const constantRouterMap = [
   { path: '/nishuihan', component: () => import('@/views/nishuihan/index'), hidden: true },
   { path: '/gediao', component: () => import('@/views/gediao/index'), hidden: true },
   { path: '/gediao/detail', component: () => import('@/views/gediao/log-each-manager/show-detail'), hidden: true },
+  { path: '/blog', component: () => import('@/views/blog/index'), hidden: true },
 
   { path: '/manager', component: () => import('@/views/manager/index'), hidden: true },
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
@@ -40,7 +41,7 @@ export const constantRouterMap = [
 
   { path: '/effects/type-effects', component: () => import('@/views/effects/type-effects/index'), hidden: true },
   { path: '/effects/express',      component: () => import('@/views/effects/express/index'), hidden: true }
-  
+
   // { path: '*', redirect: '/404', hidden: true }
 ]
 

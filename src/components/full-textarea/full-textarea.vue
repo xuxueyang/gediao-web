@@ -15,7 +15,10 @@
 
 
 import services from '@/api/file.services'
+// <link href="./resources/css/textareafullscreen.css" rel="stylesheet" type="text/css" />
+// import 'quill/dist/quill.bubble.css'
 import VueUeditorWrap from 'vue-ueditor-wrap'
+// import '/static/UEditor/themes/default/css/ueditor.min.css'
 export default {
     name: 'fullTextarea',
     props:["detailId"],
@@ -76,7 +79,7 @@ export default {
                 detailId: this.detailId,
                 remarks: this.msg,
                 token: services.getToken()
-            } 
+            }
             this.$http.post(url,body).then(function(res){
                     if(res.data.returnCode.startsWith("200")){
                             this.$message({
@@ -90,7 +93,7 @@ export default {
                             showClose:true,
                             message: services.getMessageByCode(res.data.returnCode)
                         })
-                    }                
+                    }
             }).catch(function(res){
                     this.$message({
                     type:"error",
@@ -119,7 +122,7 @@ export default {
                             message: services.getMessageByCode(res.data.returnCode)
                         })
                         this.returnGediao()
-                    }                
+                    }
             }).catch(function(res){
                     this.$message({
                         type:"error",

@@ -7,6 +7,7 @@
             <li class="li"><a @click="referToUpload">管理</a></li>
             <li class="li"><a @click="referToQLH">青龙会</a></li>
             <li class="li"><a @click="referToGD">格调</a></li>
+            <li class="li"><a @click="referToBLOG">博客</a></li>
             <li class="rli" style="margin-right:10px"><a  @click="showInfoMessage" >关于</a><li>
             <li class="rli">
                 <a  @click="shareToQQ" >分享到qq空间</a>
@@ -26,7 +27,7 @@
             <a style="color:#624D96;margin:0px 0px 0px 200px;" @click="referToUpload">管理</a>
             <el-button size="small " type="info" round class=".info-button" @click="showInfoMessage" style="float:right;margin:12px 20px 0px 0">查看介绍~</el-button>
         </el-row> -->
-        <el-row class="header"> 
+        <el-row class="header">
             <el-col :span="4"><div>
                 <span style="color:#624D96">青龙gaygay,访问人数：{{visiterCount}}</span>
             </div></el-col>
@@ -52,7 +53,7 @@
                &nbsp;
             </div></el-col>
             <el-col :span="2"><div>
-                <el-button size="small" type="info" round class=".info-button" @click="shareToQQ" 
+                <el-button size="small" type="info" round class=".info-button" @click="shareToQQ"
                 :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}"
                 >分享到qq空间</el-button >
             </div></el-col>
@@ -62,7 +63,7 @@
             <el-col :span="2"><div @click="linkToMe" style="cursor:pointer">
                 <img border="0" SRC="http://wpa.qq.com/pa?p=1:1059738716:4" alt=" 么么哒的色调" />
                 <span class="linkMe">联系我~</span >
-            </div></el-col>         
+            </div></el-col>
         </el-row>
     </div>
     <!-- 浮动显示提示按钮 -->
@@ -77,7 +78,7 @@
                     <el-button :gutter="20"  v-for="member in qlhMember" :key="member.id"  size="mini" round style="margin-left:25px;background:#DCDFE6">
                         <a @click="referToMemberInfos(member)">
                             <span style="color:#8B6ED6">{{member.name}}</span>
-                        </a> 
+                        </a>
                     </el-button>
                     <!-- <router-link :to="{name:'Index', params: { userId: 123 }}">link</router-link> -->
                 </el-tab-pane>
@@ -152,7 +153,7 @@ export default {
                 message: '服务器在傲娇QAQ',
                 showClose: true,
                 type: 'error'
-            });            
+            });
             this.$router.push('/400')
         })
     },
@@ -202,6 +203,9 @@ export default {
         },
         referToQLH(){
             this.$router.history.push('/qlh')
+        },
+        referToBLOG(){
+          this.$router.history.push('/blog')
         }
     }
 };
@@ -244,7 +248,7 @@ export default {
   .linkMe{
     font-size: 18px;
     font-family:'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif',
-    
+
   }
 </style>
 <style>

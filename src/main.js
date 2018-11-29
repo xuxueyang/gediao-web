@@ -13,6 +13,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
+
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -33,6 +34,14 @@ Vue.component('qlh-header', qlhHeader)
 
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
+// 导入 vue-quill-editor
+import VueQuillEditor from 'vue-quill-editor'
+// var VueQuillEditor = require('vue-quill-editor')
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor)
 
 Vue.use(ElementUI, { locale })
 
