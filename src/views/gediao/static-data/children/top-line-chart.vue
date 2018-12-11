@@ -1,7 +1,7 @@
 <template>
     <div class="line-main">
         <div echarts class="line-main" id="lineChart">
-            
+
 
         </div>
     </div>
@@ -19,7 +19,7 @@ export default {
                     },
                     title: {
                     text: '日志状态趋势图'
-                    
+
                     },
                     color: ['#f31237','#34e06d'],
                     tooltip: {
@@ -100,10 +100,10 @@ export default {
                     const success = map['1']
                     var seriesSuccessData = [];
                     var seriesNoSuccessData = [];
-            
+
                     // 日期
                     var xAxisData = []
-                    
+
                     for(var i=0;i<noSuccess.length;i++){
                         var mapEachNoSuccess = noSuccess[i]
                         for(var key in mapEachNoSuccess){
@@ -117,7 +117,7 @@ export default {
                             // xAxisData.push(key)
                             seriesSuccessData.push(mapEachSuccess[key])
                         }
-                    }                    
+                    }
                     this.options.series[0].data = seriesSuccessData;
                     this.options.series[1].data = seriesNoSuccessData;
                     this.options.xAxis[0].data = xAxisData;
@@ -133,7 +133,7 @@ export default {
                     })
                 }
             }).catch(function(e){
-                // console.log(e)
+                console.log(e)
                 this.$message({
                     type: 'error',
                     message:'加载数据失败~服务器在重启中~'

@@ -1,7 +1,7 @@
 <template>
     <div class="bie-main">
         <div echarts class="bie-main" id="bottomBie">
-            
+
 
         </div>
     </div>
@@ -31,8 +31,8 @@ export default {
                     tooltip: {
                     trigger: 'item',
                     // formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    formatter:function(a) 
-                        { 
+                    formatter:function(a)
+                        {
                         // console.log(a);
                         var name = a.name;
                         name = name.split('(')[0];
@@ -40,13 +40,13 @@ export default {
                         // var num = this._comCompleteNum + this._comCreateNum + this._comProgressNum;
                         // num = num === 0? 1:num;
                         // if(name.startsWith('新建')){
-                        //   relVal = name + ':' + this._comCreateNum + '(' + 
+                        //   relVal = name + ':' + this._comCreateNum + '(' +
                         //               this._comCompleteNum/num*100 + '%)';
                         // }else if (name.startsWith('进行中')) {
-                        //   relVal = name + ':' + this._comProgressNum + '(' + 
+                        //   relVal = name + ':' + this._comProgressNum + '(' +
                         //               this._comCompleteNum/num*100 + '%)';
                         // }else if (name.startsWith('已完成')) {
-                        //   relVal = name + ':' + this._comCompleteNum + '(' + 
+                        //   relVal = name + ':' + this._comCompleteNum + '(' +
                         //               this._comCompleteNum/num*100 + '%)';
                         // }
                         // if(total==0){
@@ -56,8 +56,8 @@ export default {
                         // }
                         relVal = name + ' : ' + a.value ;
                         // relVal = '' + a.seriesName + '<br/>' + name + ' : ' + a.value + '(' + DashchartComponent._comRate + ')';
-                        return relVal; 
-                        }  
+                        return relVal;
+                        }
                     },
                     legend: {
                     // show: false,
@@ -115,14 +115,14 @@ export default {
       methods: {
         loadBieData(id) {
             const url = services.getServiceIp() + '/api/app/log/statis/each-bie-data' +"?token="+services.getToken()
-            this.$http.get(url,{}).then(function(res){
+            this.$http.get(url, { }).then(function(res){
                 //map<key:id,value:dto>
 //                  private String label;
 //         private Integer num;
 //         private String id;
-                if(res.data.returnCode.startsWith('200')){
+                if(res.data.returnCode.startsWith('200')) {
                     const map = res.data.data
-                    var data = [];
+                    var data = []
                     var legendData = []
                     this.total = 0
                     for(var key in map){
@@ -137,7 +137,10 @@ export default {
                     }
                     this.options.series[0].data = data;
                     this.options.legend.data = legendData;
-                    const bottomBie = document.getElementById(id);
+                    const bottomBie = document.getElementById(id)
+                    if(bottomBie === undefined || bottomBie === null) {
+                        return ;
+                    }
                     echarts.init(bottomBie).setOption(this.options);
                 }else{
                     this.$message({
@@ -146,6 +149,8 @@ export default {
                     })
                 }
             }).catch(function(e){
+                // 这里有个bug：如果加载太慢，加载过程中，视图切换了，那么就找不到那个数据了
+                // console.log(e)
                 this.$message({
                     type: 'error',
                     message:'加载数据失败~服务器在重启中~'

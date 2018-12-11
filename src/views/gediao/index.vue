@@ -29,6 +29,12 @@
                         </div>
                     </li>
                     <li>
+                        <div @click="setIndex('8')">
+                            <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
+                            <a>博客管理</a>
+                        </div>
+                    </li>
+                    <li>
                         <div @click="logout()">
                             <!-- <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i> -->
                             <a >退出登陆</a>
@@ -96,7 +102,10 @@
                 </div>   
                 <div v-if="index=='7'">
                     <pdf-read></pdf-read>
-                </div>                                                                    
+                </div>              
+                <div v-if="index=='8'" >
+                    <blog-manager></blog-manager>
+                </div>                                                      
             </el-main>
         </el-container>
     </div>
@@ -131,6 +140,7 @@ import login from '@/components/login/index.vue'
 import managerSetting from './global-setting/manager-setting.vue'
 import echartsData from './static-data/echarts-data.vue'
 import pdfRead from './pdf-read/select-pdf-read.vue'
+import blogManager from './blog-manager/index.vue'
 
 export default {
     name: 'gediao',
@@ -140,7 +150,8 @@ export default {
         login,
         managerSetting,
         echartsData,
-        pdfRead
+        pdfRead,
+        blogManager
     },
     data() {
         return {

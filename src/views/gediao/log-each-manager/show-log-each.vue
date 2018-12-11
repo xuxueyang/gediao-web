@@ -526,19 +526,19 @@ export default {
                         }
                     }).catch(function(res){
                         this.$message({
-                        type:"error",
-                        showClose:true,
-                        message:"服务器正在抢修中~"
+                            type:"error",
+                            showClose:true,
+                            message:"服务器正在抢修中~"
                         })
                     })
                     this.addEach = false
                 }else{
-                this.$message({
-                    type:"error",
-                    showClose:true,
-                    message:"登录失效"
-                })
-                this.$router.history.push('/gediao')
+                    this.$message({
+                        type:"error",
+                        showClose:true,
+                        message:"登录失效"
+                    })
+                    this.$router.history.push('/gediao')
                 }
             }
 

@@ -1,10 +1,10 @@
 <template>
     <!-- 显示进入detail面板 -->
     <div>
-        <div v-if="eachId&&detailId">
+        <div v-if="blogId">
             <!-- 从路由获取到each和detailId -->
             <!-- <full-textarea v-bind:eachId="eachId" v-bind:detailId="detailId" :key='Math.random()'></full-textarea> -->
-            <vue-quill-editor v-bind:eachId="eachId" v-bind:templateUri="template"  v-bind:sourceId="detailId" ></vue-quill-editor>
+            <vue-quill-editor  v-bind:templateUri="template"  v-bind:sourceId="blogId" ></vue-quill-editor>
         </div>
         <div v-else>
             <!-- 显示不存在 -->
@@ -29,8 +29,7 @@ export default {
     },
     data() {
         return {
-            template: '/log/detail',
-            eachId:'',
+            template: '/blog/blog',
             detailId:''
         }
     },
@@ -43,24 +42,20 @@ export default {
     watch: {
         // 如果路由有变化，会再次执行该方法
         '$route': 'init'
-
     },
     methods : {
         init(){
-            if(this.$route.query.eachId){
-                this.eachId = this.$route.query.eachId
-                if(this.$route.query.detailId==null||this.$route.query.detailId==undefined){
+            if(this.$route.query.blogId){
+                this.blogId = this.$route.query.blogId
+                if(this.$route.query.blogId==null||this.$route.query.blogId==undefined){
                     // 这里应该取一下，看each下有没有detail的。如果没有，再创建。
-                    this.createDetail()
-                }else{
-                    this.detailId = this.$route.query.detailId
+                    this.createBlog()
                 }
             }
         },
-        createDetail(){
-            const url = services.getServiceIp()+"/api/app/log/detail"
+        createBlog(){
+            const url = services.getServiceIp()+"/api/app/blog/create"
             const body = {
-                logEachId: this.eachId,
                 remarks: '',
                 token: services.getToken()
             }
@@ -71,12 +66,11 @@ export default {
                             showClose:true,
                             message: services.getMessageByCode(res.data.returnCode)
                         })
-                        this.detailId = res.data.data.id
+                        this.blogId = res.data.data.id
                         this.$router.push({
-                            path : '/gediao/detail',
+                            path : '/gediao/blog',
                             query: {
-                                'eachId': this.eachId,
-                                'detailId':this.detailId
+                                'blogId':this.detailId
                             }
                         })
                     }else{

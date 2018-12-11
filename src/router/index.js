@@ -32,6 +32,7 @@ export const constantRouterMap = [
   { path: '/gediao', component: () => import('@/views/gediao/index'), hidden: true },
   { path: '/gediao/detail', component: () => import('@/views/gediao/log-each-manager/show-detail'), hidden: true },
   { path: '/blog', component: () => import('@/views/blog/index'), hidden: true },
+  { path: '/gediao/blog', component: () => import('@/views/gediao/blog-manager/blog-add-update'), hidden: true },
 
   { path: '/manager', component: () => import('@/views/manager/index'), hidden: true },
   { path: '/regestry', component: () => import('@/views/reg/index'), hidden: true },
