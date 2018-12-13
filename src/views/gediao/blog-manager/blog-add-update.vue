@@ -30,7 +30,7 @@ export default {
     data() {
         return {
             template: '/blog/blog',
-            detailId:''
+            blogId:''
         }
     },
     watch: {
@@ -45,18 +45,31 @@ export default {
     },
     methods : {
         init(){
-            if(this.$route.query.blogId){
-                this.blogId = this.$route.query.blogId
-                if(this.$route.query.blogId==null||this.$route.query.blogId==undefined){
-                    // 这里应该取一下，看each下有没有detail的。如果没有，再创建。
-                    this.createBlog()
-                }
+            this.blogId = this.$route.query.blogId
+            if(this.$route.query.blogId==null||this.$route.query.blogId==undefined){
+                // 这里应该取一下，看each下有没有detail的。如果没有，再创建。
+                this.createBlog()
             }
         },
         createBlog(){
-            const url = services.getServiceIp()+"/api/app/blog/create"
+            const url = services.getServiceIp()+"/api/app"+this.template
+                // private String title;
+                // private String content;
+                // private String token;
+                // private String sourceType;
+
+                // private List<String>  tagIds;
+
+                // private String permissionType;
+                // private String permissionVerify;
+                // 创建默认的模板博客
             const body = {
-                remarks: '',
+                title: '这是博客的标题~',
+                content: '<h2>这是博客的内容</h2>',
+                sourceType: 'Owner',
+                tagIds: [],
+                permissionType: 'OnlyOne', //默认只有自己可见
+                permissionVerify: '',
                 token: services.getToken()
             }
             this.$http.put(url,body).then(function(res){
@@ -70,7 +83,7 @@ export default {
                         this.$router.push({
                             path : '/gediao/blog',
                             query: {
-                                'blogId':this.detailId
+                                'blogId':this.blogId
                             }
                         })
                     }else{
