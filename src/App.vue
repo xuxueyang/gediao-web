@@ -39,6 +39,7 @@ export default {
 <style>
 #app{
   background-color: rgba(233, 238, 243, 0.8);
+  min-width: 900px;
 }
   .font-class{
   }
