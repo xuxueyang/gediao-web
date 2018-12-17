@@ -4,7 +4,7 @@
         <div v-if="blogId">
             <!-- 从路由获取到each和detailId -->
             <!-- <full-textarea v-bind:eachId="eachId" v-bind:detailId="detailId" :key='Math.random()'></full-textarea> -->
-            <vue-quill-editor  v-bind:templateUri="template"  v-bind:sourceId="blogId" ></vue-quill-editor>
+            <vue-quill-editor  v-bind:templateUri="template"  v-bind:sourceId="blogId" v-bind:created="created"></vue-quill-editor>
         </div>
         <div v-else>
             <!-- 显示不存在 -->
@@ -28,7 +28,8 @@ export default {
     data() {
         return {
             template: '/blog/blog',
-            blogId:''
+            blogId: '',
+          created: false
         }
     },
     watch: {
@@ -66,7 +67,7 @@ export default {
                 content: '<h2>这是博客的内容</h2>',
                 sourceType: 'Owner',
                 tagIds: [],
-                permissionType: 'OnlyOne', //默认只有自己可见
+                permissionType: 'OnlyOne', // 默认只有自己可见
                 permissionVerify: '',
                 token: services.getToken()
             }
@@ -78,10 +79,11 @@ export default {
                             message: services.getMessageByCode(res.data.returnCode)
                         })
                         this.blogId = res.data.data.id
+                      this.created = true
                         this.$router.push({
                             path : '/gediao/blog',
                             query: {
-                                'blogId':this.blogId
+                                'blogId': this.blogId,
                             }
                         })
                     }else{

@@ -8,7 +8,7 @@
       <li v-for="blog in blogs" v-bind:key="blog.id">
         <div>
           <span>{{blog.title}}</span>
-          <a @click="updateBlog(blog.id)">查看编辑</a>
+          <a @click="lookBlog(blog.id)">查看编辑</a>
         </div>
       </li>
     </ul>
@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-  import services from "../../../api/file.services";
+  import services from "../../api/file.services";
   import vueQuillEditor from '@/components/vue-quill-editor-blog/vue-quill-editor.vue';
 
   export default {
@@ -82,10 +82,10 @@
 
         })
       },
-      updateBlog(id) {
+      lookBlog(id) {
         // 跳转到编辑页面（和新增页面一样，区别在于，如果没有，会创建）（带有查询ID，如果没有，则视为创建)
         this.$router.push(
-          {path: '/blog?blogId=' + id}
+          {path: '/blog/' + id}
         )
       }
     }

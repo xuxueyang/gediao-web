@@ -24,13 +24,14 @@
   import { quillEditor } from 'vue-quill-editor'
   export default{
     name: 'myVueQuillEditor',
-    props: ['sourceId', 'templateUri'],
+    props: ['sourceId', 'templateUri', 'created'],
     component: {
       quillEditor
     },
     data() {
       return {
-        title:'',
+        title: '',
+        permissionType: '',
         content: '<h2>数据正在加载中ing~~~</h2>',
         editorOption: {
           // something config
@@ -77,6 +78,7 @@
             })
             this.content = res.data.data.content
             this.title = res.data.data.title
+            this.permissionType = res.data.data.permissionType
           } else {
             this.$message({
               type: 'error',
@@ -110,7 +112,8 @@
           id: this.sourceId,
           content: this.content,
           title: this.title,
-          token: services.getToken()
+          token: services.getToken(),
+          permissionType: this.permissionType
         }
         this.$http.post(url, body).then(function(res) {
           if (res.data.returnCode.startsWith('200')) {
@@ -144,12 +147,16 @@
         // 有个bug，如果是第一次创建，返回上级有bug呀 --
         // console.log(this.$route.matched)
         var history = this.$route.matched
-        if(history!=undefined&&history!=null&&history.length>=1&&history[0].path !== '/gediao/detail'){
-            this.$router.go(-1);
+        if(history!=undefined&&history!=null&&history.length>=1&&history[0].path !== '/gediao/detail'&&!this.created){
+            // this.$router.go(-1);
+          // /gediao?index=8
+          this.$router.push({
+            path: '/gediao?index=8'
+          })
         }else{
           if (history!=undefined&&history!=null&&history.length>=1&&history[0].path === '/gediao/detail'){
             this.$router.push({
-              path: '/gediao?index=1'
+              path: '/gediao?index=8'
             })
           }else{
             this.returnGediao()

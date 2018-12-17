@@ -10,7 +10,8 @@
             <li class="li"><a @click="referToBLOG">博客</a></li>
             <li class="rli" style="margin-right:10px"><a  @click="showInfoMessage" >关于</a><li>
             <li class="rli">
-                <a  @click="shareToQQ" >分享到qq空间</a>
+                <!--<a  @click="shareToQQ" >分享到qq空间</a>-->
+                <share-to-q-q-space v-bind:usestyle="'a'"></share-to-q-q-space>
             </li>
             <li class="rli">
                 <div style="width: 100px;">
@@ -58,7 +59,8 @@
                 >分享到qq空间</el-button >
             </div></el-col>
             <el-col :span="2"><div>
-                <el-button size="small" type="info" round class=".info-button" @click="showInfoMessage" :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}">查看介绍~</el-button>
+                <share-to-q-q-space v-bind:usestyle="'el-button'"></share-to-q-q-space>
+                <!--<el-button size="small" type="info" round class=".info-button" @click="showInfoMessage" :style="{'font-family':'-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif'}">查看介绍~</el-button>-->
             </div></el-col>
             <el-col :span="2"><div @click="linkToMe" style="cursor:pointer">
                 <img border="0" SRC="http://wpa.qq.com/pa?p=1:1059738716:4" alt=" 么么哒的色调" />
@@ -101,22 +103,26 @@
 <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
 <script>
 import services from '@/api/file.services'
+import shareToQQSpace from '@/components/shareToQQSpace/index'
 export default {
-    name: 'qlh-header',
+  name: 'qlh-header',
+  components: {
+    shareToQQSpace
+  },
     data() {
         return {
-            p : {
-                url:'193.112.161.157',
-                showcount:'1',/*是否显示分享总数,显示：'1'，不显示：'0' */
-                desc:'格调，一个兴趣使然的便签日志管理=。=现在功能暂时只有记录与每日操作统计。还有很多功能待完善，希望能在使用中不断提出需求意见=。=迭代改进；；；现在作为以前测试写的东西的子模块，请忽略其他地方=。=',/*默认分享理由(可选)*/
-                summary:'欢迎来尝试使用~进群“交流~”~群号：772502467',/*分享摘要(可选)*/
-                title:'格调~做生活的主人~',/*分享标题(可选)*/
-                site:'格调',/*分享来源 如：腾讯网(可选)*/
-                pics:'http://193.112.161.157:8080/resource/images/gediaoQun.png', /*分享图片的路径(可选)*/
-                style:'101',
-                width:199,
-                height:30
-            },
+            // p : {
+            //     url:'193.112.161.157',
+            //     showcount:'1',/*是否显示分享总数,显示：'1'，不显示：'0' */
+            //     desc:'格调，一个兴趣使然的便签日志管理=。=现在功能暂时只有记录与每日操作统计。还有很多功能待完善，希望能在使用中不断提出需求意见=。=迭代改进；；；现在作为以前测试写的东西的子模块，请忽略其他地方=。=',/*默认分享理由(可选)*/
+            //     summary:'欢迎来尝试使用~进群“交流~”~群号：772502467',/*分享摘要(可选)*/
+            //     title:'格调~做生活的主人~',/*分享标题(可选)*/
+            //     site:'格调',/*分享来源 如：腾讯网(可选)*/
+            //     pics:'http://193.112.161.157:8080/resource/images/gediaoQun.png', /*分享图片的路径(可选)*/
+            //     style:'101',
+            //     width:199,
+            //     height:30
+            // },
             visiterCount : '0',
             qlhInfo: '这里是对于夏夜为首的基佬们的介绍~点击跳转~',
             qlhMember: [
@@ -163,14 +169,14 @@ export default {
             var a = "tencent://message/?uin=1059738716&Site=qq&Menu=yes"
             window.open(a)
         },
-        shareToQQ() {
-            var s = [];
-            for(var i in this.p){
-                s.push(i + '=' + encodeURIComponent(this.p[i]||''));
-            }
-            var a = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?"+s.join('&')
-            window.open(a)
-        },
+        // shareToQQ() {
+        //     var s = [];
+        //     for(var i in this.p){
+        //         s.push(i + '=' + encodeURIComponent(this.p[i]||''));
+        //     }
+        //     var a = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?"+s.join('&')
+        //     window.open(a)
+        // },
         showInfoMessage() {
             //调出框显示青龙会的消息介绍
             //TODO 以后增加后台管理网站的接口
