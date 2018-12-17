@@ -15,12 +15,10 @@
 </template>
 <script>
 import services from '@/api/file.services'
-import fullTextarea from '@/components/full-textarea/full-textarea.vue';
-import vueQuillEditor from '@/components/vue-quill-editor/vue-quill-editor.vue';
+import vueQuillEditor from '@/components/vue-quill-editor-blog/vue-quill-editor.vue';
 
 export default {
     components:{
-        fullTextarea,
         vueQuillEditor
     },
     mounted(){

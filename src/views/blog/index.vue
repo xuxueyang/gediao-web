@@ -1,91 +1,96 @@
 <template>
-  <!-- 显示进入detail面板 -->
   <div>
-    <my-vue-quill-editor v-bind:eachId="eachId" v-bind:detailId="detailId" :key='Math.random()'></my-vue-quill-editor>
+    <div v-if="blogId">
+
+    </div>
+    <div v-else>
+    <ul>
+      <li v-for="blog in blogs" v-bind:key="blog.id">
+        <div>
+          <span>{{blog.title}}</span>
+          <a @click="updateBlog(blog.id)">查看编辑</a>
+        </div>
+      </li>
+    </ul>
+    </div>
   </div>
 </template>
 <script>
-  import services from '@/api/file.services'
-  import myVueQuillEditor from '@/components/vue-quill-editor/vue-quill-editor.vue'
+  import services from "../../../api/file.services";
+  import vueQuillEditor from '@/components/vue-quill-editor-blog/vue-quill-editor.vue';
 
   export default {
-    components: {
-      myVueQuillEditor
-    },
-    mounted(){
-      // 查询路由参数，如果
-      this.init()
+    components:{
+      vueQuillEditor
     },
     data() {
       return {
-        eachId:'',
-        detailId:''
+        blogId: '',
+        blogs: [
+          //   {
+          //     title: '测试博客1',
+          //     id: '1',
+          //     createDate: '',
+          //     updateDate: '',
+          //     readCount: 4,
+          // },{
+          //     title: '测试博客2',
+          //     id: '2',
+          //     createDate: '',
+          //     updateDate: '',
+          //     readCount: 4,
+          // },{
+          //     title: '测试博客3',
+          //     id: '3',
+          //     createDate: '',
+          //     updateDate: '',
+          //     readCount: 4,
+          // }
+        ]
       }
     },
-    watch: {
-      '$route': {
-        handler: 'init',
-        immediate: true
-      }
+    mounted(){
+      this.init()
     },
-    watch: {
-      // 如果路由有变化，会再次执行该方法
-      '$route': 'init'
-
-    },
-    methods : {
+    methods:{
       init(){
-        if(this.$route.query.eachId){
-          this.eachId = this.$route.query.eachId
-          if(this.$route.query.detailId==null||this.$route.query.detailId==undefined){
-            // this.createDetail()
+          if(this.$route.query.blogId==null||this.$route.query.blogId==undefined){
+            this.getAllBlog()
           }else{
-            this.detailId = this.$route.query.detailId
+            this.blogId = this.$route.query.blogId
           }
-        }
       },
-      createDetail(){
-        const url = services.getServiceIp()+"/api/app/log/detail"
-        const body = {
-          logEachId: this.eachId,
-          remarks: '',
-          token: services.getToken()
-        }
-        this.$http.put(url,body).then(function(res){
+      getAllBlog() {
+        // 获取到所有的博客
+        const token = services.getToken()
+        var url = '' + services.getServiceIp()+"/api/app/blog/blogs"
+        this.$http.get(url,{}).then(function (res) {
           if(res.data.returnCode.startsWith("200")){
+            this.blogs = res.data.data
             this.$message({
               type:"success",
               showClose:true,
               message: services.getMessageByCode(res.data.returnCode)
             })
-            this.detailId = res.data.data.id
-            // 放入到路由中
-            // this.$router.push({
-            //     query:merge(this.$route.query,{'detailId':this.detailId})
-            // })
-            this.$router.push({
-              path : '/gediao/detail',
-              query: {
-                'eachId': this.eachId,
-                'detailId':this.detailId
-              }
-            })
-          }else{
+          }else {
             this.$message({
               type:"error",
               showClose:true,
               message: services.getMessageByCode(res.data.returnCode)
             })
           }
-        }).catch(function(res){
-          console.log(res)
-          this.$message({
-            type:"error",
-            showClose:true,
-            message:"~~~创建详情失败"
-          })
+
         })
       },
+      updateBlog(id) {
+        // 跳转到编辑页面（和新增页面一样，区别在于，如果没有，会创建）（带有查询ID，如果没有，则视为创建)
+        this.$router.push(
+          {path: '/blog?blogId=' + id}
+        )
+      }
     }
   }
 </script>
+<style scoped>
+
+</style>

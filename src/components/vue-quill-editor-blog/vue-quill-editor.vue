@@ -4,6 +4,10 @@
     <!-- use with components - bidirectional data binding（双向数据绑定） -->
     <el-button class="saveMessage" @click="saveMsg()">保存</el-button>
     <el-button class="return" @click="returnLast()">返回</el-button>
+    <div style="display: flex">
+      <h2>标题：</h2>
+      <input v-model="title" class="inputtitle" placeholder="标题" />
+    </div>
     <!--<el- -->
     <quill-editor ref="myTextEditor"
                   v-model="content"
@@ -71,7 +75,8 @@
               showClose: true,
               message: services.getMessageByCode(res.data.returnCode)
             })
-            this.content = res.data.data.remarks
+            this.content = res.data.data.content
+            this.title = res.data.data.title
           } else {
             this.$message({
               type: 'error',
@@ -90,11 +95,21 @@
         })
       },
       saveMsg() {
+        //验证title必须非空
+        if(!!!this.title){
+          this.$message({
+            type: 'error',
+            showClose: true,
+            message: '标题不应该为空'
+          })
+          return;
+        }
         // 发送API请求保存数据
         const url = services.getServiceIp() + '/api/app' + this.templateUri
         const body = {
-          detailId: this.sourceId,
-          remarks: this.content,
+          id: this.sourceId,
+          content: this.content,
+          title: this.title,
           token: services.getToken()
         }
         this.$http.post(url, body).then(function(res) {

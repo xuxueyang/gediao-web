@@ -1,6 +1,6 @@
 <template>
 <div>
-    <el-button @click="addBlog()">添加博客</el-button>
+    <el-button class="addBlog" @click="addBlog()">添加博客</el-button>
     <ul>
         <li v-for="blog in blogs" v-bind:key="blog.id">
             <div>
@@ -12,36 +12,60 @@
 </div>
 </template>
 <script>
+import services from "../../../api/file.services";
+
 export default {
     name: 'blog-manager',
     data() {
         return {
-            blogs: [{
-                title: '测试博客1',
-                id: '1',
-                createDate: '',
-                updateDate: '',
-                readCount: 4,
-            },{
-                title: '测试博客2',
-                id: '2',
-                createDate: '',
-                updateDate: '',
-                readCount: 4,
-            },{
-                title: '测试博客3',
-                id: '3',
-                createDate: '',
-                updateDate: '',
-                readCount: 4,
-            }
+            blogs: [
+            //   {
+            //     title: '测试博客1',
+            //     id: '1',
+            //     createDate: '',
+            //     updateDate: '',
+            //     readCount: 4,
+            // },{
+            //     title: '测试博客2',
+            //     id: '2',
+            //     createDate: '',
+            //     updateDate: '',
+            //     readCount: 4,
+            // },{
+            //     title: '测试博客3',
+            //     id: '3',
+            //     createDate: '',
+            //     updateDate: '',
+            //     readCount: 4,
+            // }
             ]
         }
     },
+    mounted(){
+      this.getAllBlog()
+    },
     methods:{
         getAllBlog() {
-            // 获取到所有的博客
+          // 获取到所有的博客
+          const token = services.getToken()
+          var url = '' + services.getServiceIp()+"/api/app/blog/blogs"+"?token="+token
+          this.$http.get(url,{}).then(function (res) {
+          if(res.data.returnCode.startsWith("200")){
+            this.blogs = res.data.data
+            this.$message({
+              type:"success",
+              showClose:true,
+              message: services.getMessageByCode(res.data.returnCode)
+            })
+          }else {
+            this.$message({
+              type:"error",
+              showClose:true,
+              message: services.getMessageByCode(res.data.returnCode)
+            })
+          }
 
+          })
         },
         addBlog() {
             // 跳转到新增页面
@@ -59,5 +83,7 @@ export default {
 }
 </script>
 <style scoped>
-
+.addBlog{
+  display: flex;
+}
 </style>
