@@ -62,10 +62,8 @@
       },
       getAllBlog() {
         // 获取到所有的博客
-        var url = '' + services.getServiceIp() + '/api/app/blog/blogs'
+        var url = '' + services.getServiceIp() + '/api/app/blog/blogs' + '?page=0'
         this.$http.get(url,{
-          page: 0,
-          size: 10
         }).then(function (res) {
           if(res.data.returnCode.startsWith('200')) {
             this.blogs = res.data.data

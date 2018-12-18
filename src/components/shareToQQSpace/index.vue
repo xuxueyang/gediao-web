@@ -13,7 +13,7 @@
 <script>
   export default {
     name: 'shareToQQSpace',
-    props:['usestyle'],
+    props:['usestyle', 'title'],
     data(){
       return {
         p: {
@@ -37,6 +37,9 @@
         // console.log(this.$route)
         // console.log(this.$router)
         this.p.url = this.p.url + '/' + window.location.hash
+        if (!!this.title) {
+          this.p.title = this.title
+        }
         for (var i in this.p) {
           s.push(i + '=' + encodeURIComponent(this.p[i] || ''))
         }

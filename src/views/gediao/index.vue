@@ -22,12 +22,12 @@
                             <a>全局配置</a>
                         </div>
                     </li>
-                    <li>
-                        <div @click="setIndex('7')">
-                            <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
-                            <a>PDF资源</a>
-                        </div>
-                    </li>
+                    <!--<li>-->
+                        <!--<div @click="setIndex('7')">-->
+                            <!--<i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>-->
+                            <!--<a>PDF资源</a>-->
+                        <!--</div>-->
+                    <!--</li>-->
                     <li>
                         <div @click="setIndex('8')">
                             <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
@@ -39,7 +39,7 @@
                             <!-- <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i> -->
                             <a >退出登陆</a>
                         </div>
-                    </li>                   
+                    </li>
                 </ul>
             </div>
             <el-aside  width="200px" class="font-aside"  v-if="false" >
@@ -60,59 +60,59 @@
                     <el-menu-item index="2" @click="setIndex('2')" >
                         <i class="el-icon-document"></i>
                         <span slot="title">日志</span>
-                    </el-menu-item>          
+                    </el-menu-item>
                     <el-menu-item index="3"  @click="setIndex('3')">
                         <i class="el-icon-document"></i>
                         <span slot="title">资源积累</span>
-                    </el-menu-item>  
+                    </el-menu-item>
                     <el-menu-item index="6"  @click="setIndex('6')">
                         <i class="el-icon-document"></i>
                         <span slot="title">全局配置</span>
-                    </el-menu-item>   
+                    </el-menu-item>
                     <el-menu-item index="4"  @click="setIndex('4')">
                         <i class="el-icon-document"></i>
                         <span slot="title">垃圾箱</span>
-                    </el-menu-item> 
+                    </el-menu-item>
                     <el-menu-item index="5"  @click="logout()">
                         <i class="el-icon-document"></i>
                         <span slot="title">退出登陆</span>
-                    </el-menu-item>                                                                                          
+                    </el-menu-item>
                 </el-menu>
             </el-aside>
             <el-main class="font-main">
                 <div v-if="index=='0'">
                    <echarts-data></echarts-data>
-                </div>   
+                </div>
                 <div v-if="index=='1'">
                      <show-log-each v-bind:projectType="projectType"></show-log-each>
-                </div>   
+                </div>
                 <div v-if="index=='2'">
-                    
-                </div>   
+
+                </div>
                 <div v-if="index=='3'">
-                    
-                </div>     
+
+                </div>
                 <div v-if="index=='4'">
-                    
+
                 </div>
                 <div v-if="index=='6'">
                     <!-- 全局配置，设置tag什么的 -->
                     <!-- 因为是全局配置，所以是选项卡的形式 -->
                     <manager-setting v-bind:projectType="projectType"></manager-setting>
-                </div>   
+                </div>
                 <div v-if="index=='7'">
                     <pdf-read></pdf-read>
-                </div>              
+                </div>
                 <div v-if="index=='8'" >
                     <blog-manager></blog-manager>
-                </div>                                                      
+                </div>
             </el-main>
         </el-container>
     </div>
     <div v-else>
         <!-- 转到登陆的组件中 -->
         <div v-if="index=='reg'">
-            <regestry 
+            <regestry
                 v-bind:projectType="projectType"
                 v-on:regSuccessCallback="regSuccessCallback"
                 v-on:canelRegCallback="canelRegCallback"
@@ -125,9 +125,9 @@
                 v-on:toRegCallback="toRegCallback"
             >
             </login>
-            
+
         </div>
-    </div>    
+    </div>
 </div>
 </template>
 
@@ -168,18 +168,18 @@ export default {
             // this.index = this.$router.params.index;
             // console.log(index+"  " + this.index)
             // if(this.$route.params.index==undefined){
-            //     this.$router.push({  
-            //         query:merge(this.$route.query,{'index':index})  
-            //     }) 
+            //     this.$router.push({
+            //         query:merge(this.$route.query,{'index':index})
+            //     })
             // }else if(index!=this.index){
             //     console.log("index:"+index)
-            //     this.$router.push({  
-            //         query:merge(this.$route.query,{'index':index})  
-            //     })  
+            //     this.$router.push({
+            //         query:merge(this.$route.query,{'index':index})
+            //     })
             // // }
-            this.$router.push({  
-                query:merge(this.$route.query,{'index':index})  
-            })  
+            this.$router.push({
+                query:merge(this.$route.query,{'index':index})
+            })
             // this.$router.push({
             //     query:merge(this.$route.query,
             //     {
@@ -206,10 +206,10 @@ export default {
             //登陆成功
             //刷新即可
             //  this.setIndex('1')
-            // this.$router.push({  
-            //     query:merge(this.$route.query,{'index':'1'})  
-            // })  
-            
+            // this.$router.push({
+            //     query:merge(this.$route.query,{'index':'1'})
+            // })
+
              this.hasLogin = true
              this.setIndex('0')
             // location.reload()
@@ -227,7 +227,7 @@ export default {
             // this.index = 'login'
             this.hasLogin  = false
         }
-    },    
+    },
     mounted() {
         //鉴别有没有登陆
         const token = services.getToken()
@@ -250,13 +250,13 @@ export default {
                     var tmp = JSON.parse(userInfo)
                     this.hasLogin = true
                         // if(this.$route.params.index==undefined){
-                        //     this.$router.push({  
-                        //         query:merge(this.$route.query,{'index':'1'})  
-                        //     }) 
+                        //     this.$router.push({
+                        //         query:merge(this.$route.query,{'index':'1'})
+                        //     })
                         // }else{
-                        //     this.$router.push({  
-                        //         query:merge(this.$route.query,{'index':'1'})  
-                        //     })  
+                        //     this.$router.push({
+                        //         query:merge(this.$route.query,{'index':'1'})
+                        //     })
                         // }
                     this.index = '0'
                 }catch(exp) {
@@ -278,16 +278,16 @@ export default {
         // https://blog.csdn.net/sllailcp/article/details/80312848
 
         if(this.$route.query.index==undefined){
-            this.$router.push({  
-                query:merge(this.$route.query,{'index':this.index})  
-            }) 
+            this.$router.push({
+                query:merge(this.$route.query,{'index':this.index})
+            })
         }else{
             this.index = this.$route.query.index
         }
         // console.log('1this.$route.query.index：'+this.$route.query.index)
-        //             this.$router.push({  
-        //         query:merge({},{'index':1})  
-        //     }) 
+        //             this.$router.push({
+        //         query:merge({},{'index':1})
+        //     })
         //     console.log('2this.$route.query.index：'+this.$route.query.index)
         //     this.$route.query.index = 1
         //     console.log('3this.$route.query.index：'+this.$route)

@@ -4,7 +4,7 @@
       <!--标题在左边，分享在右边-->
       <div><h2>{{blogDto.title}}</h2></div>
       <div class="shareButton">
-        <share-to-q-q-space v-bind:usestyle="'el-button'"></share-to-q-q-space>
+        <share-to-q-q-space v-bind:usestyle="'el-button'" v-bind:title="blogDto.title"></share-to-q-q-space>
       </div>
     </div>
     <div>
