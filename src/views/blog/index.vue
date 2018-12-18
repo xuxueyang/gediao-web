@@ -62,20 +62,22 @@
       },
       getAllBlog() {
         // 获取到所有的博客
-        const token = services.getToken()
-        var url = '' + services.getServiceIp()+"/api/app/blog/blogs"
-        this.$http.get(url,{}).then(function (res) {
-          if(res.data.returnCode.startsWith("200")){
+        var url = '' + services.getServiceIp() + '/api/app/blog/blogs'
+        this.$http.get(url,{
+          page: 0,
+          size: 10
+        }).then(function (res) {
+          if(res.data.returnCode.startsWith('200')) {
             this.blogs = res.data.data
             this.$message({
-              type:"success",
+              type: 'success',
               showClose:true,
               message: services.getMessageByCode(res.data.returnCode)
             })
           }else {
             this.$message({
-              type:"error",
-              showClose:true,
+              type: 'error',
+              showClose: true,
               message: services.getMessageByCode(res.data.returnCode)
             })
           }
