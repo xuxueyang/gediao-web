@@ -1,5 +1,7 @@
 <template>
-  <div class="login-container">
+  <div>
+  <transition name="fold">
+  <div class="login-container example" v-show="true">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <h2 class="titleh2">格调</h2>
       <p class="titleh3">做自己生活的主人</p>
@@ -32,6 +34,8 @@
         <span> password: admin</span>
       </div> -->
     </el-form>
+  </div>
+  </transition>
   </div>
 </template>
 
@@ -102,7 +106,15 @@ export default {
 <style rel="stylesheet/scss" lang="scss">
 $bg:#2d3a4b;
 $light_gray:#eee;
-
+.example{
+  transform: translate3d(0, -100px, 0);
+}
+.fold-enter-active, .fold-leave-active {
+  transition: all .5s;
+}
+.fold-enter, .fold-leave-active {
+  transform: translate3d(0, 0, 0);
+}
 /* reset element-ui css */
 .login-container {
   .el-input {

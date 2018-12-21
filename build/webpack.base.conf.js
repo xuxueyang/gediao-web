@@ -23,6 +23,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   plugins: [
+    // new webpack.optimize.UglifyJsPlugin(),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jquery: 'jquery',

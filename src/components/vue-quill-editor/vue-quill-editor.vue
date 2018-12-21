@@ -8,7 +8,7 @@
     <quill-editor ref="myTextEditor"
                   v-model="content"
                   :config="editorOption"
-                   @keyup.ctrl.83.native="saveMsg()"
+                   @keyup.alt.83.native="save($event)"
                   @blur="onEditorBlur($event)"
                   @focus="onEditorFocus($event)"
                   @ready="onEditorReady($event)">
@@ -26,8 +26,10 @@
     },
     data() {
       return {
-        title:'',
-        content: '<h2>数据正在加载中ing~~~</h2>',
+        title: '',
+        content: '<h2>数据正在加载中ing~~~(按alt+s可以快捷保存~）</h2>',
+        hasInit: true,
+        // keyDown: any,
         editorOption: {
           // something config
           // modules: {
@@ -40,8 +42,13 @@
       }
     },
     methods: {
-      save() {
-        alert('save')
+      save(editor) {
+        // alert('a')
+        // console.log(editor)
+        this.saveMsg()
+        // window.event.returnValue=false
+        // editor.returnValue = false
+        // editor.preventDefault()
       },
       initMsg() {
         // 添加监听器，等初始化完毕后，设置msg
@@ -49,10 +56,53 @@
       },
       onEditorBlur(editor) {
         // console.log('editor blur!', editor)
+        // if(!!this.keyDown){
+        //   document.onkeydown = this.keyDown
+        // }
       },
       onEditorFocus(editor) {
         // console.log('editor focus!', editor)
+        // this.keyDown = document.onkeydown
+        // document.onkeydown = this.KeyDown
       },
+      // KeyDown() {
+      //   // 屏蔽鼠标右键、Ctrl+n、shift+F10、F5刷新、退格键
+      //   // alert("ASCII代码是："+event.keyCode);
+      //   if ( (window.event.altKey)&&
+      //     (  (window.event.keyCode==37)|| //屏蔽 Alt+ 方向键 ←
+      //       (window.event.keyCode==39) )  ){ //屏蔽 Alt+ 方向键 →
+      //     alert("不准你使用ALT+方向键前进或后退网页！");
+      //     event.returnValue=false;
+      //   }
+      //   if ((event.keyCode==8) || //屏蔽退格删除键
+      //     (event.keyCode==116)|| //屏蔽 F5 刷新键
+      //     (event.keyCode==112)|| //屏蔽 F1 刷新键
+      //     (event.ctrlKey && event.keyCode==82)){ //Ctrl + R
+      //     event.keyCode=0;
+      //     event.returnValue=false;
+      //     alert("不准你使用快捷！");
+      //   }
+      //   if ((event.ctrlKey)&&(event.keyCode==78)) //屏蔽 Ctrl+n
+      //   {
+      //     alert("ctrl + n");
+      //     event.returnValue=false;
+      //   }
+      //   if ((event.shiftKey)&&(event.keyCode==121)) //屏蔽 shift+F10
+      //   {
+      //     alert(" shift+F10 ");
+      //     event.returnValue=false;
+      //   }
+      //   if (window.event.srcElement.tagName == "A" && window.event.shiftKey)
+      //   {
+      //     window.event.returnValue = false; //屏蔽 shift 加鼠标左键新开一网页
+      //   }
+      //
+      //   if ((window.event.altKey)&&(window.event.keyCode==115)){ //屏蔽Alt+F4
+      //     alert('Alt+F4');
+      //     //window.showModelessDialog("about:blank","","dialogWidth:1px;dialogheight:1px");
+      //     return false;
+      //   }
+      // },
       onEditorReady(editor) {
         // console.log('editor ready!', editor)
         this.initMsg()
@@ -72,6 +122,7 @@
               message: services.getMessageByCode(res.data.returnCode)
             })
             this.content = res.data.data.remarks
+            this.hasInit = false
           } else {
             this.$message({
               type: 'error',
@@ -90,6 +141,14 @@
         })
       },
       saveMsg() {
+        if (hasInit) {
+          this.$message({
+            type: 'warning',
+            showClose: true,
+            message: '数据还在加载中~'
+          })
+          return
+        }
         // 发送API请求保存数据
         const url = services.getServiceIp() + '/api/app' + this.templateUri
         const body = {

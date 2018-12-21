@@ -15,7 +15,7 @@
 </template>
 <script>
 import services from '@/api/file.services'
-import fullTextarea from '@/components/full-textarea/full-textarea.vue';
+// import fullTextarea from '@/components/full-textarea/full-textarea.vue';
 import vueQuillEditor from '@/components/vue-quill-editor/vue-quill-editor.vue';
 
 export default {

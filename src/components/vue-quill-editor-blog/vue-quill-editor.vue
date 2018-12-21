@@ -12,7 +12,7 @@
     <quill-editor ref="myTextEditor"
                   v-model="content"
                   :config="editorOption"
-                   @keyup.ctrl.83.native="saveMsg()"
+                   @keyup.ctrl.83.native="save($event)"
                   @blur="onEditorBlur($event)"
                   @focus="onEditorFocus($event)"
                   @ready="onEditorReady($event)">
@@ -33,6 +33,7 @@
         title: '',
         permissionType: '',
         content: '<h2>数据正在加载中ing~~~</h2>',
+        hasInit: true,
         editorOption: {
           // something config
           // modules: {
@@ -45,8 +46,12 @@
       }
     },
     methods: {
-      save() {
-        alert('save')
+      save(editor) {
+        // console.log(editor)
+        // alert('a')
+        this.saveMsg()
+        // window.event.returnValue = false
+        // editor.returnValue=false
       },
       initMsg() {
         // 添加监听器，等初始化完毕后，设置msg
@@ -79,6 +84,7 @@
             this.content = res.data.data.content
             this.title = res.data.data.title
             this.permissionType = res.data.data.permissionType
+            this.hasInit = false
           } else {
             this.$message({
               type: 'error',
@@ -97,7 +103,15 @@
         })
       },
       saveMsg() {
-        //验证title必须非空
+        if (this.hasInit) {
+          this.$message({
+            type: 'warning',
+            showClose: true,
+            message: '数据还在加载中~'
+          })
+          return
+        }
+        // 验证title必须非空
         if(!!!this.title){
           this.$message({
             type: 'error',
