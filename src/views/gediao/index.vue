@@ -29,6 +29,12 @@
                         <!--</div>-->
                     <!--</li>-->
                     <li>
+                        <div @click="setIndex('9')">
+                            <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
+                            <a>在线聊天室</a>
+                        </div>
+                    </li>
+                    <li>
                         <div @click="setIndex('8')">
                             <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
                             <a>博客管理</a>
@@ -106,6 +112,10 @@
                 <div v-if="index=='8'" >
                     <blog-manager></blog-manager>
                 </div>
+                <div v-if="index=='9'">
+                    <!-- https://blog.csdn.net/niyuelin1990/article/details/78062139 -->
+                    <online-chat></online-chat>
+                </div>
             </el-main>
         </el-container>
     </div>
@@ -141,7 +151,7 @@ import managerSetting from './global-setting/manager-setting.vue'
 import echartsData from './static-data/echarts-data.vue'
 import pdfRead from './pdf-read/select-pdf-read.vue'
 import blogManager from './blog-manager/index.vue'
-
+import onlineChat from './online-chat/index.vue'
 export default {
     name: 'gediao',
     components:{
@@ -151,7 +161,8 @@ export default {
         managerSetting,
         echartsData,
         pdfRead,
-        blogManager
+        blogManager,
+        onlineChat
     },
     data() {
         return {

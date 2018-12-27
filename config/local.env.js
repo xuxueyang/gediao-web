@@ -6,4 +6,5 @@ const prodEnv = require('./local.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"local"',
   BASE_API: '"http://localhost:9999"',
+  WS_API: '"http://localhost:9999"'
 })
