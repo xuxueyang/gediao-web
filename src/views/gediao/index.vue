@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div v-if="hasLogin">
-        <el-container>
+   <div v-if="hasLogin">
+         <el-container>
             <div class="leftDiv">
                 <ul class="GDul">
                     <li>
@@ -28,7 +28,7 @@
                             <!--<a>PDF资源</a>-->
                         <!--</div>-->
                     <!--</li>-->
-                    <li>
+                     <li>
                         <div @click="setIndex('9')">
                             <i class="el-icon-menu" style="float:left;padding-top:10px;padding-left:15px;"></i>
                             <a>在线聊天室</a>
@@ -42,49 +42,12 @@
                     </li>
                     <li>
                         <div @click="logout()">
-                            <!-- <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i> -->
+                            <i class="el-icon-document" style="float:left;padding-top:10px;padding-left:15px;"></i>
                             <a >退出登陆</a>
                         </div>
                     </li>
                 </ul>
             </div>
-            <el-aside  width="200px" class="font-aside"  v-if="false" >
-                <el-menu
-                    default-active="0"
-                    class="el-menu-vertical-demo"
-                    background-color="#545c64"
-                    text-color="#fff"
-                    active-text-color="#ffd04b">
-                    <el-menu-item index="0"  @click="setIndex('0')">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">今日进展</span>
-                    </el-menu-item>
-                    <el-menu-item index="1" @click="setIndex('1')">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">便签添加</span>
-                    </el-menu-item>
-                    <el-menu-item index="2" @click="setIndex('2')" >
-                        <i class="el-icon-document"></i>
-                        <span slot="title">日志</span>
-                    </el-menu-item>
-                    <el-menu-item index="3"  @click="setIndex('3')">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">资源积累</span>
-                    </el-menu-item>
-                    <el-menu-item index="6"  @click="setIndex('6')">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">全局配置</span>
-                    </el-menu-item>
-                    <el-menu-item index="4"  @click="setIndex('4')">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">垃圾箱</span>
-                    </el-menu-item>
-                    <el-menu-item index="5"  @click="logout()">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">退出登陆</span>
-                    </el-menu-item>
-                </el-menu>
-            </el-aside>
             <el-main class="font-main">
                 <div v-if="index=='0'">
                    <echarts-data></echarts-data>
@@ -114,14 +77,14 @@
                 </div>
                 <div v-show="index=='9'">
                     <!-- https://blog.csdn.net/niyuelin1990/article/details/78062139 -->
-                    <online-chat></online-chat>
+                     <online-chat></online-chat>
                 </div>
             </el-main>
         </el-container>
     </div>
-    <div v-else>
+    <div v-else>  
         <!-- 转到登陆的组件中 -->
-        <div v-if="index=='reg'">
+         <div v-if="index=='reg'">
             <regestry
                 v-bind:projectType="projectType"
                 v-on:regSuccessCallback="regSuccessCallback"
@@ -138,7 +101,7 @@
 
         </div>
     </div>
-</div>
+</div> 
 </template>
 
 <script>
@@ -149,7 +112,7 @@ import regestry from '@/components/reg/index.vue'
 import login from '@/components/login/index.vue'
 import managerSetting from './global-setting/manager-setting.vue'
 import echartsData from './static-data/echarts-data.vue'
-import pdfRead from './pdf-read/select-pdf-read.vue'
+// import pdfRead from './pdf-read/select-pdf-read.vue'
 import blogManager from './blog-manager/index.vue'
 import onlineChat from './online-chat/index.vue'
 export default {
@@ -160,7 +123,7 @@ export default {
         login,
         managerSetting,
         echartsData,
-        pdfRead,
+        // pdfRead,
         blogManager,
         onlineChat
     },

@@ -21,6 +21,7 @@ export default {
             websock: null,
             content:'',
             input:'',
+            hasInit: false
         }
     },
     methods: {
@@ -47,35 +48,32 @@ export default {
                     }, 500);
                 }
             },
-            initWebSocket(){ 
-                this.websock = wsServices.createSession(services.getToken(),services.getUserId())
-                //初始化weosocket
-                //ws地址
-                // const wsuri = "ws://localhost:9999" + "/websocket/threadsocket";
-                if(this.websock!=null&&this.websock.readyState == this.websock.OPEN){
-                    this.websock.onmessage = this.websocketonmessage;
-                }else{
-                    this.websock.onmessage = this.websocketonmessage;
-                }
-                
-            },
-            websocketonmessage(e){ //数据接收
-                // const redata = JSON.parse(e.data);
-                console.log(e.data);
-                this.content = this.content + '\n'+e.data
-            },
+            // websocketonmessage(e){ //数据接收
+            //     // const redata = JSON.parse(e.data);
+            //     // console.log(e.data);
+            //     this.content = this.content + '\n'+e.data
+            // },
             websocketsend(){//数据发送
-                this.content = this.content + '\n你说:'+this.input
-                alert(wsServices.getChatServiceIp())
-                console.log(wsServices.createSession(services.getToken(),services.getUserId()))
-                // console.log(wsServices.createSession)
-                this.websock.send(this.input)
-                this.input=''
+                if(!!this.input){
+                    this.content = this.content + '\n你说：' + this.input 
+                    wsServices.sendMessage(this.websock,this.input,null)
+                }
             },
-
+            // 发送成功的回调
+            onSendSuccess(e) {
+                var dataProtocolStr = e.data
+                var dataProtocol = dataProtocolStr // JSON.parse(dataProtocolStr)
+                if(this.hasInit) {
+                    this.content = this.content + '\n'+dataProtocol
+                    this.input = '' 
+                }
+            }
         },
         created(){
-            this.initWebSocket()
+            this.websock = wsServices.createSession(this.onSendSuccess)
+        },
+        mounted(){
+            this.hasInit = true;
         },
         destroyed(){
             this.websock.close()
@@ -85,8 +83,8 @@ export default {
 <style>
 .mainChat{
     min-height: 400px;
-    min-width: 250px;
-    widows: 80%;
+    width: 80%;
+    margin-left:20px;
 }
 
 </style>
