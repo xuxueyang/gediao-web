@@ -269,6 +269,7 @@ export default {
             pageableSize:50,
             pageablePage:0,
             total:100,
+            openDetailArray:[],
             selectTag: '',
             form: {
                 title: '',
@@ -667,7 +668,7 @@ export default {
 
         },
         searchLog() {
-            console.log(this.select)
+            // console.log(this.select)
             this.getLogEachs()
 
         },
@@ -739,6 +740,7 @@ export default {
                     for(var i=0;i<arr.length;i++){
                         this.tableDate.push(arr[i])
                     }
+                    this.openDetailArray = []
                 }else{
                   this.$message({
                     type:"error",
@@ -767,21 +769,55 @@ export default {
         showDetailDialog(row) {
             const eachId = row.id
             const object = row.appLogDetailDTOList[0]
+            
             if(object==null||object==undefined){
-                this.$router.push({
-                    path : '/gediao/detail',
-                    query: {
-                        'eachId': eachId,
-                    }
-                })
+                // this.$router.push({
+                //     path : '/gediao/detail',
+                //     query: {
+                //         'eachId': eachId,
+                //     }
+                // })
+                // alert(window.location.origin + '/gediao/detail?eachId='+eachId)
+                // 有个问题，直接跳转会有刷新问题--没有办法获取到最新的数据
+                // 调用接口。获取到最新的
+                // window.open(window.location.origin + '/#/gediao/detail?eachId='+eachId+'&detailId='+row.appLogDetailDTOList[0].id)
+                if(!this.openDetailArray.includes(eachId)){
+                    this.openDetailArray.push(eachId)
+                    window.open(window.location.origin + '/#/gediao/detail?eachId='+eachId)
+                }else{
+                    var url = '' + services.getServiceIp()+"/api/app/log/details"+"?token="+services.getToken()+"&eachId="+eachId
+                    this.$http.get(url,{
+                    // 分页信息
+                    //   page: 0,
+                    //   size: 20
+                    }).then(function(res){
+                        if(res.data.returnCode.startsWith("200")){
+                            services.removeElement(this.openDetailArray,eachId)
+                            // for(var i=0;i<this.openDetailArray.length;i++){
+                            //     if(eachId === this.openDetailArray ){
+                            //         this.openDetailArray[i]
+                            //     }
+                            // }
+                            row.appLogDetailDTOList = res.data.data
+                            if(row.appLogDetailDTOList[0]==null||row.appLogDetailDTOList[0]==undefined){
+                                window.open(window.location.origin + '/#/gediao/detail?eachId='+eachId)
+                            }else{
+                                window.open(window.location.origin + '/#/gediao/detail?eachId='+eachId+'&detailId='+row.appLogDetailDTOList[0].id)
+                            }
+                        }
+                    })
+                }
+                
+                
             }else{
-                this.$router.push({
-                    path : '/gediao/detail',
-                    query: {
-                        'eachId': eachId,
-                        'detailId':object.id
-                    }
-                })
+                // this.$router.push({
+                //     path : '/gediao/detail',
+                //     query: {
+                //         'eachId': eachId,
+                //         'detailId':object.id
+                //     }
+                // })
+                window.open(window.location.origin + '/#/gediao/detail?eachId='+eachId+'&detailId='+object.id)
             }
             // this.$router.push({
             //     path: ,
@@ -801,6 +837,7 @@ export default {
         showMessageDialog(row) {
             this.messageDetail = true
         },
+
         deleteRow(row){
               //删除文件，逻辑删除
                 this.$confirm('此操作将删除该便签, 是否继续?', '提示', {

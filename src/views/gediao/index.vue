@@ -112,7 +112,7 @@
                 <div v-if="index=='8'" >
                     <blog-manager></blog-manager>
                 </div>
-                <div v-if="index=='9'">
+                <div v-show="index=='9'">
                     <!-- https://blog.csdn.net/niyuelin1990/article/details/78062139 -->
                     <online-chat></online-chat>
                 </div>
@@ -168,37 +168,18 @@ export default {
         return {
             hasLogin: false,
             index: 'login',
-            projectType: 'GEDIAO'
+            projectType: 'GEDIAO',
+            defaultIndex: '9'
         }
     },
     methods: {
         setIndex(index) {
             //TODO 添加到路由上
-            this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
-            // this.$route.params.index = index;
-            // this.index = this.$router.params.index;
-            // console.log(index+"  " + this.index)
-            // if(this.$route.params.index==undefined){
-            //     this.$router.push({
-            //         query:merge(this.$route.query,{'index':index})
-            //     })
-            // }else if(index!=this.index){
-            //     console.log("index:"+index)
-            //     this.$router.push({
-            //         query:merge(this.$route.query,{'index':index})
-            //     })
-            // // }
+            // this.$router.push(this.$router.currentRoute.path,{params:{ index :  index}})
             this.$router.push({
                 query:merge(this.$route.query,{'index':index})
             })
-            // this.$router.push({
-            //     query:merge(this.$route.query,
-            //     {
-            //     params: {
-            //         'index':index   //row.hid为变量
-            //     }
-            //     })}
-            // )
+
             this.index = index
         },
         regSuccessCallback() {
@@ -222,7 +203,7 @@ export default {
             // })
 
              this.hasLogin = true
-             this.setIndex('0')
+             this.setIndex(this.defaultIndex)
             // location.reload()
         },
         toRegCallback(){
@@ -239,6 +220,7 @@ export default {
             this.hasLogin  = false
         }
     },
+
     mounted() {
         //鉴别有没有登陆
         const token = services.getToken()
@@ -269,7 +251,7 @@ export default {
                         //         query:merge(this.$route.query,{'index':'1'})
                         //     })
                         // }
-                    this.index = '0'
+                    this.index = this.defaultIndex
                 }catch(exp) {
                     this.hasLogin = false
                     console.log(exp)

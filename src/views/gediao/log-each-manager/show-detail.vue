@@ -20,7 +20,7 @@ import vueQuillEditor from '@/components/vue-quill-editor/vue-quill-editor.vue';
 
 export default {
     components:{
-        fullTextarea,
+        // fullTextarea,
         vueQuillEditor
     },
     mounted(){

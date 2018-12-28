@@ -3,7 +3,7 @@
     <!--显示博客主页面-->
     <!-- use with components - bidirectional data binding（双向数据绑定） -->
     <el-button class="saveMessage" @click="saveMsg()">保存</el-button>
-    <el-button class="return" @click="returnLast()">返回</el-button>
+    <el-button class="return" @click="queryReturnLast()">返回</el-button>
     <div style="display: flex">
       <h2>标题：</h2>
       <input v-model="title" class="inputtitle" placeholder="标题" />
@@ -14,6 +14,7 @@
                   :config="editorOption"
                    @keyup.ctrl.83.native="save($event)"
                   @blur="onEditorBlur($event)"
+                  @change="onEditorChange($event)"
                   @focus="onEditorFocus($event)"
                   @ready="onEditorReady($event)">
     </quill-editor>
@@ -34,6 +35,7 @@
         permissionType: '',
         content: '<h2>数据正在加载中ing~~~</h2>',
         hasInit: true,
+        hasSave: false,
         editorOption: {
           // something config
           // modules: {
@@ -69,7 +71,8 @@
       },
       onEditorChange({ editor, html, text }) {
         // console.log('editor change!', editor, html, text)
-        this.content = html
+        // this.content = html
+        this.hasSave = false
       },
       // 设置个定时器，
       getMsg() {
@@ -85,6 +88,7 @@
             this.title = res.data.data.title
             this.permissionType = res.data.data.permissionType
             this.hasInit = false
+            this.hasSave = false
           } else {
             this.$message({
               type: 'error',
@@ -131,6 +135,7 @@
         }
         this.$http.post(url, body).then(function(res) {
           if (res.data.returnCode.startsWith('200')) {
+            this.hasSave = true
             this.$message({
               type: 'success',
               showClose: true,
@@ -156,6 +161,29 @@
         this.$router.push({
           path: '/gediao'
         })
+      },
+      queryReturnLast(){
+          if(this.hasSave){
+            this.returnLast()
+          }else{
+            this.$confirm('消息尚未保存, 是否继续退出?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.returnLast()
+              // this.$message({
+              //   type: 'success',
+              //   message: '删除成功!'
+              // });
+            }).catch(() => {
+              // this.$message({
+              //   type: 'info',
+              //   message: '已取消删除'
+              // });          
+            });
+          }
+
       },
       returnLast(){
         // 有个bug，如果是第一次创建，返回上级有bug呀 --

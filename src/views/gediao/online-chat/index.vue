@@ -13,12 +13,14 @@
     </div>
 </template>
 <script>
+import wsServices from '@/api/chat.services'
+import services from '../../../api/file.services';
 export default {
     data() {
         return {
             websock: null,
             content:'',
-            input:''
+            input:'',
         }
     },
     methods: {
@@ -45,13 +47,17 @@ export default {
                     }, 500);
                 }
             },
-            initWebSocket(){ //初始化weosocket
+            initWebSocket(){ 
+                this.websock = wsServices.createSession(services.getToken(),services.getUserId())
+                //初始化weosocket
                 //ws地址
                 // const wsuri = "ws://localhost:9999" + "/websocket/threadsocket";
-                const wsuri = "ws://localhost:9999" + "/websocket";
-                this.websock = new WebSocket(wsuri);
-                this.websock.onmessage = this.websocketonmessage;
-                this.websock.onclose = this.websocketclose;
+                if(this.websock!=null&&this.websock.readyState == this.websock.OPEN){
+                    this.websock.onmessage = this.websocketonmessage;
+                }else{
+                    this.websock.onmessage = this.websocketonmessage;
+                }
+                
             },
             websocketonmessage(e){ //数据接收
                 // const redata = JSON.parse(e.data);
@@ -60,16 +66,19 @@ export default {
             },
             websocketsend(){//数据发送
                 this.content = this.content + '\n你说:'+this.input
+                alert(wsServices.getChatServiceIp())
+                console.log(wsServices.createSession(services.getToken(),services.getUserId()))
+                // console.log(wsServices.createSession)
                 this.websock.send(this.input)
                 this.input=''
             },
-            websocketclose(e){  //关闭
-                console.log("connection closed (" + e.code + ")");
-                this.content = this.content + "\nconnection closed (" + e.code + ")"
-            }
+
         },
         created(){
             this.initWebSocket()
+        },
+        destroyed(){
+            this.websock.close()
         }
 }
 </script>

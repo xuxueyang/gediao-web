@@ -2,7 +2,7 @@ import axios from 'axios'
 import returnCode from './services.returnCode'
 const services = {
   // serviceIp =  ,
-  storage : window.localStorage,
+  storage: window.localStorage,
   getServiceIp() {
     // return 'http://localhost:9999'
     // return 'http://193.112.17.169:9999'
@@ -15,6 +15,26 @@ const services = {
     // type: APP_GEDIAO_LOG_MESSAGE_STATUS
     const url = '' + this.getServiceIp() + '/api/dist/codes/' + 'APP_GEDIAO_LOG_MESSAGE_STATUS'
     return url
+  },
+  removeElement(arr, ele) {
+    var result = []
+    if (arr instanceof Array) {
+      if (ele instanceof Array) {
+        result = arr.filter(function(item) {
+          var isInEle = ele.some(function(eleItem) {
+            return item === eleItem
+          })
+          return !isInEle
+        })
+      } else {
+        result = arr.filter(function(item) {
+          return item !== ele
+        })
+      }
+    } else {
+      console.log('parameter error of function removeElement');
+    }
+    return result
   },
   transferZonetimedateToBelongDate(date) {
     // Jul 21 2018 11:36:04 GMT+0800 (ä¸­å½æ åæ¶é´),Sat Jul 21 2018 11:36:04 GMT+0800 (ä¸­å½æ åæ¶é´)
@@ -100,7 +120,7 @@ const services = {
     // var res = null
     const res = axios.get('' + this.getServiceIp() + '/api/uaafile/list', { pararms })
     return res
-  },
+  }
 
 }
 export default services
