@@ -55,17 +55,19 @@ export default {
             // },
             websocketsend(){//数据发送
                 if(!!this.input){
-                    this.content = this.content + '\n你说：' + this.input 
+                    // this.content = this.content + '\n你说：' + this.input 
+                    // 在后台返回时，添加到前台，不然没办法删除自己发送的
                     wsServices.sendMessage(this.websock,this.input,null)
                 }
             },
+            
             // 发送成功的回调
-            onSendSuccess(e) {
-                var dataProtocolStr = e.data
-                var dataProtocol = dataProtocolStr // JSON.parse(dataProtocolStr)
-                if(this.hasInit) {
-                    this.content = this.content + '\n'+dataProtocol
-                    this.input = '' 
+            onSendSuccess(dataProtocol) {
+                if(dataProtocol){
+                    if(this.hasInit) {
+                        this.content = this.content + '\n'+dataProtocol
+                        this.input = '' 
+                    }
                 }
             }
         },
@@ -76,7 +78,9 @@ export default {
             this.hasInit = true;
         },
         destroyed(){
-            this.websock.close()
+            if(this.websock){
+                this.websock.close()
+            }
         }
 }
 </script>

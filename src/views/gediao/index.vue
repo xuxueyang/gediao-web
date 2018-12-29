@@ -75,7 +75,7 @@
                 <div v-if="index=='8'" >
                     <blog-manager></blog-manager>
                 </div>
-                <div v-show="index=='9'">
+                <div v-if="index=='9'">
                     <!-- https://blog.csdn.net/niyuelin1990/article/details/78062139 -->
                      <online-chat></online-chat>
                 </div>

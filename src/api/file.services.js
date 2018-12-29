@@ -1,11 +1,8 @@
 import axios from 'axios'
 import returnCode from './services.returnCode'
 const services = {
-  // serviceIp =  ,
   storage: window.localStorage,
   getServiceIp() {
-    // return 'http://localhost:9999'
-    // return 'http://193.112.17.169:9999'
     return process.env.BASE_API
   },
   getImageServiceUrl(imageName) {
