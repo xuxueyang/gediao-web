@@ -75,14 +75,14 @@
                 <div v-if="index=='8'" >
                     <blog-manager></blog-manager>
                 </div>
-                <div v-if="index=='9'">
+                <div v-show="index=='9'">
                     <!-- https://blog.csdn.net/niyuelin1990/article/details/78062139 -->
                      <online-chat></online-chat>
                 </div>
             </el-main>
         </el-container>
     </div>
-    <div v-else>  
+    <div v-else>
         <!-- 转到登陆的组件中 -->
          <div v-if="index=='reg'">
             <regestry
@@ -101,7 +101,7 @@
 
         </div>
     </div>
-</div> 
+</div>
 </template>
 
 <script>

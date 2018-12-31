@@ -22,7 +22,7 @@ const wsServices = {
     sendChatMessage: '2_1',
     OnCreatedSys: '1_1_1',
     CloseSession: '1_1_2'
-    
+
   },
   dataProtocol: {
     message: '',
@@ -48,7 +48,7 @@ const wsServices = {
       this.messages.push(SendDataProtocol)
       websock.send(JSON.stringify(SendDataProtocol))
       if (onSendSuccess != null && typeof onSendSuccess === 'function') {
-        onSendSuccess(message)
+        onSendSuccess(SendDataProtocol)
       }
     }
   },
@@ -56,6 +56,7 @@ const wsServices = {
     // 初始化weosocket
     // ws地址
     // const wsuri = "ws://localhost:9999" + "/websocket/threadsocket";
+    // TODO check登录
     if (this.onlineWebSock.hasCheck && this.onlineWebSock.websock && this.token && this.userId &&
       this.token === this.onlineWebSock.token &&
       this.userId === this.onlineWebSock.userId) {
@@ -89,32 +90,34 @@ const wsServices = {
   },
   beforeGetMessage(e) {
     var dataProtocol = JSON.parse(e.data)
-    // console.log(e)
+    console.log(dataProtocol)
+    // alert(wsServices.protocol.CloseSession)
     wsServices.pushMessage(dataProtocol)
     if (dataProtocol) {
-      if (dataProtocol.protocol === this.protocol.CloseSession) {
+      if (dataProtocol.protocol === wsServices.protocol.CloseSession) {
         // TODO 关闭链接
-        this.onlineWebSock.websock.close()
-        this.onlineWebSock.hasCheck = false
-        this.onlineWebSock.websock = null
+
+        wsServices.onlineWebSock.websock.close()
+        wsServices.onlineWebSock.websock = null
+        wsServices.onlineWebSock.hasCheck = false
         return
       }
-      if (dataProtocol.protocol === this.protocol.OnCreatedSys) {
+      if (dataProtocol.protocol === wsServices.protocol.OnCreatedSys) {
         // 发送一个消息，以保存token
         // 能获取到，就说明是这个
         var SendDataProtocol = {}
         SendDataProtocol.token = services.getToken()
         SendDataProtocol.userId = services.getUserId()
-        SendDataProtocol.protocol = this.protocol.OnCreated
-        this.onlineWebSock.websock.send(SendDataProtocol)
-        this.messages.push(SendDataProtocol)
+        SendDataProtocol.protocol = wsServices.protocol.OnCreated
+        wsServices.onlineWebSock.websock.send(JSON.stringify(SendDataProtocol))
+        wsServices.messages.push(SendDataProtocol)
         return
       }
-      if (dataProtocol.protocol === this.protocol.SUCCESS) {
+      if (dataProtocol.protocol === wsServices.protocol.SUCCESS) {
         // 系统的成功，忽视
         return
       }
-      if (dataProtocol.protocol === this.protocol.ERROR) {
+      if (dataProtocol.protocol === wsServices.protocol.ERROR) {
         // 系统的失败，提示错误信息
         return
       }

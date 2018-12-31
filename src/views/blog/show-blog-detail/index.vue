@@ -7,14 +7,16 @@
         <share-to-q-q-space v-bind:usestyle="'el-button'" v-bind:title="blogDto.title"></share-to-q-q-space>
       </div>
     </div>
-    <div>
-      <!-- 博客内容-->
-      <quill-editor ref="myTextEditor"
-                    v-model="blogDto.content"
-                    :options="editorOption"
-                    :config="editorOption">
-      </quill-editor>
+    <div id="blogContent" class="blogContent">
     </div>
+    <!--<div>-->
+       <!--博客内容-->
+      <!--<quill-editor ref="myTextEditor"-->
+                    <!--v-model="blogDto.content"-->
+                    <!--:options="editorOption"-->
+                    <!--:config="editorOption">-->
+      <!--</quill-editor>-->
+    <!--</div>-->
   </div>
 </template>
 <script>
@@ -26,8 +28,20 @@
     components: {ShareToQQSpace},
     data() {
       return {
+        // myTextEditor: null,
         editorOption:{
-
+          theme: 'bubble',
+          contenteditable: false,
+          modules:{
+            toolbar:{
+              container: [],
+              display: 'none',
+              contenteditable: false
+            },
+            // container:{
+            //   contenteditable: false
+            // }
+          },
         },
         templateUri: '/blog/blog',
         sourceId: '',
@@ -42,6 +56,7 @@
       // this.sourceId = this.$route.query.
       this.sourceId = this.$route.params.id
       this.getMsg()
+      // console.log(myTextEditor)
     },
     methods: {
       returnGediao() {
@@ -57,6 +72,8 @@
               message: services.getMessageByCode(res.data.returnCode)
             })
             this.blogDto = res.data.data
+            // 设置内容
+            document.getElementById('blogContent').innerHTML = this.blogDto.content
           } else {
             this.$message({
               type: 'error',
@@ -73,6 +90,8 @@
           })
           this.returnGediao()
         })
+        // 设置不可编辑 ql-editor contenteditable
+
       }
     }
   }
@@ -82,5 +101,10 @@
   margin-right: 0;
   margin-left:auto;
   margin-bottom: auto;
+}
+.blogContent{
+  text-align: left;
+  margin-left: 20px;
+  width: 80%;
 }
 </style>

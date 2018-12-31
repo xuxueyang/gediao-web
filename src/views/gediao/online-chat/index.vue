@@ -8,8 +8,8 @@
             <textarea  v-model="input"></textarea>
             <el-button @click="websocketsend()" >点击我发送消息</el-button>
         </div>
-        
-        
+
+
     </div>
 </template>
 <script>
@@ -55,18 +55,18 @@ export default {
             // },
             websocketsend(){//数据发送
                 if(!!this.input){
-                    // this.content = this.content + '\n你说：' + this.input 
+                    // this.content = this.content + '\n你说：' + this.input
                     // 在后台返回时，添加到前台，不然没办法删除自己发送的
-                    wsServices.sendMessage(this.websock,this.input,null)
+                    wsServices.sendMessage(this.websock,this.input,this.onSendSuccess)
                 }
             },
-            
+
             // 发送成功的回调
             onSendSuccess(dataProtocol) {
                 if(dataProtocol){
                     if(this.hasInit) {
-                        this.content = this.content + '\n'+dataProtocol
-                        this.input = '' 
+                        this.content = this.content + '\n' + dataProtocol.message
+                        this.input = ''
                     }
                 }
             }
