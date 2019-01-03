@@ -1,24 +1,51 @@
 <template>
+<div>
+  <h3 style="float:left">写博客</h3>
   <div id="blog-main">
     <!--显示博客主页面-->
     <!-- use with components - bidirectional data binding（双向数据绑定） -->
     <el-button class="saveMessage" @click="saveMsg()">保存</el-button>
     <el-button class="return" @click="queryReturnLast()">返回</el-button>
-    <div style="display: flex">
-      <h2>标题：</h2>
-      <input v-model="title" class="inputtitle" placeholder="标题" />
+    <!-- <el-upload
+      class="uploadImg"
+      :action="action"
+      list-type="picture-card"
+      :on-preview="handlePictureCardPreview"
+      :on-remove="handleRemove">
+    <i class="el-icon-plus"></i>
+  </el-upload> -->
+    <el-upload
+      class="avatar-uploader uploadImg"
+      :action="action"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :on-remove="handleRemove"
+      :before-upload="beforeAvatarUpload">
+      <div v-if="imageUrl">
+        <img :src="imageUrl" class="avatar">
+      </div>
+      <i v-else class="el-icon-plus avatar-uploader-icon">上传封面图</i>
+    </el-upload>
+    <el-button v-if="imageUrl" class="deleteUploadImg" @click="deleteUploadImg()">删除封面图</el-button>
+
+    <div class="titlediv">
+      <div class="WriteIndex-titleInput Input-wrapper Input-wrapper--multiline">
+        <textarea v-model="title" rows="1" class="inputtitle" placeholder="请输入标题（最多 50 个字）" style="height: 48px;"></textarea>
+      </div>
     </div>
+
     <!--<el- -->
     <quill-editor ref="myTextEditor"
                   v-model="content"
                   :config="editorOption"
-                   @keyup.ctrl.83.native="save($event)"
+                  @keyup.ctrl.83.native="save($event)"
                   @blur="onEditorBlur($event)"
                   @change="onEditorChange($event)"
                   @focus="onEditorFocus($event)"
                   @ready="onEditorReady($event)">
     </quill-editor>
   </div>
+</div>
 </template>
 <script>
   import services from '@/api/file.services'
@@ -31,7 +58,12 @@
     },
     data() {
       return {
+        dialogImageUrl: '',
+        dialogVisible: false,
         title: '',
+        action: '',
+        // blogId: '',
+        imageUrl: '',
         permissionType: '',
         content: '<h2>数据正在加载中ing~~~</h2>',
         hasInit: true,
@@ -48,6 +80,35 @@
       }
     },
     methods: {
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleRemove(res,file){
+
+      },
+      deleteUploadImg(){
+        this.imageUrl = ''
+      },
+      handleAvatarSuccess(res, file) {
+        // this.imageUrl = URL.createObjectURL(file.raw);
+        if(res.returnCode!=undefined||res.returnCode.startsWith('200')){
+          if(res.data.length>0){
+            this.imageUrl = services.getImageServiceUrl('' + res.data[0].name)
+          }
+        }
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
       save(editor) {
         // console.log(editor)
         // alert('a')
@@ -85,6 +146,7 @@
               message: services.getMessageByCode(res.data.returnCode)
             })
             this.content = res.data.data.content
+            // this.blogId = res.data.data.id
             this.title = res.data.data.title
             this.permissionType = res.data.data.permissionType
             this.hasInit = false
@@ -228,6 +290,8 @@
       } else {
         // 加载的时候加载msg
         // this.getMsg()
+        // alert(services.getServiceIp())
+        this.action = '' + services.getServiceIp() + '/api/uaafile/img' + '?blogId=' + this.sourceId
       }
     }
 
@@ -235,20 +299,108 @@
 </script>
 <style lang="scss" scoped>
   #blog-main{
+    margin: 47px auto 0;
+    padding: 0 0;
+    width: 860px;
+    z-index: 1;
     font-size:10px;
-    width: 100%;
+    // width: 100%;
     height: auto;
-    margin-bottom: auto;
-    text-align: left;
+    background-color: rgba(233, 238, 243,1);
+    // margin-bottom: auto;
+    // text-align: left;
     /*span{*/
     /*width: 20px;*/
     /*height: 50px;*/
     /*}*/
+    .uploadImg{
+      background-color: white;
+      // height: 250px;
+    //        width: 100%;
+    //  height: 100%;
+     background-size:cover
+    }
+    .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+      border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      line-height: 178px;
+      text-align: center;
+    }
+    .avatar {
+      // width: 178px;
+      // height: 178px;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .Input-wrapper.Input-wrapper--multiline {
+      height: inherit;
+    }
+    .titlediv{
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      flex-shrink: 0;
+    }
+    .WriteIndex-titleInput {
+      margin: 16px 0;
+      border: 0;
+      padding: 0;
+      height: auto;
+      width: 100%;
+      position: relative;
+    }
+    .Input-wrapper {
+      position: relative;
+      display: flex;
+      // width: 180px;
+      height: 34px;
+      padding: 4px 10px;
+      font-size: 14px;
+      // background: #FFFFFF;
+      border: 1px solid rgba(233, 238, 243,1);
+      border-radius: 3px;
+      box-sizing: border-box;
+      transition: background 200ms, border 200ms;
+    }
+    .deleteImage{
+      // position: fixed;
+      // right: 0px;
+      margin-right: 20px;
+      bottom: 0px;
+      z-index: 2;
+    }
     .inputtitle{
-      width: 300px;
-      height: 25px;
-      margin-bottom: 10px;
-      font-size: 18px;
+      // width: 300px;
+      // height: 25px;
+      // margin-bottom: 10px;
+      // font-size: 18px;
+      min-height: 48px;
+      display: block;
+      // width: 100%;
+      width: 660px;
+      border: 0;
+      font-size: 32px;
+      line-height: 1.4;
+      font-weight: 600;
+      font-synthesis: style;
+      outline: none;
+      box-shadow: none;
+      font-family: monospace;
+      // border-color: rgb(169, 169, 169);
+      background-color: rgba(233, 238, 243, 0.8);
     }
     .saveMessage{
       // 相对布局
@@ -262,6 +414,14 @@
       right: 20px;
       top: 79px;
       z-index: 2;
+    }
+    .deleteUploadImg{
+      // position: absolute;
+      // right: 80px;
+      // top: 79px;
+      display: flex;
+      margin-top: 5px;
+      z-index: 3;
     }
   }
 </style>
