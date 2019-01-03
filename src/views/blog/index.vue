@@ -1,17 +1,35 @@
 <template>
   <div>
-    <div v-if="blogId">
-
-    </div>
-    <div v-else>
-    <ul>
-      <li v-for="blog in blogs" v-bind:key="blog.id">
-        <div>
-          <span>{{blog.title}}</span>
-          <a @click="lookBlog(blog.id)">查看编辑</a>
+    <div class="blogLook">
+      <ul role="tablist" class="Tabs">
+        <li role="tab" class="Tabs-item" aria-controls="Topstory-recommend">
+          <a class="Tabs-link is-active">推荐</a>
+        </li>
+        <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-follow"><a class="Tabs-link" href="/follow">关注</a></li>-->
+        <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-hot"><a class="Tabs-link" href="/hot">热榜</a></li>-->
+      </ul>
+      <div v-for="blog in blogs" v-bind:key="blog.id">
+        <div  class="blogEachDiv">
+        <div class="blogEachDivDiv" >
+          <div class="EachTitleDiv" itemscope>
+            <!--<meta itemprop="url" content="https://www.zhihu.com/question/275611095">-->
+            <meta itemprop="name" :content="blog.title">
+            <a target="_blank" data-za-detail-view-element_name="Title" @click="turnToBlogDetail(blog.id)">{{blog.title}}</a>
+          </div>
+          <div class="EachContentDiv" :id="'EachContentDiv'+ blog.id">
+            <div v-if="blog.titleImg && blog.titleImg.name" style="display: flex">
+              <img :src="blog.titleImg.name" class="titleImg">
+            </div>
+            {{blog.content.substring(0,blog.content.length-1>40?40:blog.content.length)}}
+          </div>
+          <div class="EachOtherDiv" >
+            这是点赞、评论点击、分享、收藏、感谢、 爱好评价
+          </div>
+          <!--<a @click="lookBlog(blog.id)">查看编辑</a>-->
         </div>
-      </li>
-    </ul>
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +71,9 @@
       this.init()
     },
     methods:{
+      turnToBlogDetail(blogId){
+        window.open(window.location.origin + '/#/blog/' + blogId)
+      },
       init(){
           if(this.$route.query.blogId==null||this.$route.query.blogId==undefined){
             this.getAllBlog()
@@ -72,6 +93,11 @@
               showClose:true,
               message: services.getMessageByCode(res.data.returnCode)
             })
+            // for(var i=0;i<this.blogs.length;i++){
+            //   if(window.document.getElementById('EachContentDiv'+ this.blogs[i].id)){
+            //     window.document.getElementById('EachContentDiv'+ this.blogs[i].id).innerHTML = this.blogs[i].content.substring(0,this.blogs[i].content.length-1>40?40:this.blogs[i].content.length)
+            //   }
+            // }
           }else {
             this.$message({
               type: 'error',
@@ -92,5 +118,69 @@
   }
 </script>
 <style scoped>
-
+.blogLook{
+  width: 960px;
+  margin: auto;
+  background-color: white;
+}
+.Tabs{
+  box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
+}
+.blogLook .blogEachDiv{
+  margin-top: 10px;
+  width: 100%;
+  height: 225px;
+  text-align: left;
+  border-bottom: 3px solid #F0F2F7;
+}
+.blogLook .blogEachDiv .blogEachDivDiv{
+  width: 90%;
+  margin: auto;
+  height: 30px;
+}
+.blogLook .blogEachDiv .blogEachDivDiv .EachTitleDiv{
+  font-size: 18px;
+  font-weight: 600;
+  font-synthesis: style;
+  line-height: 1.6;
+  color: #1A1A1A;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  display: block;
+}
+.blogLook .blogEachDiv .blogEachDivDiv .EachTitleDiv:hover{
+  color: #00a0e9;
+}
+.blogLook .blogEachDiv .blogEachDivDiv .EachContentDiv{
+  margin-top: 10px;
+  height: 130px;
+}
+.blogLook .blogEachDiv .blogEachDivDiv .EachOtherDiv{
+  margin-top: 10px;
+  height: 40px;
+}
+  .Tabs-item {
+    list-style-type: none;
+    padding-left: 20px;
+    width: 80px;
+    font-size: 20px;
+    padding-top: 10px;
+    font-weight: bold;
+    padding-bottom: 5px;
+  }
+  .Tabs-link.is-active::after{
+    position: relative;
+    font-size: 15px;
+    width: 30px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #0084FF;
+    content: '';
+  }
+  .titleImg{
+    height: 100%;
+    width: 190px;
+  }
 </style>

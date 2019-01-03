@@ -78,9 +78,9 @@ export default {
             this.hasInit = true;
         },
         destroyed(){
-            if(this.websock){
-                this.websock.close()
-            }
+            // if(this.websock){
+            //     this.websock.close()
+            // }
         }
 }
 </script>

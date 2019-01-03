@@ -35,7 +35,14 @@ const wsServices = {
     id: ''
   },
   pushMessage(dataProtocol) {
-    this.messages.push(dataProtocol)
+    wsServices.messages.push(dataProtocol)
+  },
+  logout(){
+    if(wsServices.onlineWebSock.hasCheck==true){
+      wsServices.onlineWebSock.websock.close()
+      wsServices.onlineWebSock.websock = null
+      wsServices.onlineWebSock.hasCheck = false
+    }
   },
   sendMessage(websock, message, onSendSuccess) {
     if (websock) {
@@ -43,9 +50,9 @@ const wsServices = {
       SendDataProtocol.message = message
       SendDataProtocol.token = services.getToken()
       SendDataProtocol.userId = services.getUserId()
-      SendDataProtocol.protocol = this.protocol.sendChatMessage
+      SendDataProtocol.protocol = wsServices.protocol.sendChatMessage
       // alert(JSON.stringify(SendDataProtocol))
-      this.messages.push(SendDataProtocol)
+      wsServices.messages.push(SendDataProtocol)
       websock.send(JSON.stringify(SendDataProtocol))
       if (onSendSuccess != null && typeof onSendSuccess === 'function') {
         onSendSuccess(SendDataProtocol)
@@ -57,31 +64,31 @@ const wsServices = {
     // ws地址
     // const wsuri = "ws://localhost:9999" + "/websocket/threadsocket";
     // TODO check登录
-    if (this.onlineWebSock.hasCheck && this.onlineWebSock.websock && this.token && this.userId &&
-      this.token === this.onlineWebSock.token &&
-      this.userId === this.onlineWebSock.userId) {
-      return this.onlineWebSock.websock
+    if (wsServices.onlineWebSock.hasCheck && wsServices.onlineWebSock.websock && wsServices.onlineWebSock.token && wsServices.onlineWebSock.userId &&
+      services.getToken() === wsServices.onlineWebSock.token &&
+      services.getUserId() === wsServices.onlineWebSock.userId) {
+      return wsServices.onlineWebSock.websock
     }
     const wsuri = process.env.BASE_API.replace('http', 'ws').replace('"', '') + '/websocket' + '?token=' + services.getToken() + '&userId=' + services.getUserId()
     var websock = new WebSocket(wsuri)
-    websock.onclose = this.websocketclose
+    websock.onclose = wsServices.websocketclose
 
-    this.onlineWebSock.userId = services.getUserId()
-    this.onlineWebSock.token = services.getToken()
-    this.onlineWebSock.websock = websock
-    this.onlineWebSock.hasCheck = false
+    wsServices.onlineWebSock.userId = services.getUserId()
+    wsServices.onlineWebSock.token = services.getToken()
+    wsServices.onlineWebSock.websock = websock
+    wsServices.onlineWebSock.hasCheck = false
     // this.websocks.push(_websock)
     if (typeof sendMessage === 'function') {
       const onSuccess = flow(
-        this.beforeGetMessage,
+        wsServices.beforeGetMessage,
         sendMessage,
-        this.afterGetMessage,
+        wsServices.afterGetMessage,
       )
       websock.onmessage = onSuccess
     } else {
       const onSuccess = flow(
-        this.beforeGetMessage,
-        this.afterGetMessage,
+        wsServices.beforeGetMessage,
+        wsServices.afterGetMessage,
       )
       websock.onmessage = onSuccess
     }
@@ -96,7 +103,8 @@ const wsServices = {
     if (dataProtocol) {
       if (dataProtocol.protocol === wsServices.protocol.CloseSession) {
         // TODO 关闭链接
-
+        wsServices.onlineWebSock.userId = services.getUserId()
+        wsServices.onlineWebSock.token = services.getToken()
         wsServices.onlineWebSock.websock.close()
         wsServices.onlineWebSock.websock = null
         wsServices.onlineWebSock.hasCheck = false
@@ -111,6 +119,10 @@ const wsServices = {
         SendDataProtocol.protocol = wsServices.protocol.OnCreated
         wsServices.onlineWebSock.websock.send(JSON.stringify(SendDataProtocol))
         wsServices.messages.push(SendDataProtocol)
+
+        wsServices.onlineWebSock.userId = services.getUserId()
+        wsServices.onlineWebSock.token = services.getToken()
+        wsServices.onlineWebSock.hasCheck = true
         return
       }
       if (dataProtocol.protocol === wsServices.protocol.SUCCESS) {

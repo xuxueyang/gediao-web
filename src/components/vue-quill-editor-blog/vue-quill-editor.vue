@@ -30,7 +30,7 @@
 
     <div class="titlediv">
       <div class="WriteIndex-titleInput Input-wrapper Input-wrapper--multiline">
-        <textarea v-model="title" rows="1" class="inputtitle" placeholder="请输入标题（最多 50 个字）" style="height: 48px;"></textarea>
+        <textarea v-model="title" rows="1" class="inputtitle" placeholder="请输入标题（最多 50 个字）"></textarea>
       </div>
     </div>
 
@@ -148,6 +148,9 @@
             this.content = res.data.data.content
             // this.blogId = res.data.data.id
             this.title = res.data.data.title
+            if(!!res.data.data.titleImg){
+               this.imageUrl = services.getImageServiceUrl('' + res.data.data.titleImg.name)
+            }
             this.permissionType = res.data.data.permissionType
             this.hasInit = false
             this.hasSave = false
@@ -193,7 +196,8 @@
           content: this.content,
           title: this.title,
           token: services.getToken(),
-          permissionType: this.permissionType
+          permissionType: this.permissionType,
+          imageUrl:this.imageUrl
         }
         this.$http.post(url, body).then(function(res) {
           if (res.data.returnCode.startsWith('200')) {
@@ -242,7 +246,7 @@
               // this.$message({
               //   type: 'info',
               //   message: '已取消删除'
-              // });          
+              // });
             });
           }
 
@@ -291,7 +295,7 @@
         // 加载的时候加载msg
         // this.getMsg()
         // alert(services.getServiceIp())
-        this.action = '' + services.getServiceIp() + '/api/uaafile/img' + '?blogId=' + this.sourceId
+        this.action = '' + services.getServiceIp() + '/api/uaafile/img' + '?blogId=' + this.sourceId + '&token=' + services.getToken()
       }
     }
 
@@ -387,10 +391,11 @@
       // height: 25px;
       // margin-bottom: 10px;
       // font-size: 18px;
-      min-height: 48px;
+      height: 50px;
       display: block;
-      // width: 100%;
-      width: 660px;
+      resize: none;
+      width: 100%;
+      /*width: 660px;*/
       border: 0;
       font-size: 32px;
       line-height: 1.4;

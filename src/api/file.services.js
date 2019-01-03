@@ -101,14 +101,32 @@ const services = {
     this.storage['userinfo'] = JSON.stringify(userinfo)
   },
   getToken() {
-    return this.storage.getItem('token')
+    const last = this.storage.getItem('tokenDate')
+    if(last==null){
+      this.logout()
+      return null
+    }
+    const today = new Date()
+    // alert(today.getTime() - parseInt(last))
+    if(today.getTime() - parseInt(last) <= 30*30*60){
+      return this.storage.getItem('token')
+    }else{
+      // 说明过期了
+      this.logout()
+
+      return null
+    }
   },
   saveToken(data) {
     this.storage['token'] = data
+    this.storage['tokenDate'] = JSON.stringify(new Date().getTime())
   },
   logout() {
     this.storage.removeItem('token')
     this.storage.removeItem('userinfo')
+    this.storage.removeItem('tokenDate')
+    //关闭套接字连接
+    // wsServices.logout()
   },
   changeToBJTime(time) {
     return (new Date(time)).toLocaleString()
