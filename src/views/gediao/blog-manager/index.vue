@@ -115,7 +115,7 @@ export default {
     getAllBlog() {
       // 获取到所有的博客
       const token = services.getToken()
-      var url = '' + services.getServiceIp()+"/api/app/blog/blogs"+"?token="+token + '&page=0'
+      var url = '' + services.getServiceIp()+"/api/app/blog/blogs"+"?token="+token + '&page=0&size=50'
       this.$http.get(url, {
       }).then(function(res) {
         if(res.data.returnCode.startsWith("200")) {

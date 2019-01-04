@@ -108,7 +108,7 @@ const services = {
     }
     const today = new Date()
     // alert(today.getTime() - parseInt(last))
-    if(today.getTime() - parseInt(last) <= 30*30*60){
+    if(today.getTime() - parseInt(last) <= 24*60*60*1000){
       return this.storage.getItem('token')
     }else{
       // 说明过期了

@@ -21,12 +21,12 @@
       :on-success="handleAvatarSuccess"
       :on-remove="handleRemove"
       :before-upload="beforeAvatarUpload">
-      <div v-if="imageUrl">
-        <img :src="imageUrl" class="avatar">
+      <div v-if="imgUrl">
+        <img :src="imgUrl" class="avatar">
       </div>
       <i v-else class="el-icon-plus avatar-uploader-icon">上传封面图</i>
     </el-upload>
-    <el-button v-if="imageUrl" class="deleteUploadImg" @click="deleteUploadImg()">删除封面图</el-button>
+    <el-button v-if="imgUrl" class="deleteUploadImg" @click="deleteUploadImg()">删除封面图</el-button>
 
     <div class="titlediv">
       <div class="WriteIndex-titleInput Input-wrapper Input-wrapper--multiline">
@@ -44,6 +44,7 @@
                   @focus="onEditorFocus($event)"
                   @ready="onEditorReady($event)">
     </quill-editor>
+    <!-- figure  用来附加图片，调用上传图片的接口，然后得到ID，然后再为文本添加一个<figure>的标签-->
   </div>
 </div>
 </template>
@@ -62,8 +63,9 @@
         dialogVisible: false,
         title: '',
         action: '',
+        imgUrlId: '',
         // blogId: '',
-        imageUrl: '',
+        imgUrl: '',
         permissionType: '',
         content: '<h2>数据正在加载中ing~~~</h2>',
         hasInit: true,
@@ -88,13 +90,14 @@
 
       },
       deleteUploadImg(){
-        this.imageUrl = ''
+        this.imgUrl = ''
       },
       handleAvatarSuccess(res, file) {
-        // this.imageUrl = URL.createObjectURL(file.raw);
+        // this.imgUrl = URL.createObjectURL(file.raw);
         if(res.returnCode!=undefined||res.returnCode.startsWith('200')){
-          if(res.data.length>0){
-            this.imageUrl = services.getImageServiceUrl('' + res.data[0].name)
+          if(res.data.length > 0){
+            this.imgUrl = res.data[0].path // services.getImageServiceUrl('' + res.data[0].name)
+            this.imgUrlId = res.data[0].id
           }
         }
       },
@@ -149,7 +152,8 @@
             // this.blogId = res.data.data.id
             this.title = res.data.data.title
             if(!!res.data.data.titleImg){
-               this.imageUrl = services.getImageServiceUrl('' + res.data.data.titleImg.name)
+              this.imgUrl = res.data.data.titleImg.path // services.getImageServiceUrl('' + res.data.data.titleImg.name)
+              this.imgUrlId = res.data.data.titleImg.id
             }
             this.permissionType = res.data.data.permissionType
             this.hasInit = false
@@ -197,7 +201,7 @@
           title: this.title,
           token: services.getToken(),
           permissionType: this.permissionType,
-          imageUrl:this.imageUrl
+          imgUrlId: this.imgUrlId
         }
         this.$http.post(url, body).then(function(res) {
           if (res.data.returnCode.startsWith('200')) {
@@ -296,6 +300,13 @@
         // this.getMsg()
         // alert(services.getServiceIp())
         this.action = '' + services.getServiceIp() + '/api/uaafile/img' + '?blogId=' + this.sourceId + '&token=' + services.getToken()
+        // var vm =this
+        // var imgHandler = async function(state) {
+        //   if (state) {
+        //     // button is clicked
+        //   }
+        // }
+        // vm.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
       }
     }
 

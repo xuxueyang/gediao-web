@@ -95,7 +95,7 @@ export default {
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePass }],
-        captchaGraph: [{ required: true, trigger: 'blur', validator: validateCaptchaGraph }]
+        // captchaGraph: [{ required: true, trigger: 'blur', validator: validateCaptchaGraph }]
       },
       loading: false,
       pwdType: 'password',
@@ -153,16 +153,16 @@ export default {
                 //获取图像验证码失败
                 this.$message({
                     type:'error',
-                    message:'获取图像验证码失败QAQ服务器在傲娇QAQ',
+                    message:'获取图像验证码失败QAQ服务器在傲娇QAQ（验证码非必填项）',
                     showClose: true
                 })
             }
         }).catch(function(e){
                 this.$message({
-                    message: '获取图像验证码失败QAQ服务器在傲娇QAQ',
+                    message: '获取图像验证码失败QAQ服务器在傲娇QAQ（验证码非必填项）',
                     showClose: true,
                     type: 'error'
-                });            
+                });
             })
     },
     email_timer() {
@@ -176,7 +176,7 @@ export default {
     //     this.disabled=false;
     //  }
     },
-    
+
     handleRegestry(){
       //验证字段1097539652@qq.com
         this.$refs.loginForm.validate(valid => {
@@ -188,7 +188,7 @@ export default {
         }
       })
       //自己单独验证
-      
+
       if(this.loginForm.password!=null&&this.loginForm.password.length>5
           &&this.loginForm.username!=null&&this.loginForm.captchaGraph!=null)
       {
@@ -228,7 +228,7 @@ export default {
                     message: '注册失败QAQ请联系右上角的开发者哈',
                     showClose: true,
                     type: 'error'
-                });            
+                });
             })
       }
     }

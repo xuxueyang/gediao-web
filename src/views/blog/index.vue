@@ -17,10 +17,10 @@
             <a target="_blank" data-za-detail-view-element_name="Title" @click="turnToBlogDetail(blog.id)">{{blog.title}}</a>
           </div>
           <div class="EachContentDiv" :id="'EachContentDiv'+ blog.id">
-            <div v-if="blog.titleImg && blog.titleImg.name" style="display: flex">
-              <img :src="blog.titleImg.name" class="titleImg">
+            <div v-if="blog.titleImg && blog.titleImg.path" style="display: flex">
+              <img :src="blog.titleImg.path" class="titleImg">
             </div>
-            {{blog.content.substring(0,blog.content.length-1>40?40:blog.content.length)}}
+            {{blog.previewContent.substring(0,blog.previewContent.length-1>40?40:blog.previewContent.length)}}
           </div>
           <div class="EachOtherDiv" >
             这是点赞、评论点击、分享、收藏、感谢、 爱好评价
@@ -35,11 +35,9 @@
 </template>
 <script>
   import services from "../../api/file.services";
-  import vueQuillEditor from '@/components/vue-quill-editor-blog/vue-quill-editor.vue';
 
   export default {
     components:{
-      vueQuillEditor
     },
     data() {
       return {
