@@ -211,7 +211,7 @@ export default {
             this.$router.history.push('/qlh')
         },
         referToBLOG(){
-          this.$router.history.push('/blog')
+          this.$router.history.push('/blogCategorys')
         }
     }
 };

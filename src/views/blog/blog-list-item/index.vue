@@ -2,53 +2,67 @@
   <div>
     <div class="blogLook">
       <ul role="tablist" class="Tabs">
-        <!--<li role="tab" class="Tabs-item" aria-controls="Topstory-recommend">-->
-          <!--<a class="Tabs-link is-active">推荐</a>-->
-        <!--</li>-->
+        <li role="tab" class="Tabs-item" aria-controls="Topstory-recommend">
+          <a class="Tabs-link is-active">推荐</a>
+        </li>
         <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-follow"><a class="Tabs-link" href="/follow">关注</a></li>-->
         <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-hot"><a class="Tabs-link" href="/hot">热榜</a></li>-->
-
-      <li v-for="category in blogCategory" v-bind:key="blogCategory.id">
+      </ul>
+      <div v-for="blog in blogs" v-bind:key="blog.id">
         <div  class="blogEachDiv">
         <div class="blogEachDivDiv" >
           <div class="EachTitleDiv" itemscope>
             <!--<meta itemprop="url" content="https://www.zhihu.com/question/275611095">-->
-            <meta itemprop="name" :content="category.name">
-            <a target="_blank" data-za-detail-view-element_name="Title" @click="lookBlogCategory(category.name)">{{category.name}}</a>
+            <meta itemprop="name" :content="blog.title">
+            <a target="_blank" data-za-detail-view-element_name="Title" @click="turnToBlogDetail(blog.id)">{{blog.title}}</a>
           </div>
-          <div class="EachContentDiv" :id="'EachContentDiv'+ category.id">
-            <div v-if="category.imgUrl" style="display: flex">
-              <img :src="category.imgUrl" class="titleImg">
+          <div class="EachContentDiv" :id="'EachContentDiv'+ blog.id">
+            <div v-if="blog.titleImg && blog.titleImg.path" style="display: flex">
+              <img :src="blog.titleImg.path" class="titleImg">
             </div>
-            {{category.introduce.substring(0,category.introduce.length-1>40?40:category.introduce.length)}}
+            {{blog.previewContent.substring(0,blog.previewContent.length-1>40?40:blog.previewContent.length)}}
           </div>
           <div class="EachOtherDiv" >
-            这是点赞、评论点击、分享、收藏、感谢、 爱好评价的数目
-            <!--private int blogCount;-->
-            <!--private String createdNickName;-->
-            <!--private int lookCount;-->
-            <!--private int praiseCount;-->
-            <!--private int collectCount;-->
-            <!--private int commentCount;-->
+            这是点赞、评论点击、分享、收藏、感谢、 爱好评价
           </div>
           <!--<a @click="lookBlog(blog.id)">查看编辑</a>-->
         </div>
+
         </div>
-      </li>
-      </ul>
+      </div>
     </div>
   </div>
 </template>
 <script>
-  import services from  "../../api/file.services";
-
+  // import services from "../../../api/file.services";
+import services from  "../../../api/file.services";
   export default {
     components:{
     },
     data() {
       return {
-        blogCategory: [
-
+        blogCategoryName: "",
+        blogId: '',
+        blogs: [
+          //   {
+          //     title: '测试博客1',
+          //     id: '1',
+          //     createDate: '',
+          //     updateDate: '',
+          //     readCount: 4,
+          // },{
+          //     title: '测试博客2',
+          //     id: '2',
+          //     createDate: '',
+          //     updateDate: '',
+          //     readCount: 4,
+          // },{
+          //     title: '测试博客3',
+          //     id: '3',
+          //     createDate: '',
+          //     updateDate: '',
+          //     readCount: 4,
+          // }
         ]
       }
     },
@@ -56,24 +70,37 @@
       this.init()
     },
     methods:{
-      // turnToBlogDetail(blogId){
-      //   window.open(window.location.origin + '/#/blog/' + blogId)
-      // },
-      init(){
-        this.getAllBlogCategory()
+      turnToBlogDetail(blogId){
+        window.open(window.location.origin + '/#/blog/' + blogId)
       },
-      getAllBlogCategory() {
-        // 获取到所有的博客分类
-        var url = '' + services.getServiceIp() + '/api/app/blog/categorys'
+      init(){
+          this.blogCategoryName = this.$route.query.categoryName;
+          if(this.$route.query.blogId==null||this.$route.query.blogId==undefined){
+            this.getAllBlog()
+          }else{
+            this.blogId = this.$route.query.blogId
+          }
+      },
+      getAllBlog() {
+        // 获取到所有的博客
+        var url = '' + services.getServiceIp() + '/api/app/blog/blogs' + '?page=0'
+        if(this.blogCategoryName){
+          url = url + "&categoryName="+this.blogCategoryName
+        }
         this.$http.get(url,{
         }).then(function (res) {
           if(res.data.returnCode.startsWith('200')) {
-            this.blogCategory = res.data.data
+            this.blogs = res.data.data
             this.$message({
               type: 'success',
               showClose:true,
               message: services.getMessageByCode(res.data.returnCode)
             })
+            // for(var i=0;i<this.blogs.length;i++){
+            //   if(window.document.getElementById('EachContentDiv'+ this.blogs[i].id)){
+            //     window.document.getElementById('EachContentDiv'+ this.blogs[i].id).innerHTML = this.blogs[i].content.substring(0,this.blogs[i].content.length-1>40?40:this.blogs[i].content.length)
+            //   }
+            // }
           }else {
             this.$message({
               type: 'error',
@@ -84,10 +111,10 @@
 
         })
       },
-      lookBlogCategory(categoryName) {
+      lookBlog(id) {
         // 跳转到编辑页面（和新增页面一样，区别在于，如果没有，会创建）（带有查询ID，如果没有，则视为创建)
         this.$router.push(
-          {path: '/blogs' + "?categoryName="+categoryName}
+          {path: '/blog/' + id}
         )
       }
     }
@@ -95,7 +122,7 @@
 </script>
 <style scoped>
 .blogLook{
-  width: 100%;
+  width: 960px;
   margin: auto;
   background-color: white;
 }
