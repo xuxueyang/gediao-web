@@ -2,9 +2,14 @@
   <div>
     <div class="blogLook">
       <ul role="tablist" class="Tabs">
-        <li role="tab" class="Tabs-item" aria-controls="Topstory-recommend">
-          <a class="Tabs-link is-active">推荐</a>
+        <li role="tab" class="Tabs-item" aria-controls="Topstory-recommend" v-if="blogs&&blogs.length>0">
+          <a class="Tabs-link is-active" >推荐</a>
         </li>
+        <li role="tab" class="Tabs-item" aria-controls="Topstory-recommend" v-if="!blogs||blogs.length==0">
+          <a class="Tabs-link is-active" v-if="!isLoad">暂无数据</a>
+          <a class="Tabs-link is-active" v-if="isLoad">正在加载中ing</a>
+        </li>
+
         <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-follow"><a class="Tabs-link" href="/follow">关注</a></li>-->
         <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-hot"><a class="Tabs-link" href="/hot">热榜</a></li>-->
       </ul>
@@ -43,6 +48,7 @@ import services from  "../../../api/file.services";
       return {
         blogCategoryName: "",
         blogId: '',
+        isLoad: true,
         blogs: [
           //   {
           //     title: '测试博客1',
@@ -108,7 +114,7 @@ import services from  "../../../api/file.services";
               message: services.getMessageByCode(res.data.returnCode)
             })
           }
-
+          this.isLoad = false;
         })
       },
       lookBlog(id) {
@@ -165,7 +171,7 @@ import services from  "../../../api/file.services";
   .Tabs-item {
     list-style-type: none;
     padding-left: 20px;
-    width: 80px;
+    width: 100px;
     font-size: 20px;
     padding-top: 10px;
     font-weight: bold;
@@ -174,7 +180,7 @@ import services from  "../../../api/file.services";
   .Tabs-link.is-active::after{
     position: relative;
     font-size: 15px;
-    width: 30px;
+    width: 40px;
     right: 0;
     bottom: 0;
     left: 0;

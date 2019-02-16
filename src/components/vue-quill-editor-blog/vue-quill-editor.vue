@@ -27,7 +27,15 @@
       <i v-else class="el-icon-plus avatar-uploader-icon">上传封面图</i>
     </el-upload>
     <el-button v-if="imgUrl" class="deleteUploadImg" @click="deleteUploadImg()">删除封面图</el-button>
+    <el-select class="selectCategory" v-model="selectCategory" slot="prepend" placeholder="请选择" @change="changeCategory()">
+      <el-option
 
+        v-for="item in categoryOptions"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>
     <div class="titlediv">
       <div class="WriteIndex-titleInput Input-wrapper Input-wrapper--multiline">
         <textarea v-model="title" rows="1" class="inputtitle" placeholder="请输入标题（最多 50 个字）"></textarea>
@@ -62,11 +70,13 @@
         dialogImageUrl: '',
         dialogVisible: false,
         title: '',
+        selectCategory:'',
         action: '',
         imgUrlId: '',
         // blogId: '',
         imgUrl: '',
         permissionType: '',
+        categoryOptions:[],
         content: '<h2>数据正在加载中ing~~~</h2>',
         hasInit: true,
         hasSave: false,
@@ -101,6 +111,34 @@
           }
         }
       },
+      changeCategory(){
+        // 改变了博客的分类
+      },
+      getAllBlogCategory() {
+        // 获取到所有的博客分类
+        var url = '' + services.getServiceIp() + '/api/app/blog/categorys'
+        this.$http.get(url,{
+        }).then(function (res) {
+          if(res.data.returnCode.startsWith('200')) {
+            var options =  res.data.data
+            this.categoryOptions=[]
+            for(var i=0;i<options.length;i++){
+              this.categoryOptions.push({
+                value: options[i].id,
+                label: options[i].name
+              })
+            }
+            // alert(this.categoryOptions)
+          }else {
+            this.$message({
+              type: 'error',
+              showClose: true,
+              message: services.getMessageByCode(res.data.returnCode)
+            })
+          }
+
+        })
+      },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
@@ -121,6 +159,7 @@
       },
       initMsg() {
         // 添加监听器，等初始化完毕后，设置msg
+        this.getAllBlogCategory()
         this.getMsg()
       },
       onEditorBlur(editor) {
@@ -149,6 +188,7 @@
               message: services.getMessageByCode(res.data.returnCode)
             })
             this.content = res.data.data.content
+            this.selectCategory = res.data.data.categoryId
             // this.blogId = res.data.data.id
             this.title = res.data.data.title
             if(!!res.data.data.titleImg){
@@ -199,6 +239,7 @@
           id: this.sourceId,
           content: this.content,
           title: this.title,
+          categoryId: this.selectCategory,
           token: services.getToken(),
           permissionType: this.permissionType,
           imgUrlId: this.imgUrlId
@@ -436,6 +477,12 @@
       // right: 80px;
       // top: 79px;
       display: flex;
+      margin-top: 5px;
+      z-index: 3;
+    }
+    .selectCategory{
+      display: flex;
+      width: 100px;
       margin-top: 5px;
       z-index: 3;
     }

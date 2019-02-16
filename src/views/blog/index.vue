@@ -1,26 +1,26 @@
 <template>
   <div>
     <div class="blogLook">
-      <ul role="tablist" class="Tabs">
+      <div role="tablist" class="Tabs" >
         <!--<li role="tab" class="Tabs-item" aria-controls="Topstory-recommend">-->
           <!--<a class="Tabs-link is-active">推荐</a>-->
         <!--</li>-->
         <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-follow"><a class="Tabs-link" href="/follow">关注</a></li>-->
         <!--<li role="tab" class="Tabs-item Tabs-item&#45;&#45;noMeta" aria-controls="Topstory-hot"><a class="Tabs-link" href="/hot">热榜</a></li>-->
 
-      <li v-for="category in blogCategory" v-bind:key="blogCategory.id">
-        <div  class="blogEachDiv">
+      <div class="eachDiv" v-for="category in blogCategory" v-bind:key="blogCategory.id">
+        <div  class="blogEachDiv" @click="lookBlogCategory(category.name)">
         <div class="blogEachDivDiv" >
           <div class="EachTitleDiv" itemscope>
             <!--<meta itemprop="url" content="https://www.zhihu.com/question/275611095">-->
             <meta itemprop="name" :content="category.name">
-            <a target="_blank" data-za-detail-view-element_name="Title" @click="lookBlogCategory(category.name)">{{category.name}}</a>
+            <a target="_blank" data-za-detail-view-element_name="Title" >{{category.name}}</a>
           </div>
           <div class="EachContentDiv" :id="'EachContentDiv'+ category.id">
             <div v-if="category.imgUrl" style="display: flex">
               <img :src="category.imgUrl" class="titleImg">
             </div>
-            {{category.introduce.substring(0,category.introduce.length-1>40?40:category.introduce.length)}}
+            {{category.introduce===null?'':category.introduce.substring(0,category.introduce.length-1>40?40:category.introduce.length)}}
           </div>
           <div class="EachOtherDiv" >
             这是点赞、评论点击、分享、收藏、感谢、 爱好评价的数目
@@ -34,8 +34,9 @@
           <!--<a @click="lookBlog(blog.id)">查看编辑</a>-->
         </div>
         </div>
-      </li>
-      </ul>
+      </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -96,18 +97,28 @@
 <style scoped>
 .blogLook{
   width: 100%;
+  height: 100%;
+  min-height: 600px;
   margin: auto;
   background-color: white;
 }
 .Tabs{
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
 }
+.eachDiv{
+  width: 25%;
+  display: inline-block;
+  border:1px solid #96c2f1;
+  margin-left: 5px;
+  margin-right: 5px;
+}
 .blogLook .blogEachDiv{
   margin-top: 10px;
   width: 100%;
   height: 225px;
+  cursor: pointer;
   text-align: left;
-  border-bottom: 3px solid #F0F2F7;
+  /*border-bottom: 3px solid #F0F2F7;*/
 }
 .blogLook .blogEachDiv .blogEachDivDiv{
   width: 90%;
@@ -135,26 +146,26 @@
   margin-top: 10px;
   height: 40px;
 }
-  .Tabs-item {
-    list-style-type: none;
-    padding-left: 20px;
-    width: 80px;
-    font-size: 20px;
-    padding-top: 10px;
-    font-weight: bold;
-    padding-bottom: 5px;
-  }
-  .Tabs-link.is-active::after{
-    position: relative;
-    font-size: 15px;
-    width: 30px;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    background: #0084FF;
-    content: '';
-  }
+  /*.Tabs-item {*/
+    /*list-style-type: none;*/
+    /*padding-left: 20px;*/
+    /*width: 80px;*/
+    /*font-size: 20px;*/
+    /*padding-top: 10px;*/
+    /*font-weight: bold;*/
+    /*padding-bottom: 5px;*/
+  /*}*/
+  /*.Tabs-link.is-active::after{*/
+    /*position: relative;*/
+    /*font-size: 15px;*/
+    /*width: 30px;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*height: 3px;*/
+    /*background: #0084FF;*/
+    /*content: '';*/
+  /*}*/
   .titleImg{
     height: 100%;
     width: 190px;

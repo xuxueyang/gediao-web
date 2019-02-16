@@ -3,9 +3,9 @@
     <div v-if="true">
         <ul class="ul">
             <li><div class="span">青龙gaygay,访问人数：{{visiterCount}}</div></li>
-            <li class="li" style="margin-left:100px"><a @click="referToHome">主页</a></li>
+            <!--<li class="li" style="margin-left:100px"><a @click="referToHome">主页</a></li>-->
             <li class="li"><a @click="referToUpload">管理</a></li>
-            <li class="li"><a @click="referToQLH">青龙会</a></li>
+            <!--<li class="li"><a @click="referToQLH">青龙会</a></li>-->
             <li class="li"><a @click="referToGD">格调</a></li>
             <li class="li"><a @click="referToBLOG">博客</a></li>
             <li class="rli" style="margin-right:10px"><a  @click="showInfoMessage" >关于</a><li>
@@ -71,19 +71,19 @@
     <!-- 浮动显示提示按钮 -->
         <el-dialog  :visible.sync="dialogTabVisible" class="show-info">
             <el-tabs :tab-position="tabPosition" style="height: 300px;" v-model="activeName" @tab-click="handleTabClick">
-                <el-tab-pane label="青龙会简介" name="qlh-info">
-                    <h3>青龙会简介</h3>
-                    <div style="margin-bottom:20px">
-                        {{qlhInfo}}
-                    </div>
-                    <!-- 放一些个人的链接 -->
-                    <el-button :gutter="20"  v-for="member in qlhMember" :key="member.id"  size="mini" round style="margin-left:25px;background:#DCDFE6">
-                        <a @click="referToMemberInfos(member)">
-                            <span style="color:#8B6ED6">{{member.name}}</span>
-                        </a>
-                    </el-button>
-                    <!-- <router-link :to="{name:'Index', params: { userId: 123 }}">link</router-link> -->
-                </el-tab-pane>
+                <!--<el-tab-pane label="青龙会简介" name="qlh-info">-->
+                    <!--<h3>青龙会简介</h3>-->
+                    <!--<div style="margin-bottom:20px">-->
+                        <!--{{qlhInfo}}-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; 放一些个人的链接 &ndash;&gt;-->
+                    <!--<el-button :gutter="20"  v-for="member in qlhMember" :key="member.id"  size="mini" round style="margin-left:25px;background:#DCDFE6">-->
+                        <!--<a @click="referToMemberInfos(member)">-->
+                            <!--<span style="color:#8B6ED6">{{member.name}}</span>-->
+                        <!--</a>-->
+                    <!--</el-button>-->
+                    <!--&lt;!&ndash; <router-link :to="{name:'Index', params: { userId: 123 }}">link</router-link> &ndash;&gt;-->
+                <!--</el-tab-pane>-->
                 <el-tab-pane label="网站介绍" name="web-info">
                     <h3>网站介绍</h3>
                     <div>

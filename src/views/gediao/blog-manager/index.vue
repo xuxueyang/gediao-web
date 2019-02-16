@@ -17,6 +17,16 @@
                       </el-option>
                     </el-select>
                   </div>
+                  <div>
+                    <el-select v-model="blog.categoryId" placeholder="请选择博客的分类" @change="changeCategory($event,blog,index)" >
+                      <el-option
+                        v-for="item in categoryOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </div>
                   <div  class="look" @click="updateBlog(blog.id)">编辑</div>
                 </div>
 
@@ -33,6 +43,9 @@ export default {
   name: 'blog-manager',
   data() {
     return {
+      categoryOptions: [
+
+      ],
       options:[
         {
           label: '仅自己可见',
@@ -73,9 +86,71 @@ export default {
     }
   },
   mounted(){
+    this.getAllBlogCategory()
     this.getAllBlog()
+
   },
   methods: {
+    getAllBlogCategory() {
+      // 获取到所有的博客分类
+      var url = '' + services.getServiceIp() + '/api/app/blog/categorys'
+      this.$http.get(url,{
+      }).then(function (res) {
+        if(res.data.returnCode.startsWith('200')) {
+          var options =  res.data.data
+          this.categoryOptions=[]
+          for(var i=0;i<options.length;i++){
+            this.categoryOptions.push({
+              value: options[i].id,
+              label: options[i].name
+            })
+          }
+          // alert(this.categoryOptions)
+        }else {
+          this.$message({
+            type: 'error',
+            showClose: true,
+            message: services.getMessageByCode(res.data.returnCode)
+          })
+        }
+
+      })
+    },
+    changeCategory(event, blogItem, index) {
+      // console.log(blogItem)
+      var url = '' + services.getServiceIp()+"/api/app/blog/blog/updateCategory"
+      const body = {
+        id: blogItem.id,
+        token: services.getToken(),
+        categoryId: blogItem.categoryId
+      }
+      this.$http.post(url, body).then(function(res) {
+        if (res.data.returnCode.startsWith('200')) {
+          this.$message({
+            type: 'success',
+            showClose: true,
+            message: services.getMessageByCode(res.data.returnCode)
+          })
+          // 更新本地缓存
+          this.blogs_tmp[index].categoryId = this.blogs[index].categoryId
+        } else {
+          this.$message({
+            type: 'error',
+            showClose: true,
+            message: services.getMessageByCode(res.data.returnCode)
+          })
+          // 回滚
+          this.blogs[index].categoryId = this.blogs_tmp[index].categoryId
+        }
+      }).catch(function(res) {
+        this.$message({
+          type: 'error',
+          showClose: true,
+          message: '服务器正在抢修中~保存详情失败'
+        })
+        this.returnGediao()
+      })
+    },
     changeStatus(event, blogItem, index) {
       // TODO 修改某个blog的权限
       // console.log(blogItem)
