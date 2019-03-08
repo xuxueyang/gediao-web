@@ -25,7 +25,7 @@
             <div v-if="blog.titleImg && blog.titleImg.path" style="display: flex">
               <img :src="blog.titleImg.path" class="titleImg">
             </div>
-            {{blog.previewContent.substring(0,blog.previewContent.length-1>40?40:blog.previewContent.length)}}
+            {{ blog.previewContent == null ?'':blog.previewContent.substring(0,blog.previewContent.length-1>40?40:blog.previewContent.length)}}
           </div>
           <div class="EachOtherDiv" >
             这是点赞、评论点击、分享、收藏、感谢、 爱好评价
