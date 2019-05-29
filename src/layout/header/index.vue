@@ -8,6 +8,7 @@
             <!--<li class="li"><a @click="referToQLH">青龙会</a></li>-->
             <li class="li"><a @click="referToGD">格调</a></li>
             <li class="li"><a @click="referToBLOG">博客</a></li>
+          <li class="li"><a @click="referToMap">地图编辑器</a></li>
             <li class="rli" style="margin-right:10px"><a  @click="showInfoMessage" >关于</a><li>
             <li class="rli">
                 <!--<a  @click="shareToQQ" >分享到qq空间</a>-->
@@ -212,6 +213,9 @@ export default {
         },
         referToBLOG(){
           this.$router.history.push('/blogCategorys')
+        },
+        referToMap () {
+          this.$router.history.push('/mapEditor')
         }
     }
 };
