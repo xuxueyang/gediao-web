@@ -25,7 +25,7 @@
                     <el-dropdown-item v-for="(item, index) in types" v-bind:key="index" :command="item.id">{{item.name}}</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown> -->
-              <el-select v-model="mapTypeId" placeholder="选择创建的type类型">
+              <el-select v-model="mapTypeId" placeholder="选择创建的type类型" style="width:200px;">
                 <el-option
                     v-for="item in types"
                     :key="item.id"
@@ -38,12 +38,22 @@
             <span>上传切图</span>
             <el-upload
                 class="avatar-uploader"
-                action="http://118.25.103.215/api/uaafile/img"
+                action="http://118.25.103.215:9999/api/uaafile/img"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess">
                 <img v-if="imagePath" :src="imagePath" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
+            <!-- <el-upload
+            class="upload-demo"
+            action="http://www.xuxy520.cn:9999/api/uaafile/img"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload> -->
             <!-- :before-upload="beforeAvatarUpload"> -->
         </div>
         <div class="MapValues">
@@ -130,7 +140,9 @@ export default {
         this.mapTypeId = command
       },
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        //   console.log( res)
+        //    console.log(file)
+        this.imagePath = 'http://www.xuxy520.cn/' + res.data[0].path
       },
     //   beforeAvatarUpload(file) {
     //     const isJPG = file.type === 'image/jpeg';
@@ -151,15 +163,16 @@ export default {
 <style lang="scss" scoped>
 .form-create-map-base{
     margin-left: 100px;
-    border: black 1px solid;
-    div {
+    // border: black 1px solid;
+    > div {
+        border: black 1px solid;
         // width: 500px;
         margin-top: 10px;
         padding-bottom: 5px;
         padding-top: 5px;
         display: flex;
         max-width: 700px;
-        span {
+        > span {
             width: 40px;
             line-height: 30px;
         }

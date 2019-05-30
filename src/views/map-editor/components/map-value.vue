@@ -1,6 +1,7 @@
 <template>
     <div>
          <el-select
+            style="width:200px;"
             v-model="item.key"
             filterable
             allow-create

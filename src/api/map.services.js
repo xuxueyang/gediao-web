@@ -1,6 +1,15 @@
 import services from './file.services'
 import request from '@/utils/request'
 
+const getAllMapBases = () => {
+  const url = '' + services.getServiceIp() + '/api/game/map/editor/getAllMapBases'
+  // return this.$http.get(url, {})
+  return request({
+    url: url,
+    method: 'get',
+    params: { }
+  })
+}
 const getAllMapTypes = () => {
   const url = '' + services.getServiceIp() + '/api/game/map/editor/getAllMapTypes'
   // return this.$http.get(url, {})
@@ -20,7 +29,8 @@ const saveMapBase = (info) => {
 }
 export default {
   getAllMapTypes,
-  saveMapBase
+  saveMapBase,
+  getAllMapBases
 }
 
 // export function login(username, password) {
