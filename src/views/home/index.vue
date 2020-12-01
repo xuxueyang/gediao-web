@@ -140,7 +140,7 @@ export default {
     cursor:pointer;
     /* width:400px;
     height: 150px; */
-    background-image: url('http://193.112.161.157:8080/resource/images/20180903_daohao.png'); 
+    background-image: url('http://resource-gediao.fixbug.fun/resource/images/20180903_daohao.png'); 
     /* background-size:cover; */
     background-repeat:no-repeat;
     color: white;

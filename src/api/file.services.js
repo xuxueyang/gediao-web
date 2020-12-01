@@ -6,7 +6,7 @@ const services = {
     return process.env.BASE_API
   },
   getImageServiceUrl(imageName) {
-    return 'http://193.112.161.157:8080/resource/images/' + imageName
+    return 'http://resource-gediao.fixbug.fun/resource/images/' + imageName
   },
   getGediaoMessageStatusUrl() {
     // type: APP_GEDIAO_LOG_MESSAGE_STATUS

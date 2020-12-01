@@ -1,5 +1,5 @@
 <template>
-    <pdf src="http://193.112.161.157:8080/resource/pdfs/123.pdf"></pdf>
+    <pdf src="http://resource-gediao.fixbug.funresource/pdfs/123.pdf"></pdf>
 </template>
 
 <script>

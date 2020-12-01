@@ -23,7 +23,7 @@
           summary: '欢迎来尝试使用~进群“交流~”~群号：772502467',/* 分享摘要(可选)*/
           title: '格调~做生活的主人~', /* 分享标题(可选)*/
           site: '格调', /* 分享来源 如：腾讯网(可选)*/
-          pics: 'http://193.112.161.157:8080/resource/images/gediaoQun.png', /* 分享图片的路径(可选) */
+          pics: 'http://resource-gediao.fixbug.fun/resource/images/gediaoQun.png', /* 分享图片的路径(可选) */
           style: '101',
           width: 199,
           height: 30

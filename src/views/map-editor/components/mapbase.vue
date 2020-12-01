@@ -38,7 +38,8 @@
             <span>上传切图</span>
             <el-upload
                 class="avatar-uploader"
-                action="http://118.25.103.215:9999/api/uaafile/img"
+                action="http://api-gediao.fixbug.fun/api/uaafile/img"
+
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess">
                 <img v-if="imagePath" :src="imagePath" class="avatar">
