@@ -112,6 +112,7 @@
           </el-table-column>
           <el-table-column
             prop="tomatoType"
+            width="180"
             label="番茄工作法">
           </el-table-column>
           <el-table-column
@@ -178,7 +179,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="番茄工作法:" style="width:100px;" prop="status">
+          <el-form-item label="番茄工作法:" style="width:100px;" >
             <el-select v-model="form.tomatoType" style="width:150px" placeholder="请选择消息类别">
               <el-option
                 v-for="item in tomatoOptions"
@@ -229,7 +230,7 @@
             <el-input v-model="updateform.title" :maxlength="50" style="width:200px;float:left"
                       :placeholder="'最多50个字符'"></el-input>
           </el-form-item>
-          <el-form-item label="番茄工作法:" style="width:100px;" prop="status">
+          <el-form-item label="番茄工作法:" style="width:100px;">
             <el-select v-model="updateform.tomatoType" style="width:150px" placeholder="请选择消息类别">
               <el-option
                 v-for="item in tomatoOptions"
