@@ -619,7 +619,7 @@
             status: this.updateform.status,
             message: this.updateform.message,
             belongDate: this.updateform.belongDate,
-            tomatoTYpe: this.updateform.tomatoType,
+            tomatoType: this.updateform.tomatoType,
             tags: tags,
             token: token,
             userId: userId
